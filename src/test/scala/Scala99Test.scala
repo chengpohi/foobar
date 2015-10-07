@@ -4,7 +4,7 @@ import org.scalatest.{ShouldMatchers, FlatSpec}
  * scala99
  * Created by chengpohi on 10/7/15.
  */
-class Scala99Test extends FlatSpec with ShouldMatchers{
+class Scala99Test extends FlatSpec with ShouldMatchers {
   val scala99 = new Scala99
   val numbers: List[Int] = List(1, 2, 3, 4, 5)
   val palindromeNumbers = List(1, 2, 3, 2, 1)
@@ -17,7 +17,9 @@ class Scala99Test extends FlatSpec with ShouldMatchers{
     scala99 palindrome palindromeNumbers should equal(true)
     scala99 palindrome numbers should equal(false)
     scala99 palindrome List() should equal(true)
-    scala99 flatten  List(1, 2, List(3, 4)) should equal(List(1, 2, 3, 4))
+    scala99 flatten List(1, 2, List(3, 4)) should equal(List(1, 2, 3, 4))
     scala99 compress List(1, 2, 2, 3, 3) should equal(List(1, 2, 3))
+    scala99 pack List(1, 2, 2, 3, 3) should equal(List(List(2, 2), List(1), List(3, 3)))
+    List(Array(2, 2), Array(1, 1), Array(2, 3)) should contain (Array(2, 2))
   }
 }

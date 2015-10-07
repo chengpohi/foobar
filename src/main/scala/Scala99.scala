@@ -29,4 +29,22 @@ class Scala99 {
   }
 
   def compress[T](arrs: List[T]): List[T] = arrs.distinct
+
+  def pack[T](arrs: List[T]): List[List[T]] = {
+    arrs.groupBy(a => a).values.toList
+  }
+
+  def encodeModified[T](arrs: List[T]): List[Array[Any]] = {
+    arrs.groupBy(a => a)
+      .values
+      .map(t => Array(t.size, t.head))
+      .toList
+  }
+
+  def decodeModified[T](arrs: List[T]): List[Array[Any]] = {
+    arrs.groupBy(a => a)
+      .values
+      .map(t => Array(t.size, t.head))
+      .toList
+  }
 }
