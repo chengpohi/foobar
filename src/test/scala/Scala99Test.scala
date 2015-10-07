@@ -1,0 +1,23 @@
+import org.scalatest.{ShouldMatchers, FlatSpec}
+
+/**
+ * scala99
+ * Created by chengpohi on 10/7/15.
+ */
+class Scala99Test extends FlatSpec with ShouldMatchers{
+  val scala99 = new Scala99
+  val numbers: List[Int] = List(1, 2, 3, 4, 5)
+  val palindromeNumbers = List(1, 2, 3, 2, 1)
+
+  it should " list" in {
+    scala99 lastOne numbers should equal(5)
+    scala99 kTh(numbers, 3) should equal(3)
+    numbers.size should equal(5)
+    scala99 reverse numbers should equal(List(5, 4, 3, 2, 1))
+    scala99 palindrome palindromeNumbers should equal(true)
+    scala99 palindrome numbers should equal(false)
+    scala99 palindrome List() should equal(true)
+    scala99 flatten  List(1, 2, List(3, 4)) should equal(List(1, 2, 3, 4))
+    scala99 compress List(1, 2, 2, 3, 3) should equal(List(1, 2, 3))
+  }
+}
