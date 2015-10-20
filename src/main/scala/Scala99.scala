@@ -23,8 +23,8 @@ class Scala99 {
     case _ => false
   }
 
-  def flatten[T](arrs: List[T]): List[T] = arrs flatMap {
-    case a: List[T] => flatten(a)
+  def flatten[T](arrs: List[T]): List[Any] = arrs flatMap {
+    case a: List[_] => flatten(a)
     case b => List(b)
   }
 
@@ -34,17 +34,18 @@ class Scala99 {
     arrs.groupBy(a => a).values.toList
   }
 
-  def encodeModified[T](arrs: List[T]): List[Array[Any]] = {
-    arrs.groupBy(a => a)
-      .values
-      .map(t => Array(t.size, t.head))
-      .toList
+  def encode[T](arrs: List[T]): List[(Int, T)] = {
+    arrs.groupBy(a => a).toList.map(f => (f._2.size, f._1))
   }
 
-  def decodeModified[T](arrs: List[T]): List[Array[Any]] = {
-    arrs.groupBy(a => a)
-      .values
-      .map(t => Array(t.size, t.head))
-      .toList
+  def encodeModified[T](arrs: List[T]): List[Any] = {
+    arrs.groupBy(a => a).toList.map {
+      case f if f._2.size == 1 => f._1
+      case f => (f._2.size, f._1)
+    }
+  }
+
+  def decodeModified[T](arrs: List[(Int, T)]): List[T] = {
+    arrs.flatMap(f => (for (i <- 1 to f._1) yield f._2).toList)
   }
 }

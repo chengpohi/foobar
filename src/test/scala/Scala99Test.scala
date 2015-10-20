@@ -20,6 +20,11 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 flatten List(1, 2, List(3, 4)) should equal(List(1, 2, 3, 4))
     scala99 compress List(1, 2, 2, 3, 3) should equal(List(1, 2, 3))
     scala99 pack List(1, 2, 2, 3, 3) should equal(List(List(2, 2), List(1), List(3, 3)))
-    List(Array(2, 2), Array(1, 1), Array(2, 3)) should contain (Array(2, 2))
+    List(Array(2, 2), Array(1, 1), Array(2, 3)) should contain(Array(2, 2))
+    scala99 encode List(1, 2, 2, 3, 3) should equal(List((2, 2), (1, 1), (2, 3)))
+    scala99 encode List("1", "2", "2", "3", "3") should equal(List((2, "2"), (1, "1"), (2, "3")))
+    scala99 encodeModified List(1, 2, 2, 3, 3) should equal(List((2, 2), 1, (2, 3)))
+    scala99 decodeModified List((2, 2), (1, 1), (2, 3)) should equal(List(2, 2, 1, 3, 3))
+
   }
 }
