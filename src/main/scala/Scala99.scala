@@ -45,6 +45,10 @@ class Scala99 {
     }
   }
 
+  def duplicate[T](arrs: List[T]): List[T] = {
+    arrs.groupBy(a => a).toList.flatMap(f => (for (i <- 1 to f._2.size * 2) yield f._1).toList)
+  }
+
   def decodeModified[T](arrs: List[(Int, T)]): List[T] = {
     arrs.flatMap(f => (for (i <- 1 to f._1) yield f._2).toList)
   }

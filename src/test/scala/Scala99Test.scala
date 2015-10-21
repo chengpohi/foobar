@@ -25,6 +25,7 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 encode List("1", "2", "2", "3", "3") should equal(List((2, "2"), (1, "1"), (2, "3")))
     scala99 encodeModified List(1, 2, 2, 3, 3) should equal(List((2, 2), 1, (2, 3)))
     scala99 decodeModified List((2, 2), (1, 1), (2, 3)) should equal(List(2, 2, 1, 3, 3))
+    scala99 duplicate  List(1, 2, 2, 3, 3) should equal(List(2, 2, 2, 2, 1, 1, 3, 3, 3, 3))
 
   }
 }
