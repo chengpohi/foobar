@@ -105,6 +105,10 @@ class Scala99 {
     randSelect(List.range(0, list.size), list.size).map(i => list(i))
   }
 
+  def combination[T](list: List[T], n: Int): List[List[T]] = {
+    list.combinations(n).toList
+  }
+
   def decodeModified[T](list: List[(Int, T)]): List[T] = {
     list.flatMap(f => (for (i <- 1 to f._1) yield f._2).toList)
   }

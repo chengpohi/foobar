@@ -36,5 +36,6 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
 
     (scala99 randSelectDiff(5, 20)).size should equal(5)
     (scala99 randPermu List(1, 2, 3, 4, 5)).distinct.size should equal(5)
+    scala99 combination(List(1, 2, 3, 4, 5), 3) should equal(List(List(1, 2, 3), List(1, 2, 4), List(1, 2, 5), List(1, 3, 4), List(1, 3, 5), List(1, 4, 5), List(2, 3, 4), List(2, 3, 5), List(2, 4, 5), List(3, 4, 5)))
   }
 }
