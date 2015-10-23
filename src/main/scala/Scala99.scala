@@ -109,6 +109,16 @@ class Scala99 {
     list.combinations(n).toList
   }
 
+  def group[T](list: List[T], groupCount: List[Int]): List[List[List[Any]]] = {
+    groupCount match {
+      case List(head) =>
+        List(List(list))
+      case head :: l =>
+        val groups = list.combinations(head).toList
+        groups.flatMap(g => group(list diff g, l).map(i => g :: i))
+    }
+  }
+
   def decodeModified[T](list: List[(Int, T)]): List[T] = {
     list.flatMap(f => (for (i <- 1 to f._1) yield f._2).toList)
   }
