@@ -119,6 +119,14 @@ class Scala99 {
     }
   }
 
+  def lsort[T](list: List[List[T]]): List[List[T]] = {
+    list.sortWith(_.size < _.size)
+  }
+
+  def lfsort[T](list: List[List[T]]): List[List[T]] = {
+    list.groupBy(a => a.size).toList.sortBy(i => i._2.size).flatMap(i => i._2)
+  }
+
   def decodeModified[T](list: List[(Int, T)]): List[T] = {
     list.flatMap(f => (for (i <- 1 to f._1) yield f._2).toList)
   }

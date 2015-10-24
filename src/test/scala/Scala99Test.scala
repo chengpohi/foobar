@@ -38,7 +38,7 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     (scala99 randPermu List(1, 2, 3, 4, 5)).distinct.size should equal(5)
     scala99 combination(List(1, 2, 3, 4, 5), 3) should equal(List(List(1, 2, 3), List(1, 2, 4), List(1, 2, 5), List(1, 3, 4), List(1, 3, 5), List(1, 4, 5), List(2, 3, 4), List(2, 3, 5), List(2, 4, 5), List(3, 4, 5)))
     scala99 group(List(1, 2, 3, 4, 5), List(2, 2, 1)) should equal(List(List(List(1, 2), List(3, 4), List(5)), List(List(1, 2), List(3, 5), List(4)), List(List(1, 2), List(4, 5), List(3)), List(List(1, 3), List(2, 4), List(5)), List(List(1, 3), List(2, 5), List(4)), List(List(1, 3), List(4, 5), List(2)), List(List(1, 4), List(2, 3), List(5)), List(List(1, 4), List(2, 5), List(3)), List(List(1, 4), List(3, 5), List(2)), List(List(1, 5), List(2, 3), List(4)), List(List(1, 5), List(2, 4), List(3)), List(List(1, 5), List(3, 4), List(2)), List(List(2, 3), List(1, 4), List(5)), List(List(2, 3), List(1, 5), List(4)), List(List(2, 3), List(4, 5), List(1)), List(List(2, 4), List(1, 3), List(5)), List(List(2, 4), List(1, 5), List(3)), List(List(2, 4), List(3, 5), List(1)), List(List(2, 5), List(1, 3), List(4)), List(List(2, 5), List(1, 4), List(3)), List(List(2, 5), List(3, 4), List(1)), List(List(3, 4), List(1, 2), List(5)), List(List(3, 4), List(1, 5), List(2)), List(List(3, 4), List(2, 5), List(1)), List(List(3, 5), List(1, 2), List(4)), List(List(3, 5), List(1, 4), List(2)), List(List(3, 5), List(2, 4), List(1)), List(List(4, 5), List(1, 2), List(3)), List(List(4, 5), List(1, 3), List(2)), List(List(4, 5), List(2, 3), List(1))))
-    val l = scala99 group(List(1, 2, 3, 4, 5), List(2, 2, 1))
-    println(l)
+    scala99 lsort List(List(1, 2), List(3), List(4, 5, 6)) should equal(List(List(3), List(1, 2), List(4, 5, 6)))
+    scala99 lfsort List(List(1, 2), List(7, 8), List(3), List(9), List(4, 5, 6)) should equal(List(List(4, 5, 6), List(1, 2), List(7, 8), List(3), List(9)))
   }
 }
