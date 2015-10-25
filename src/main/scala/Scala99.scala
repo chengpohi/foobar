@@ -130,4 +130,20 @@ class Scala99 {
   def decodeModified[T](list: List[(Int, T)]): List[T] = {
     list.flatMap(f => (for (i <- 1 to f._1) yield f._2).toList)
   }
+
+  def isPrime(n: Int): Boolean = {
+    (2 to n / 2).forall(i => n % i != 0)
+  }
+
+  def primeFactors(n: Int): List[Int] = {
+    n / 2 match {
+      case i if i >= 1 =>
+        val r = (2 to n + 1).view.filter(i => n % i == 0).head
+        r :: primeFactors(n / r)
+      case _ => List()
+    }
+  }
+  def primeFactorsMulti(n: Int): List[(Int, Int)] = {
+    primeFactors(n).groupBy(i => i).map(i => (i._1, i._2.size)).toList.sortBy(i => i._1)
+  }
 }

@@ -40,5 +40,12 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 group(List(1, 2, 3, 4, 5), List(2, 2, 1)) should equal(List(List(List(1, 2), List(3, 4), List(5)), List(List(1, 2), List(3, 5), List(4)), List(List(1, 2), List(4, 5), List(3)), List(List(1, 3), List(2, 4), List(5)), List(List(1, 3), List(2, 5), List(4)), List(List(1, 3), List(4, 5), List(2)), List(List(1, 4), List(2, 3), List(5)), List(List(1, 4), List(2, 5), List(3)), List(List(1, 4), List(3, 5), List(2)), List(List(1, 5), List(2, 3), List(4)), List(List(1, 5), List(2, 4), List(3)), List(List(1, 5), List(3, 4), List(2)), List(List(2, 3), List(1, 4), List(5)), List(List(2, 3), List(1, 5), List(4)), List(List(2, 3), List(4, 5), List(1)), List(List(2, 4), List(1, 3), List(5)), List(List(2, 4), List(1, 5), List(3)), List(List(2, 4), List(3, 5), List(1)), List(List(2, 5), List(1, 3), List(4)), List(List(2, 5), List(1, 4), List(3)), List(List(2, 5), List(3, 4), List(1)), List(List(3, 4), List(1, 2), List(5)), List(List(3, 4), List(1, 5), List(2)), List(List(3, 4), List(2, 5), List(1)), List(List(3, 5), List(1, 2), List(4)), List(List(3, 5), List(1, 4), List(2)), List(List(3, 5), List(2, 4), List(1)), List(List(4, 5), List(1, 2), List(3)), List(List(4, 5), List(1, 3), List(2)), List(List(4, 5), List(2, 3), List(1))))
     scala99 lsort List(List(1, 2), List(3), List(4, 5, 6)) should equal(List(List(3), List(1, 2), List(4, 5, 6)))
     scala99 lfsort List(List(1, 2), List(7, 8), List(3), List(9), List(4, 5, 6)) should equal(List(List(4, 5, 6), List(1, 2), List(7, 8), List(3), List(9)))
+    scala99 isPrime 7 should equal(true)
+    scala99 isPrime 4 should equal(false)
+    scala99 primeFactors 15 should equal(List(3, 5))
+    scala99 primeFactors 315 should equal(List(3, 3, 5, 7))
+    scala99 primeFactors 5 should equal(List(5))
+    scala99 primeFactors 2 should equal(List(2))
+    scala99 primeFactorsMulti 315 should equal(List((3, 2), (5, 1), (7, 1)))
   }
 }
