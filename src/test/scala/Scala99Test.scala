@@ -47,5 +47,6 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 primeFactors 5 should equal(List(5))
     scala99 primeFactors 2 should equal(List(2))
     scala99 primeFactorsMulti 315 should equal(List((3, 2), (5, 1), (7, 1)))
+    scala99 primeRange (2, 11) should equal(List(2, 3, 5, 7, 11))
   }
 }
