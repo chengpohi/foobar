@@ -156,4 +156,8 @@ class Scala99 {
     val x = primeRange(2, number).filter(i => isPrime(number - i)).head
     (x, number - x)
   }
+
+  def goldBanchEvenList(lower: Int, upper: Int): List[(Int, Int)] = {
+    (lower to upper).filter(i => i % 2 == 0).map(i => goldBanch(i)).toList
+  }
 }
