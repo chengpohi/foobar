@@ -143,11 +143,17 @@ class Scala99 {
       case _ => List()
     }
   }
+
   def primeFactorsMulti(n: Int): List[(Int, Int)] = {
     primeFactors(n).groupBy(i => i).map(i => (i._1, i._2.size)).toList.sortBy(i => i._1)
   }
 
   def primeRange(start: Int, end: Int): List[Int] = {
     (start to end + 1).filter(i => isPrime(i)).toList
+  }
+
+  def goldBanch(number: Int): (Int, Int) = {
+    val x = primeRange(2, number).filter(i => isPrime(number - i)).head
+    (x, number - x)
   }
 }
