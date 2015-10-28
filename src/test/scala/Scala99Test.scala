@@ -50,5 +50,8 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 primeRange(2, 11) should equal(List(2, 3, 5, 7, 11))
     scala99 goldBanch 28 should equal((5, 23))
     scala99 goldBanchEvenList(9, 20) should equal(List((3,7), (5,7), (3,11), (3,13), (5,13), (3,17)))
+    scala99 gcd((36, 63)) should equal(9)
+    scala99 coprime ((35, 64)) should equal(true)
+    scala99 totiendPhi(10) should equal(4)
   }
 }

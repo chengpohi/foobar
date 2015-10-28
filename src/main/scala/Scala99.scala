@@ -160,4 +160,18 @@ class Scala99 {
   def goldBanchEvenList(lower: Int, upper: Int): List[(Int, Int)] = {
     (lower to upper).filter(i => i % 2 == 0).map(i => goldBanch(i)).toList
   }
+
+  def gcd(n: (Int, Int)): Int = {
+    val max = Math.min(n._1, n._2) + 1
+    (1 to max).filter(i => n._1 % i == 0 && n._2 % i == 0).last
+  }
+
+  def coprime(n: (Int, Int)): Boolean = {
+    gcd(n) == 1
+  }
+
+  def totiendPhi(n: Int): Int = {
+    (1 to n).filter(i => coprime((i, n))).toList.size
+  }
+
 }
