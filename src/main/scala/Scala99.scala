@@ -174,4 +174,17 @@ class Scala99 {
     (1 to n).filter(i => coprime((i, n))).toList.size
   }
 
+  def gray(n: Int): List[String] = {
+    val c = List(0, 1)
+    def bits(n: Int): List[List[Int]] = n match {
+      case x if x > 1 => c.flatMap(i =>
+        bits(n - 1).map(b =>
+          i :: b
+        )
+      )
+      case 1 => c.map(i => List(i))
+    }
+    bits(n).map(i => i.mkString(""))
+  }
+
 }

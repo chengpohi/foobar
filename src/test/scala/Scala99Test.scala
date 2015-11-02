@@ -52,6 +52,9 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 goldBanchEvenList(9, 20) should equal(List((3,7), (5,7), (3,11), (3,13), (5,13), (3,17)))
     scala99 gcd((36, 63)) should equal(9)
     scala99 coprime ((35, 64)) should equal(true)
-    scala99 totiendPhi(10) should equal(4)
+    scala99 totiendPhi 10 should equal(4)
+    scala99 gray 1 should equal(List("0", "1"))
+    scala99 gray 2 should equal(List("00", "01", "10", "11"))
+    scala99 gray 3 should equal(List("000", "001", "010", "011", "100", "101", "110", "111"))
   }
 }
