@@ -187,31 +187,31 @@ class Scala99 {
     bits(n).map(i => i.mkString(""))
   }
 
-  case class Node[T](left: Node[T], right: Node[T], value: Int, key: Option[T])
+  case class Node[T](left: Option[Node[T]], right: Option[Node[T]], value: Int, key: Option[T])
 
   def huffman[T](fre: List[(T, Int)]): List[(T, String)] = {
     def huffmanNode[T](fre: List[Node[T]]): Node[T] = {
       fre.sortBy(f => f.value) match {
         case left :: (right :: l) =>
-          val newFre: List[Node[T]] = Node(left, right, left.value + left.value, None) :: l
+          val newFre: List[Node[T]] = Node(Some(left), Some(right), left.value + left.value, None) :: l
           huffmanNode(newFre)
-        case List(left, right) => Node[T](left, right, left.value + right.value, None)
+        case List(left, right) => Node[T](Some(left), Some(right), left.value + right.value, None)
         case List(result) => result
       }
     }
 
     def traverse[T](tree: Node[T]): List[(T, String)] = {
       tree match {
-        case t if t.left != null && t.right != null =>
-          val left = traverse(t.left).map(t => (t._1, "0" + t._2))
-          val right = traverse(t.right).map(t => (t._1, "1" + t._2))
-          left ::: right
-        case t if t.left != null => traverse(t.left).map(t => (t._1, "0" + t._2))
-        case t if t.right != null => traverse(t.right).map(t => (t._1, "1" + t._2))
-        case t => List((t.key.get, ""))
+        case Node(Some(left), Some(right), value, key) =>
+          val l = traverse(left).map(t => (t._1, "0" + t._2))
+          val r = traverse(right).map(t => (t._1, "1" + t._2))
+          l ::: r
+        case Node(Some(left), None, value, key) => traverse(left).map(t => (t._1, "0" + t._2))
+        case Node(None, Some(right), value, key) => traverse(right).map(t => (t._1, "1" + t._2))
+        case Node(None, None, value, Some(key)) => List((key, ""))
       }
     }
-    val node: List[Node[T]] = fre.sortBy(t => t._2).map(f => Node(null, null, f._2, Some(f._1)))
+    val node: List[Node[T]] = fre.sortBy(t => t._2).map(f => Node(None, None, f._2, Some(f._1)))
     val n = huffmanNode(node)
     traverse(n)
   }
