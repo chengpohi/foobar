@@ -49,12 +49,14 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 primeFactorsMulti 315 should equal(List((3, 2), (5, 1), (7, 1)))
     scala99 primeRange(2, 11) should equal(List(2, 3, 5, 7, 11))
     scala99 goldBanch 28 should equal((5, 23))
-    scala99 goldBanchEvenList(9, 20) should equal(List((3,7), (5,7), (3,11), (3,13), (5,13), (3,17)))
-    scala99 gcd((36, 63)) should equal(9)
+    scala99 goldBanchEvenList(9, 20) should equal(List((3, 7), (5, 7), (3, 11), (3, 13), (5, 13), (3, 17)))
+    scala99 gcd ((36, 63)) should equal(9)
     scala99 coprime ((35, 64)) should equal(true)
     scala99 totiendPhi 10 should equal(4)
     scala99 gray 1 should equal(List("0", "1"))
     scala99 gray 2 should equal(List("00", "01", "10", "11"))
     scala99 gray 3 should equal(List("000", "001", "010", "011", "100", "101", "110", "111"))
+    val l = List(("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5))
+    scala99 huffman l should equal(List(("f", "0000"), ("e", "0001"), ("c", "001"), ("b", "010"), ("d", "011"), ("a", "1")))
   }
 }
