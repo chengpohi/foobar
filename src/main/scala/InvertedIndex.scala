@@ -64,6 +64,16 @@ class IndexConsumer(invertedIndex: InvertedIndex, queue: BlockingQueue[String]) 
   override def consume(item: String): Unit = invertedIndex.add(makeUser(item))
 }
 
+class SearchEngine(index: InvertedIndex) extends Runnable {
+  override def run(): Unit = {
+    while (true) {
+      println("Input User Name:")
+      val input = StdIn.readLine()
+      println(index.userMap.getOrElse(input.trim.toLowerCase, "Sorry Not Found"))
+    }
+  }
+}
+
 object App {
   def main(args: Array[String]) {
     val index = new ConcurrentInvertedIndex()
@@ -75,10 +85,7 @@ object App {
     val pool = Executors.newFixedThreadPool(4)
     Range.apply(0, core).foreach(t => pool.submit(new IndexConsumer(index, queue)))
 
-    while (true) {
-      println("Input User Name:")
-      val input = StdIn.readLine()
-      println(index.userMap.getOrElse(input.trim.toLowerCase, "Sorry Not Found"))
-    }
+    val searcher = new SearchEngine(index)
+    new Thread(searcher).start()
   }
 }
