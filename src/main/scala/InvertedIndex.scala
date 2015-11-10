@@ -1,8 +1,8 @@
-import java.util.concurrent.{BlockingQueue, ConcurrentHashMap}
+import java.util.concurrent.{BlockingQueue, ConcurrentHashMap, Executors, LinkedBlockingDeque}
 
-import scala.collection.{concurrent, mutable}
 import scala.collection.JavaConverters._
-import scala.io.Source
+import scala.collection.{concurrent, mutable}
+import scala.io.{StdIn, Source}
 
 /**
  * scala99
@@ -67,5 +67,18 @@ class IndexConsumer(invertedIndex: InvertedIndex, queue: BlockingQueue[String]) 
 object App {
   def main(args: Array[String]) {
     val index = new ConcurrentInvertedIndex()
+    val queue = new LinkedBlockingDeque[String]()
+    val producer = new Producer("users.txt", queue)
+    new Thread(producer).start()
+
+    val core = 4
+    val pool = Executors.newFixedThreadPool(4)
+    Range.apply(0, core).foreach(t => pool.submit(new IndexConsumer(index, queue)))
+
+    while (true) {
+      println("Input User Name:")
+      val input = StdIn.readLine()
+      println(index.userMap.getOrElse(input.trim.toLowerCase, "Sorry Not Found"))
+    }
   }
 }
