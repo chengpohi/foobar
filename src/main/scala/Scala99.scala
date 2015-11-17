@@ -5,6 +5,9 @@ import scala.util.Random
  * scala99
  * Created by chengpohi on 10/7/15.
  */
+
+case class Node[T](left: Option[Node[T]], right: Option[Node[T]], value: Int, key: Option[T])
+
 class Scala99 {
   def lastOne[T](list: List[T]): T = {
     list.last
@@ -187,8 +190,6 @@ class Scala99 {
     bits(n).map(i => i.mkString(""))
   }
 
-  case class Node[T](left: Option[Node[T]], right: Option[Node[T]], value: Int, key: Option[T])
-
   def huffman[T](fre: List[(T, Int)]): List[(T, String)] = {
     def huffmanNode[T](fre: List[Node[T]]): Node[T] = {
       fre.sortBy(f => f.value) match {
@@ -214,5 +215,13 @@ class Scala99 {
     val node: List[Node[T]] = fre.sortBy(t => t._2).map(f => Node(None, None, f._2, Some(f._1)))
     val n = huffmanNode(node)
     traverse(n)
+  }
+
+  def countLeaves[T](binaryTree: Node[T]): Int = binaryTree match {
+    case Node(Some(left), Some(right), value, key) =>
+      countLeaves(left) + countLeaves(right)
+    case Node(Some(left), None, value, key) => countLeaves(left)
+    case Node(None, Some(right), value, key) => countLeaves(right)
+    case Node(None, None, value, Some(key)) => 1
   }
 }

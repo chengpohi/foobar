@@ -2,7 +2,7 @@ import java.util.concurrent.{BlockingQueue, ConcurrentHashMap, Executors, Linked
 
 import scala.collection.JavaConverters._
 import scala.collection.{concurrent, mutable}
-import scala.io.{StdIn, Source}
+import scala.io.{Source, StdIn}
 
 /**
  * scala99

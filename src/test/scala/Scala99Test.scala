@@ -58,5 +58,13 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 gray 3 should equal(List("000", "001", "010", "011", "100", "101", "110", "111"))
     val l = List(("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5))
     scala99 huffman l should equal(List(("f", "0000"), ("e", "0001"), ("c", "001"), ("b", "010"), ("d", "011"), ("a", "1")))
+
+    val left: Node[String] = Node(None, None, 1, Some(""))
+    val right: Node[String] = Node(None, None, 1, Some(""))
+    val trees = Node(Some(left), Some(right), 1, Some(""))
+
+    scala99 countLeaves trees should equal(2)
+    scala99 countLeaves left should equal(1)
+    scala99 countLeaves Node(Some(Node(Some(left), Some(right), 1, Some(""))), Some(Node(Some(left), Some(right), 1, Some(""))), 1, Some("")) should equal(4)
   }
 }
