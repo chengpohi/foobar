@@ -224,4 +224,31 @@ class Scala99 {
     case Node(None, Some(right), value, key) => countLeaves(right)
     case Node(None, None, value, Some(key)) => 1
   }
+
+  def completeBinaryTrees(number: Int): List[Node[String]] = {
+    def generateNode(n: Int): List[Node[String]] = {
+      n match {
+        case 1 => List(Node(None, None, 1, Some("leaf")))
+        case 2 =>
+          List(Node(None, Some(generateNode(1).head), 1, Some("node")), Node(Some(generateNode(1).head), None, 1, Some("node")))
+        case n1 if n1 % 2 == 0 =>
+          val n2: Int = (n1 - 1) % 2 + 1
+          val n3: Int = (n1 - 1) % 2
+
+          val left1 = generateNode(n2)
+          val right1 = generateNode(n3)
+          val left2 = generateNode(n3)
+          val right2 = generateNode(n2)
+          val l1 = left1.flatMap(l => right1.map(r => Node(Some(l), Some(r), 1, Some("node"))))
+          val l2 = left2.flatMap(l => right2.map(r => Node(Some(l), Some(r), 1, Some("node"))))
+          l1 ::: l2
+        case n1 if n1 % 2 == 1 =>
+          val nodes: Int = (n1 - 1) / 2
+          val left = generateNode(nodes)
+          val right = generateNode(nodes)
+          left.flatMap(l => right.map(r => Node(Some(l), Some(r), 1, Some("node"))))
+      }
+    }
+    generateNode(number)
+  }
 }

@@ -66,5 +66,11 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 countLeaves trees should equal(2)
     scala99 countLeaves left should equal(1)
     scala99 countLeaves Node(Some(Node(Some(left), Some(right), 1, Some(""))), Some(Node(Some(left), Some(right), 1, Some(""))), 1, Some("")) should equal(4)
+    (scala99 completeBinaryTrees(6)).size should equal(4)
+    (scala99 completeBinaryTrees(5)).size should equal(4)
+    (scala99 completeBinaryTrees(4)).size should equal(4)
+    (scala99 completeBinaryTrees(3)).size should equal(1)
+    (scala99 completeBinaryTrees(2)).size should equal(2)
+    (scala99 completeBinaryTrees(1)).size should equal(1)
   }
 }
