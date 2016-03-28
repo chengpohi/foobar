@@ -16,6 +16,7 @@ val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "org.scalaz" %% "scalaz-core" % "7.2.1",
   "org.scalaz" %% "scalaz-effect" % "7.2.1",
+  "org.scala-lang" % "scala-reflect" % "2.11.7",
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
   "com.lihaoyi" %% "fastparse" % "0.3.4"
 )
