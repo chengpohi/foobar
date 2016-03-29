@@ -9,7 +9,8 @@ object MacroApp {
     val u = User("chengpohi", Some(123))
     val u2: User = WithIdExample.withId(u, Some(456))
     println(u2)
-    println(Tt("chengpohi", 456).toMap[Tt])
+    import CaseClassToMap.Mappable
+    println(Tt("chengpohi", 456).toMap)
   }
 
   case class User(name: String, id: Option[Int])
