@@ -14,6 +14,7 @@ public class SimpleRun {
         ForkJoinPool fp = new ForkJoinPool();
         fp.invoke(fb);
         Arrays.parallelSort(src);
+        System.out.println(String.format("%s %s", new String[]{"fff", "pp"}));
     }
 }
 

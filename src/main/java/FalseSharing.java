@@ -1,12 +1,10 @@
 import java.util.concurrent.atomic.AtomicLong;
-
 public final class FalseSharing
         implements Runnable
 {
     public final static int NUM_THREADS = 4; // change
     public final static long ITERATIONS = 500L * 1000L * 1000L;
     private final int arrayIndex;
-
     private static PaddedAtomicLong[] longs = new PaddedAtomicLong[NUM_THREADS];
     static
     {
@@ -15,7 +13,6 @@ public final class FalseSharing
             longs[i] = new PaddedAtomicLong();
         }
     }
-
     public FalseSharing(final int arrayIndex)
     {
         this.arrayIndex = arrayIndex;

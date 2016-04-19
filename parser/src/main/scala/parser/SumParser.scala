@@ -20,8 +20,9 @@ object SumParser {
 
   val number: P[Int] = P(CharIn('0' to '9').rep(1)).!.map(_.toInt)
   val parens: P[Int] = P("(" ~/ addSub ~ ")")
-  val sqrt: P[Int] = P("sqrt(" ~ number ~/ ")").map(Math.sqrt(_).toInt)
-  val factor: P[Int] = P(number | parens | sqrt)
+  val sqrt: P[Int] = P("sqrt" ~ number ).map(Math.sqrt(_).toInt)
+  val sqrtQ: P[Int] = P("sqrt" ~ number ~/ "id" ).map( Math.sqrt(_).toInt)
+  val factor: P[Int] = P(number | parens | sqrt | sqrtQ)
 
   val divMul: P[Int] = P(factor ~ (CharIn("*/").! ~/ factor).rep).map(eval)
   val addSub: P[Int] = P(divMul ~ (CharIn("+-").! ~/ divMul).rep).map(eval)
@@ -48,8 +49,9 @@ object SumParser {
     println(expr.parse("4+2*4").get)
     println(expr.parse("(4+2)*4").get)
     println(expr.parse("(4-2)*4").get)
-    println(expr.parse("(4-2)*sqrt(4)").get)
-    println(expr.parse("(8 - 2)*sqrt( 4 )").get)
+    println(expr.parse("(4-2)*sqrt 4").get)
+    println(expr.parse("(8 - 2)*sqrt 4").get)
+    println(expr.parse("(8 - 2)*sqrt 4 id").get)
 
     while(true) {
       val str = readLine()
