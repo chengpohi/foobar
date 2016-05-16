@@ -8,7 +8,7 @@ import java.util.concurrent.{ExecutorService, Executors}
 object ScalaConcurrent{
   def main(args: Array[String]): Unit = {
     println("Start Port: 2020")
-    new NetworkService(2020, 2).run
+    new NetworkService(2020, 2).run()
   }
 }
 
