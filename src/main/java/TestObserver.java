@@ -6,7 +6,13 @@ import java.util.Scanner;
  * Created by chengpohi on 6/4/16.
  */
 public class TestObserver {
+    private volatile int i = 0;
     public static void main(String[] args) {
+        int a = 1;
+        int b = a;
+        a = 2;
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
         EventSource eventSource = new EventSource();
         eventSource.addObserver((Observable obj, Object org) -> {
             System.out.println("Received response:" + org);
