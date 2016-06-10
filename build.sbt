@@ -4,6 +4,11 @@ version := "0.1"
 
 scalaVersion := "2.11.7"
 
+resolvers ++= Seq(
+  Resolver.sonatypeRepo("releases"),
+  Resolver.sonatypeRepo("snapshots")
+)
+
 val commonSetting = Seq(
   version := "1.0",
   scalaVersion := "2.11.7",
@@ -14,6 +19,7 @@ sbtVersion := "0.13.9"
 
 val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "com.chuusai" %% "shapeless" % "2.3.1",
   "org.scalaz" %% "scalaz-core" % "7.2.1",
   "org.scalaz" %% "scalaz-effect" % "7.2.1",
   "org.scala-lang" % "scala-reflect" % "2.11.7",
