@@ -7,10 +7,10 @@ package dsl
 object BaysickRun extends Baysick{
   def main(args: Array[String]): Unit = {
     10 PRINT "Welcome to Baysick Lunar Lander v0.0.1"
-    20 LET ('dist := 100)
-    30 LET ('v := 1)
-    40 LET ('fuel := 1000)
-    50 LET ('mass := 1000)
+    20 LET 'dist = 100
+    30 LET 'v = 1
+    40 LET 'fuel = 1000
+    50 LET 'mass = 1000
 
     60 PRINT "You are a in control of a lunar lander."
     70 PRINT "You are drifting towards the surface of the moon."

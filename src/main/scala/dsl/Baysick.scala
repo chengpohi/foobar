@@ -55,9 +55,10 @@ class Baysick {
   val returnStack = new mutable.Stack[Int]
 
   case class Assignment(s: Symbol) {
-    def :=(v: String): () => Unit = () => binds.set(s, v)
-
-    def :=(v: Int): () => Unit = () => binds.set(s, v)
+    def :=[A](v: A): () => Unit = () => v match {
+      case v: String => binds.set(s, v)
+      case v: Int => binds.set(s, v)
+    }
 
     def :=(v: () => Int): () => Unit = () => binds.set(s, v())
   }
@@ -147,6 +148,7 @@ class Baysick {
 
     object LET {
       def apply(fn: () => Unit) = lines(num) = Let(num, fn)
+      def update(s: Symbol, v: Any) = lines(num) = Let(num, Assignment(s) := v)
     }
 
     object GOTO {
