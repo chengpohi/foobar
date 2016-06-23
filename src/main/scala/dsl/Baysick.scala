@@ -213,7 +213,7 @@ class Baysick {
 
   }
 
-  object BaysickExecutor {
+  object execute {
     def apply[T](body: => T) = body
   }
 

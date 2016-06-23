@@ -10,7 +10,7 @@ object BaysickRun{
     val baysick = new Baysick
     import baysick._
 
-    BaysickExecutor {
+    execute {
       10 PRINT "Welcome to Baysick Lunar Lander v0.0.1"
       20 LET 'dist = 100
       30 LET 'v = 1
