@@ -213,6 +213,10 @@ class Baysick {
 
   }
 
+  object BaysickExecutor {
+    def apply[T](body: => T) = body
+  }
+
   implicit def int2LineBuilder(i: Int) = LineBuilder(i)
 
   implicit def toAppendr(key: Any) = Appendr(key)
