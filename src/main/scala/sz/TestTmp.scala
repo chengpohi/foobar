@@ -32,8 +32,21 @@ object FoldLeft {
   }
 }
 
+trait MonoidOp[A] {
+  val F: Monoid[A]
+  val value: A
+  def |+|(a2: A) = F.mappend(value, a2)
+}
+
 object TestTmp {
+  implicit def toMonoidOp[A: Monoid](a: A): MonoidOp[A] = new MonoidOp[A] {
+    val F = implicitly[Monoid[A]]
+    val value = a
+  }
+
   def main(args: Array[String]): Unit = {
+    println( 3 |+| 4)
+    println( "a" |+| "b")
     println(sum(List(1, 2, 3, 4, 5)))
     println(sum(List("a", "b", "c")))
   }
