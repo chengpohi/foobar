@@ -1,3 +1,7 @@
+package mc
+
+import mcs.{CaseClassToMap, DynamicMacros, Model, WithIdExample}
+
 /**
   * scala99
   * Created by chengpohi on 3/28/16.

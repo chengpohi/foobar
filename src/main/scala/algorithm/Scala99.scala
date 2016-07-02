@@ -1,13 +1,12 @@
+package algorithm
+
 import scala.collection.mutable
 import scala.util.Random
 
 /**
- * scala99
- * Created by chengpohi on 10/7/15.
- */
-
-case class Node[T](left: Option[Node[T]], right: Option[Node[T]], value: Int, key: Option[T])
-
+  * Default (Template) Project
+  * Created by chengpohi on 7/2/16.
+  */
 class Scala99 {
   def lastOne[T](list: List[T]): T = {
     list.last

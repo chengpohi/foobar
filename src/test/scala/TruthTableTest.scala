@@ -1,5 +1,6 @@
-import org.scalatest.{ShouldMatchers, FlatSpec}
-import TruthTable._
+import org.scalatest.{FlatSpec, ShouldMatchers}
+
+import algorithm.TruthTable._
 
 /**
  * scala99

@@ -1,3 +1,5 @@
+package algorithm
+
 
 /**
  * scala99

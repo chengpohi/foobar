@@ -1,17 +1,12 @@
-import java.net.{ServerSocket, Socket}
+package concurrent
+
+import java.net.ServerSocket
 import java.util.concurrent.{ExecutorService, Executors}
 
 /**
- * scala99
- * Created by chengpohi on 10/24/15.
- */
-object ScalaConcurrent{
-  def main(args: Array[String]): Unit = {
-    println("Start Port: 2020")
-    new NetworkService(2020, 2).run()
-  }
-}
-
+  * Default (Template) Project
+  * Created by chengpohi on 7/2/16.
+  */
 class NetworkService(port: Int, poolSize: Int) extends Runnable {
   val serverSocket = new ServerSocket(port)
   val pool: ExecutorService = Executors.newFixedThreadPool(poolSize)
@@ -26,14 +21,5 @@ class NetworkService(port: Int, poolSize: Int) extends Runnable {
     } finally {
       pool.shutdown()
     }
-  }
-}
-
-class Handler(socket: Socket) extends Runnable {
-  def message = (Thread.currentThread.getName() + "\n").getBytes
-
-  def run() {
-    socket.getOutputStream.write(message)
-    socket.getOutputStream.close()
   }
 }

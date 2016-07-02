@@ -1,10 +1,12 @@
-import FreeMonad._
+package sz
+
+import sz.FreeMonad.{Request, _}
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
-import scalaz.{~>, Id, Free}
-import scalaz.syntax.traverse._
 import scalaz.std.list._
+import scalaz.syntax.traverse._
+import scalaz.{Free, Id, ~>}
 
 /**
  * scala99

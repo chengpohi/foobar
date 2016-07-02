@@ -1,10 +1,11 @@
-import scala.language.experimental.macros
-/**
-  * scala99
-  * Created by chengpohi on 3/28/16.
-  */
-trait Model
+package mcs
 
+import scala.language.experimental.macros
+import scala.language.dynamics
+/**
+  * Default (Template) Project
+  * Created by chengpohi on 7/2/16.
+  */
 object CaseClassToMap {
 
   implicit class Mappable[T <: Model](val model: T) {

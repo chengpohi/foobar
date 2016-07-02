@@ -1,3 +1,7 @@
+package mcs
+
+
+import scala.language.dynamics
 import scala.language.experimental.macros
 /**
   * scala99

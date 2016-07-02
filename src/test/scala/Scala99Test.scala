@@ -1,4 +1,5 @@
-import org.scalatest.{ShouldMatchers, FlatSpec}
+import algorithm.{Node, Scala99}
+import org.scalatest.{FlatSpec, ShouldMatchers}
 
 /**
  * scala99
