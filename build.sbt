@@ -17,6 +17,9 @@ val commonDependencies = Seq(
   "org.scalaz" %% "scalaz-core" % "7.2.1",
   "org.scalaz" %% "scalaz-effect" % "7.2.1",
   "org.scala-lang" % "scala-reflect" % "2.11.8",
+  "org.scalanlp" %% "breeze" % "0.12",
+  "org.scalanlp" %% "breeze-natives" % "0.12",
+  "org.scalanlp" %% "breeze-viz" % "0.12",
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
   "com.lihaoyi" %% "fastparse" % "0.3.4",
   "org.jsoup" % "jsoup" % "1.8.3"
