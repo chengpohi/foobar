@@ -16,6 +16,7 @@ public class Daemon {
             } catch (InterruptedException e) {
             }
         });
+        keepAliveThread.setDaemon(false);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void start() {
