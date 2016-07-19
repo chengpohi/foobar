@@ -30,6 +30,8 @@ public class Daemon {
         Daemon daemon = new Daemon();
         daemon.start();
         System.out.println("Started !!!");
+        System.out.close();
+        System.out.println("Foo Bar");
     }
 
     public void start() {
