@@ -10,7 +10,7 @@ object NLP {
       "https://msdn.microsoft.com/en-us/library/ee658084.aspx"
     )
     val crawler: Crawler = new Crawler
-    val docs  = crawler.crawl(seeds)
+    val docs = crawler crawl seeds
     println(docs.docs.head tf "design")
   }
 
