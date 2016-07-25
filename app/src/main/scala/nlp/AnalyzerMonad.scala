@@ -8,7 +8,7 @@ import scala.io.Source
 import scalaz.{Free, Id, ~>}
 
 case object connect {
-  def to(url: String) = Jsoup.connect(url).get
+  def to(url: String)(implicit timeout: Int) = Jsoup.connect(url).timeout(timeout).get
 }
 
 object AnalyzerMonad {
@@ -16,9 +16,12 @@ object AnalyzerMonad {
     def text: String = doc.text()
   }
   final case class WordTerm(word: String, frequency: Int)
-  final case class AnalyzedDoc(words: List[WordTerm], stopWords: List[WordTerm], size: Int)
+  final case class AnalyzedDoc(words: List[WordTerm], stopWords: List[WordTerm], size: Int) {
+    def tf(word: String): Option[Double] =
+      words.find(w => w.word == word).map(t => t.frequency / size.toDouble)
+  }
   sealed trait Service[A]
-  case class GetDoc(url: String) extends Service[WebDoc]
+  case class GetDoc(url: String, timeout: Option[Int] = Some(60 * 1000)) extends Service[WebDoc]
   case class TokenizeWords(doc: WebDoc) extends Service[AnalyzedDoc]
   final case class Request[A](service: Service[A])
   def fetch[A](service: Service[A]): Free[Request, A] =
@@ -41,8 +44,10 @@ object AnalyzerInterpreter extends (Request ~> Id.Id) {
 
   override def apply[A](fa: Request[A]): Id.Id[A] = fa match {
     case Request(service) => service match {
-      case GetDoc(url) =>
-        WebDoc(url, connect to url)
+      case GetDoc(url, t) =>
+        implicit val timeout: Int = t.get
+        val doc: Document = connect to url
+        WebDoc(url, doc)
       case TokenizeWords(doc: WebDoc) =>
         val ws  = WordTokenizer(doc.text)
         val words = toWordTerm(ws._1)
