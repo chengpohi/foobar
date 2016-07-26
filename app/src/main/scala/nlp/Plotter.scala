@@ -17,7 +17,7 @@ object Plotter {
   def logPlot(base: Int) = {
     val f = Figure("Base: " + base)
     val p = f.subplot(0)
-    val x = linspace(1.0, 10.0, 100)
+    val x = linspace(0.1, 10.0, 100)
     p += plot(x, log(x) / log(base))
     p.xlabel = "x axis"
     p.ylabel = "y axis"

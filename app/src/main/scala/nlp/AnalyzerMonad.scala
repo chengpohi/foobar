@@ -17,8 +17,7 @@ object AnalyzerMonad {
   }
   final case class WordTerm(word: String, frequency: Int)
   final case class AnalyzedDoc(words: List[WordTerm], stopWords: List[WordTerm], size: Int) {
-    def tf(word: String): Option[Double] =
-      words.find(w => w.word == word).map(t => t.frequency / size.toDouble)
+    def all: List[WordTerm] = words ++ stopWords
   }
   sealed trait Service[A]
   case class GetDoc(url: String, timeout: Option[Int] = Some(60 * 1000)) extends Service[WebDoc]

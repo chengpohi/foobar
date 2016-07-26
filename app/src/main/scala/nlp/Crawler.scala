@@ -18,8 +18,16 @@ class Crawler {
     result <- fetch(TokenizeWords(webdoc))
   } yield result
 
-  def crawl(urls: List[String]): DocSet = DocSet(urls.par.map(s => crawl(s)))
+  def crawl(urls: List[Seed]): DocSet = DocSet(urls.par.map(s => crawl(s.url)))
   def crawl(s: String) = get(s).foldMap(AnalyzerInterpreter)
 }
 
-case class DocSet(docs: ParSeq[AnalyzedDoc])
+case class DocSet(docs: ParSeq[AnalyzedDoc]) {
+  def head = docs.head
+  def tail = docs.tail
+  def find(word: String) = docs.find(d => d.all.exists(i => i.word == word))
+  def count(word: String) = docs.count(d => d.all.exists(i => i.word == word))
+  def size = docs.size
+  def map[A](f: AnalyzedDoc => A) = docs.map(doc => f(doc))
+}
+case class Seed(url: String, timeout: Option[Int] = Some(60 * 1000))
