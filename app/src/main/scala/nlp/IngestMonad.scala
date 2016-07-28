@@ -1,6 +1,6 @@
 package nlp
 
-import nlp.AnalyzerMonad.{AnalyzedDoc, GetDoc, Request, TokenizeWords, WebDoc, WordTerm}
+import nlp.IngestMonad.{IngestDocument, GetDoc, Request, TokenizeWords, WebDoc, WordTerm}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
@@ -11,17 +11,17 @@ case object connect {
   def to(url: String)(implicit timeout: Int) = Jsoup.connect(url).timeout(timeout).get
 }
 
-object AnalyzerMonad {
+object IngestMonad {
   final case class WebDoc(url: String, doc: Document) {
     def text: String = doc.text()
   }
   final case class WordTerm(word: String, frequency: Int)
-  final case class AnalyzedDoc(words: List[WordTerm], stopWords: List[WordTerm], size: Int) {
+  final case class IngestDocument(words: List[WordTerm], stopWords: List[WordTerm], size: Int) {
     def all: List[WordTerm] = words ++ stopWords
   }
   sealed trait Service[A]
   case class GetDoc(url: String, timeout: Option[Int] = Some(60 * 1000)) extends Service[WebDoc]
-  case class TokenizeWords(doc: WebDoc) extends Service[AnalyzedDoc]
+  case class TokenizeWords(doc: WebDoc) extends Service[IngestDocument]
   final case class Request[A](service: Service[A])
   def fetch[A](service: Service[A]): Free[Request, A] =
     Free.liftF[Request, A](Request(service): Request[A])
@@ -51,7 +51,7 @@ object AnalyzerInterpreter extends (Request ~> Id.Id) {
         val ws  = WordTokenizer(doc.text)
         val words = toWordTerm(ws._1)
         val stopWords = toWordTerm(ws._2)
-        AnalyzedDoc(words, stopWords, ws._3)
+        IngestDocument(words, stopWords, ws._3)
     }
   }
 }

@@ -1,6 +1,6 @@
 package nlp
 
-import nlp.AnalyzerMonad.AnalyzedDoc
+import nlp.IngestMonad.IngestDocument
 
 import scala.collection.parallel.ParSeq
 import scalaz.Free
@@ -11,9 +11,9 @@ import scalaz.Free
   */
 class Crawler {
 
-  import AnalyzerMonad._
+  import IngestMonad._
 
-  def get(url: String): Free[Request, AnalyzerMonad.AnalyzedDoc] = for {
+  def get(url: String): Free[Request, IngestMonad.IngestDocument] = for {
     webdoc <- fetch(GetDoc(url))
     result <- fetch(TokenizeWords(webdoc))
   } yield result
@@ -22,12 +22,12 @@ class Crawler {
   def crawl(s: String) = get(s).foldMap(AnalyzerInterpreter)
 }
 
-case class DocSet(docs: ParSeq[AnalyzedDoc]) {
+case class DocSet(docs: ParSeq[IngestDocument]) {
   def head = docs.head
   def tail = docs.tail
   def find(word: String) = docs.find(d => d.all.exists(i => i.word == word))
   def count(word: String) = docs.count(d => d.all.exists(i => i.word == word))
   def size = docs.size
-  def map[A](f: AnalyzedDoc => A) = docs.map(doc => f(doc))
+  def map[A](f: IngestDocument => A) = docs.map(doc => f(doc))
 }
 case class Seed(url: String, timeout: Option[Int] = Some(60 * 1000))

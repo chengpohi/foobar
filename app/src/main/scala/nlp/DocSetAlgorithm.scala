@@ -1,6 +1,6 @@
 package nlp
 
-import nlp.AnalyzerMonad.AnalyzedDoc
+import nlp.IngestMonad.IngestDocument
 
 import scala.util.Try
 
@@ -26,7 +26,7 @@ object DocSetAlgorithm {
 }
 
 object AnalyzedDocAlgorithm {
-  implicit class TF(analyzedDoc: AnalyzedDoc) {
+  implicit class TF(analyzedDoc: IngestDocument) {
     def tf(word: String) =
       analyzedDoc.words.find(w => w.word == word).map(t => t.frequency / analyzedDoc.size.toDouble)
   }
