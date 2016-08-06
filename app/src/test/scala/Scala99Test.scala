@@ -75,3 +75,11 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     (scala99 completeBinaryTrees(1)).size should equal(1)
   }
 }
+
+trait Foo {
+
+}
+
+trait Bar extends Foo { this: Foo => {
+
+}}

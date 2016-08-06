@@ -5,12 +5,17 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("snapshots")
 )
 
+val myResourceDirectory = Option(System.getProperty("myResourceDirectory")).getOrElse("hello_world")
+
+unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirectory
+
 val commonSetting = Seq(
   version := "1.0",
   scalaVersion := "2.11.8",
   initialCommands in console := "import scalaz._, Scalaz._",
   addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 )
+
 
 val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
@@ -34,6 +39,7 @@ lazy val parsers = project.in(file("parser"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
 
+
 lazy val app = project.in(file("app"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
@@ -41,6 +47,7 @@ lazy val app = project.in(file("app"))
     name := "scala99",
     version := "0.1"
   )
+  .settings(unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirectory)
   .aggregate(macros, parsers)
   .dependsOn(macros, parsers)
 
