@@ -1,5 +1,10 @@
 package functor
 
+import scalaz.effect._
+import scalaz._
+import Scalaz._
+import IO._
+
 /**
   * scala-parser-combinator
   * Created by chengpohi on 3/20/16.
@@ -13,11 +18,15 @@ object ScalazDemo {
       _ <- putStrLn("Hello, world!")
     } yield ()
     println(action1.unsafePerformIO)
-
     val action2 = IO {
-      val source = scala.io.Source.fromFile("./README.md")
+      val source = scala.io.Source.fromFile("./users.txt")
       source.getLines.toStream
     }
     println(action2.unsafePerformIO)
+    (program |+| program).unsafePerformIO
   }
+  def program: IO[Unit] = for {
+    line <- readLn
+    _ <- putStrLn(line)
+  } yield ()
 }
