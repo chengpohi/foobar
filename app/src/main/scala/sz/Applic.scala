@@ -1,13 +1,20 @@
 package sz
 
-import scalaz.Applicative
+import scalaz._
+import Scalaz._
+import Monad._
+import State._
+import Applicative._
 
 /**
   * scala99
   * Created by chengpohi on 8/13/16.
   */
-class Applic {
-
+object Applic {
+  def main(args: Array[String]): Unit = {
+    val f = (i: Int) => List(i)
+    val tree = Bin(Leaf(1), Leaf(2))
+  }
 }
 
 sealed trait BinaryTree[A]
