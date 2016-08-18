@@ -1,7 +1,6 @@
 package nlp
 
 object NLP {
-
   def main(args: Array[String]): Unit = {
     val seeds = List(
       Seed("https://msdn.microsoft.com/en-us/library/ee658098.aspx"),
@@ -19,5 +18,6 @@ object NLP {
       println(i._2)
     })
   }
+
 
 }
