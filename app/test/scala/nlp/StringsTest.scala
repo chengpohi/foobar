@@ -15,5 +15,7 @@ class StringsTest extends FlatSpec with ShouldMatchers{
     assert(distance2 === 2)
     val distance3: Int = "" distance "Heloo"
     assert(distance3 === 5)
+    val distance4: Int = "aasdksjdkfjaksdjfkjiasdfsdfasdfasdfasdf" distance "wqeruqwerkkjklasdiasdfasdfmnzxcvj"
+    assert(distance4 === 22)
   }
 }
