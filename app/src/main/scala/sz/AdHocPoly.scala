@@ -10,7 +10,9 @@ object AdHocPoly {
     import AdHoc._
     println(plus("hello", "world"))
     println(plus(1, 2))
-    println()
+    import scalaz._
+    import Scalaz._
+    println(1.some | 2)
   }
 }
 

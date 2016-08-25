@@ -6,19 +6,19 @@ package sz
   */
 
 trait Monoid[A] {
-  def mappend(a1: A, a2: A): A
+  def mappend(a: A, b: A): A
   def mzero: A
 }
 
 object Monoid {
   implicit object IntMonoid extends Monoid[Int] {
-    def mappend(a: Int, b: Int) = a + b
-    def mzero: Int = 0
+    override def mappend(a: Int, b: Int): Int = a + b
+    override def mzero: Int = 0
   }
 
   implicit object StringMonoid extends Monoid[String] {
-    def mappend(a: String, b: String): String = a + b
-    def mzero: String = ""
+    override def mappend(a: String, b: String): String = a + b
+    override def mzero: String = ""
   }
 }
 
@@ -27,11 +27,10 @@ trait FoldLeft[F[_]] {
 }
 
 object FoldLeft {
-  implicit object FoldLeftList extends FoldLeft[List] {
-    def foldLeft[A, B](xs: List[A], b: B, f: (B, A) => B) = xs.foldLeft(b)(f)
+  implicit object ListFoldLeft extends FoldLeft[List] {
+    override def foldLeft[A, B](xs: List[A], b: B, f: (B, A) => B): B = xs.foldLeft(b)(f)
   }
 }
-
 trait MonoidOp[A] {
   val F: Monoid[A]
   val value: A
@@ -45,16 +44,18 @@ object TestTmp {
   }
 
   def main(args: Array[String]): Unit = {
-    println( 3 |+| 4)
-    println( "a" |+| "b")
-    println(sum(List(1, 2, 3, 4, 5)))
-    println(sum(List("a", "b", "c")))
+    println(3 |+| 4)
+    println("Hello" |+| "World")
+    println(sum(2, 3))
+    println(sum("Hello", "World"))
+    println(sum(List("Hello", "World")))
   }
 
-  def sum[T: Monoid, M[_]: FoldLeft](xs: M[T]): T = {
-    val m = implicitly[Monoid[T]]
+  def sum[A: Monoid](a: A, b: A): A = sum(List(a, b))
+
+  def sum[A: Monoid, M[_]: FoldLeft](xs: M[A]): A = {
+    val m = implicitly[Monoid[A]]
     val f1 = implicitly[FoldLeft[M]]
     f1.foldLeft(xs, m.mzero, m.mappend)
   }
 }
-
