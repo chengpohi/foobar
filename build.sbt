@@ -20,8 +20,8 @@ val commonSetting = Seq(
 val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "com.chuusai" %% "shapeless" % "2.3.1",
-  "org.scalaz" %% "scalaz-core" % "7.2.1",
-  "org.scalaz" %% "scalaz-effect" % "7.2.1",
+  "org.scalaz" %% "scalaz-core" % "7.3.0-M4",
+  "org.scalaz" %% "scalaz-effect" % "7.3.0-M4",
   "org.scala-lang" % "scala-reflect" % "2.11.8",
   "org.scalanlp" %% "breeze" % "0.12",
   "org.scalanlp" %% "breeze-natives" % "0.12",
