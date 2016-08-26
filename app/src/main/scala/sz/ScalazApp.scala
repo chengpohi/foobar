@@ -12,7 +12,6 @@ trait CanTruthy[A] { self =>
 }
 
 object CanTruthy {
-  def apply[A](implicit ev: CanTruthy[A]): CanTruthy[A] = ev
   def truthys[A](f: A => Boolean): CanTruthy[A] = new CanTruthy[A] {
     override def truthys(a: A): Boolean = f(a)
   }
@@ -21,7 +20,7 @@ object CanTruthy {
 trait CanTruthyOps[A] {
   def self: A
   implicit def F: CanTruthy[A]
-  final def truthy: Boolean = F.truthys(self)
+  def truthy: Boolean = F.truthys(self)
 }
 
 object ToCanIsTruthyOps {
