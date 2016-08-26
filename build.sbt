@@ -12,6 +12,7 @@ unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirec
 val commonSetting = Seq(
   version := "1.0",
   scalaVersion := "2.11.8",
+  scalacOptions += "-feature",
   initialCommands in console := "import scalaz._, Scalaz._",
   addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 )
