@@ -6,6 +6,10 @@ import scala.io.Source
   */
 object TestHello {
   def main(args: Array[String]): Unit = {
-    println(Source.fromURL(getClass.getResource("/test.txt")).getLines().mkString(","))
+    val bounded = new FooBar
+    println(bounded.testField)
+    println(bounded.testMethod().testField)
   }
+  class FooBar extends SelfBounded[FooBar]
 }
+
