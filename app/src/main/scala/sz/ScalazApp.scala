@@ -2,6 +2,7 @@ package sz
 
 import scalaz._
 import Scalaz._
+import scala.language.implicitConversions
 
 /**
   * scala99
@@ -52,6 +53,19 @@ object ScalazApp extends App{
   implicit val TrafficLightEqual: Equal[TrafficLight] = Equal.equal(_ == _)
   println(red === yellow)
   println(10.truthy)
+  val xs = List(1, 2, 3, 4)
+  val cs = xs map {(_: Int) * (_: Int)}.curried
+  val r = cs map {_(9)}
+  r.println
+  xs.point[List].println //
+  xs.point[Option].println
+  (9.some <*> {(_: Int) + 3}.some).println
+  (1.some <* 2.some).println
+  println(none <* 2.some)
+  (1.some *> 2.some).println
+  println(3.some <*> { 9.some <*> {(_: Int) + (_: Int)}.curried.some })
+  println(^(3.some, 5.some) {_ + _})
+  println((3.some |@| 5.some) { _ + _})
 }
 
 case class TrafficLight(name: String)
