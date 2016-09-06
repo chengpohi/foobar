@@ -56,4 +56,9 @@ object MatrixOps {
       }
     }
   }
+  implicit class DFS(denseMatrix: DenseMatrix[Int]) {
+    def routes(start: XY, end: XY): Option[List[List[XY]]] = {
+      None
+    }
+  }
 }
