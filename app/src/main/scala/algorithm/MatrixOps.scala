@@ -10,16 +10,14 @@ import scalaz.Scalaz._
   */
 object MatrixOps {
   type XY = (Int, Int)
-  implicit class BFS(denseMatrix: DenseMatrix[Int]) {
+  implicit class DFS(denseMatrix: DenseMatrix[Int]) {
     def routes(start: XY, end: XY): Option[List[List[XY]]] = {
-      val startX: Int = start._1
-      val endX: Int = end._1
-      val startY: Int = start._2
-      val endY: Int = end._2
+      val (startX, startY) = start
+      val (endX, endY) = end
 
       if (startX > endX || startY > endY)
         return None
-      if (startX == end._1 && startY == endY)
+      if (startX == endX && startY == endY)
         return List(List(end)).some
 
       val down = startX + 1 >= denseMatrix.rows match {
@@ -56,9 +54,9 @@ object MatrixOps {
       }
     }
   }
-  implicit class DFS(denseMatrix: DenseMatrix[Int]) {
-    def routes(start: XY, end: XY): Option[List[List[XY]]] = {
-      None
+  implicit class BFS(denseMatrix: DenseMatrix[Int]) {
+    def route: Seq[XY] = {
+      Seq()
     }
   }
 }

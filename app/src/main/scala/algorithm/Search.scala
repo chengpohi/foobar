@@ -13,7 +13,7 @@ object Search {
       (0, 1, 0),
       (0, 0, 0)
     )
-    import MatrixOps.BFS
+    import MatrixOps.DFS
     val start = (0, 0)
     val end = (2, 2)
     matrix.routes(start, end).get.foreach(println)
