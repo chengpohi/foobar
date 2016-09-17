@@ -55,8 +55,21 @@ object MatrixOps {
     }
   }
   implicit class BFS(denseMatrix: DenseMatrix[Int]) {
-    def route: Seq[XY] = {
-      Seq()
+    def route(x: Int): List[Int] = {
+      val xs: List[Int] = next(x)
+      xs ::: rec(xs)
     }
+
+    def rec(xs: List[Int]): List[Int] = {
+      val ls: List[Int] = xs.flatMap(i => next(i))
+      ls.empty match {
+        case true => List()
+        case false => ls ::: rec(ls)
+      }
+    }
+
+    def next(x: Int) = denseMatrix(x, ::).inner.toArray.toList.zipWithIndex
+      .filter(a => a._1 != 0 & a._2 > x)
+      .map(_._2)
   }
 }
