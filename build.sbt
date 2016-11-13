@@ -17,6 +17,11 @@ val commonSetting = Seq(
   addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 )
 
+val mllibDependencies = Seq(
+  "org.apache.spark" %% "spark-core" % "1.3.1",
+  "org.apache.spark" %% "spark-mllib" % "1.3.1",
+  "org.scalatest" %% "scalatest" % "2.2.1" % "test"
+)
 
 val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
@@ -33,9 +38,15 @@ val commonDependencies = Seq(
 )
 libraryDependencies ++= commonDependencies
 
+lazy val mllib = project.in(file("mllib"))
+  .settings(commonSetting: _*)
+  .settings(libraryDependencies ++= mllibDependencies)
+
 lazy val macros = project.in(file("macros"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
+
+
 lazy val parsers = project.in(file("parser"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)

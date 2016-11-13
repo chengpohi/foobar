@@ -1,10 +1,12 @@
+package algorithm
+
 import scala.io.Source
 
 /**
   * scala99
   * Created by chengpohi on 8/6/16.
   */
-object TestHello {
+object Animal {
   def main(args: Array[String]): Unit = {
     val res: String = Source.fromFile(this.getClass.getResource("historyData.txt").getFile).getLines().toList.mkString(System.lineSeparator())
     println(getSnapShot(res, "dcfa0c7a-5855-4ed2-bc8c-4accae8bd155"))
