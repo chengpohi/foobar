@@ -11,15 +11,14 @@ unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirec
 
 val commonSetting = Seq(
   version := "1.0",
-  scalaVersion := "2.11.8",
+  scalaVersion := "2.11.12",
   scalacOptions += "-feature",
   initialCommands in console := "import scalaz._, Scalaz._",
   addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 )
 
 val mllibDependencies = Seq(
-  "org.apache.spark" %% "spark-core" % "1.3.1",
-  "org.apache.spark" %% "spark-mllib" % "1.3.1",
+  "org.apache.spark" %% "spark-mllib" % "2.0.2",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 )
 
@@ -40,11 +39,12 @@ libraryDependencies ++= commonDependencies
 
 lazy val mllib = project.in(file("mllib"))
   .settings(commonSetting: _*)
-  .settings(libraryDependencies ++= mllibDependencies)
+  .settings(libraryDependencies ++= commonDependencies ++ mllibDependencies)
 
 lazy val macros = project.in(file("macros"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
+  .settings(libraryDependencies ++= Seq("org.scalameta" %% "scalameta" % "1.3.0"))
 
 
 lazy val parsers = project.in(file("parser"))
