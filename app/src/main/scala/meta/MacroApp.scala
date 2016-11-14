@@ -1,4 +1,4 @@
-package mc
+package meta
 
 import mcs.{CaseClassToMap, DynamicMacros, Model, WithIdExample}
 

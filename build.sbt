@@ -11,10 +11,11 @@ unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirec
 
 val commonSetting = Seq(
   version := "1.0",
-  scalaVersion := "2.11.12",
+  scalaVersion := "2.11.8",
   scalacOptions += "-feature",
+  scalacOptions += "-Xplugin-require:macroparadise",
   initialCommands in console := "import scalaz._, Scalaz._",
-  addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
+  addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M5" cross CrossVersion.full)
 )
 
 val mllibDependencies = Seq(
@@ -32,8 +33,8 @@ val commonDependencies = Seq(
   //"org.scalanlp" %% "breeze-natives" % "0.12",
   "org.scalanlp" %% "breeze-viz" % "0.12",
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
-  "com.lihaoyi" %% "fastparse" % "0.3.4",
-  "org.jsoup" % "jsoup" % "1.8.3"
+  "org.jsoup" % "jsoup" % "1.8.3",
+  "org.scalameta" %% "scalameta" % "1.3.0"
 )
 libraryDependencies ++= commonDependencies
 
@@ -44,7 +45,6 @@ lazy val mllib = project.in(file("mllib"))
 lazy val macros = project.in(file("macros"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
-  .settings(libraryDependencies ++= Seq("org.scalameta" %% "scalameta" % "1.3.0"))
 
 
 lazy val parsers = project.in(file("parser"))
