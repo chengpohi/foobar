@@ -38,16 +38,16 @@ val commonDependencies = Seq(
 )
 libraryDependencies ++= commonDependencies
 
-lazy val mllib = project.in(file("mllib"))
+lazy val mllib = project.in(file("modules/mllib"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies ++ mllibDependencies)
 
-lazy val macros = project.in(file("macros"))
+lazy val macros = project.in(file("modules/macros"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
 
 
-lazy val parsers = project.in(file("parser"))
+lazy val parsers = project.in(file("modules/parser"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
 
