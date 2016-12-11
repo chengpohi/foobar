@@ -19,8 +19,6 @@ val commonSetting = Seq(
 )
 
 val mllibDependencies = Seq(
-  "org.apache.spark" %% "spark-mllib" % "2.0.2",
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 )
 
 val commonDependencies = Seq(
@@ -29,12 +27,13 @@ val commonDependencies = Seq(
   "org.scalaz" %% "scalaz-core" % "7.3.0-M4",
   "org.scalaz" %% "scalaz-effect" % "7.3.0-M4",
   "org.scala-lang" % "scala-reflect" % "2.11.8",
-  "org.scalanlp" % "breeze_2.11" % "0.13-RC1",
   //"org.scalanlp" %% "breeze-natives" % "0.12",
-  "org.scalanlp" %% "breeze-viz" % "0.12",
+  "org.scalanlp" %% "breeze-viz" % "0.11.2",
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
   "org.jsoup" % "jsoup" % "1.8.3",
-  "org.scalameta" %% "scalameta" % "1.3.0"
+  "org.scalameta" %% "scalameta" % "1.3.0",
+  "org.apache.spark" %% "spark-mllib" % "2.0.2",
+  "org.apache.spark" %% "spark-core" % "2.0.2"
 )
 libraryDependencies ++= commonDependencies
 
