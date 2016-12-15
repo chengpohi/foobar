@@ -16,6 +16,12 @@ object MetaMacro {
     "Hello World"
   }
 
+  @AutoVarargs
+  def add(x: Int, y: Int): Int = x + y
+
+  println(add(2, 3, 6, 7, 8))
+
+
 }
 
 object TestMethods {
