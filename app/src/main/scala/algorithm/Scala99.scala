@@ -178,6 +178,7 @@ class Scala99 {
 
   def gray(n: Int): List[String] = {
     val c = List(0, 1)
+
     def bits(n: Int): List[List[Int]] = n match {
       case x if x > 1 => c.flatMap(i =>
         bits(n - 1).map(b =>
@@ -186,6 +187,7 @@ class Scala99 {
       )
       case 1 => c.map(i => List(i))
     }
+
     bits(n).map(i => i.mkString(""))
   }
 
@@ -211,6 +213,7 @@ class Scala99 {
         case Node(None, None, value, Some(key)) => List((key, ""))
       }
     }
+
     val node: List[Node[T]] = fre.sortBy(t => t._2).map(f => Node(None, None, f._2, Some(f._1)))
     val n = huffmanNode(node)
     traverse(n)
@@ -248,6 +251,28 @@ class Scala99 {
           left.flatMap(l => right.map(r => Node(Some(l), Some(r), 1, Some("node"))))
       }
     }
+
     generateNode(number)
+  }
+
+  val fibs: Stream[BigInt] = BigInt(0) #:: BigInt(1) #:: fibs.zip(fibs.tail).map(t => t._1 + t._2)
+
+  lazy val fibsNoMemoization: Stream[BigInt] = {
+    def fib(h: BigInt, n: BigInt): Stream[BigInt] = h #:: fib(h, h + n)
+
+    fib(1, 1)
+  }
+
+  //F(2n-1) = F(n)² + F(n-1)²
+  //F(2n) = (2F(n-1) + F(n))*F(n)
+  def fibFormula(n: Int): BigInt = {
+    def fibs(n: Int): (BigInt, BigInt) = if (n == 1) (1, 0) else {
+      val (a, b) = fibs(n / 2)
+      val p = (2 * b + a) * a
+      val q = a * a + b * b
+      if (n % 2 == 0) (p, q) else (p + q, p)
+    }
+
+    fibs(n)._1
   }
 }
