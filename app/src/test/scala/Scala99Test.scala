@@ -2,9 +2,9 @@ import algorithm.{Node, Scala99}
 import org.scalatest.{FlatSpec, ShouldMatchers}
 
 /**
- * scala99
- * Created by chengpohi on 10/7/15.
- */
+  * scala99
+  * Created by chengpohi on 10/7/15.
+  */
 class Scala99Test extends FlatSpec with ShouldMatchers {
   val scala99 = new Scala99
   val numbers: List[Int] = List(1, 2, 3, 4, 5)
@@ -67,12 +67,16 @@ class Scala99Test extends FlatSpec with ShouldMatchers {
     scala99 countLeaves trees should equal(2)
     scala99 countLeaves left should equal(1)
     scala99 countLeaves Node(Some(Node(Some(left), Some(right), 1, Some(""))), Some(Node(Some(left), Some(right), 1, Some(""))), 1, Some("")) should equal(4)
-    (scala99 completeBinaryTrees(6)).size should equal(4)
-    (scala99 completeBinaryTrees(5)).size should equal(4)
-    (scala99 completeBinaryTrees(4)).size should equal(4)
-    (scala99 completeBinaryTrees(3)).size should equal(1)
-    (scala99 completeBinaryTrees(2)).size should equal(2)
-    (scala99 completeBinaryTrees(1)).size should equal(1)
+    (scala99 completeBinaryTrees (6)).size should equal(4)
+    (scala99 completeBinaryTrees (5)).size should equal(4)
+    (scala99 completeBinaryTrees (4)).size should equal(4)
+    (scala99 completeBinaryTrees (3)).size should equal(1)
+    (scala99 completeBinaryTrees (2)).size should equal(2)
+    (scala99 completeBinaryTrees (1)).size should equal(1)
+  }
+
+  it should "stream" in {
+    scala99.fibsNoMemoization.foreach(println)
   }
 }
 
@@ -80,6 +84,9 @@ trait Foo {
 
 }
 
-trait Bar extends Foo { this: Foo => {
+trait Bar extends Foo {
+  this: Foo =>
+  {
 
-}}
+  }
+}

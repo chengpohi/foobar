@@ -2,10 +2,12 @@ package learn.mllib
 
 import org.scalatest.FlatSpec
 
+import scala.annotation.tailrec
+
 /**
- * mllib
- * Created by chengpohi on 8/18/15.
- */
+  * mllib
+  * Created by chengpohi on 8/18/15.
+  */
 class AlgorithmTest extends FlatSpec {
   "Mean function" should "calc mean by array" in {
     val s = Array(23, 29, 20, 32, 23, 21, 33, 25)
@@ -27,4 +29,5 @@ class AlgorithmTest extends FlatSpec {
     assert(Algorithm.range(Array(23, 29, 20, 32, 23, 21, 33)) == 13)
     assert(Algorithm.midRange(Array(25, 29.3, 20.5, 32, 23, 21, 33, 25)) == 26.75)
   }
+
 }

@@ -257,11 +257,17 @@ class Scala99 {
 
   val fibs: Stream[BigInt] = BigInt(0) #:: BigInt(1) #:: fibs.zip(fibs.tail).map(t => t._1 + t._2)
 
-  lazy val fibsNoMemoization: Stream[BigInt] = {
-    def fib(h: BigInt, n: BigInt): Stream[BigInt] = h #:: fib(h, h + n)
+  def fibsNoMemoization: Stream[BigInt] = {
+    var xs: Stream[BigInt] = Stream.empty
+
+    def fib(h: BigInt, n: BigInt): Stream[BigInt] = {
+      xs = h #:: fib(n, h + n)
+      xs
+    }
 
     fib(1, 1)
   }
+  val fibi: Iterator[BigInt] = Iterator.iterate((0, 1)) { case (x, y) => (y, x + y) }.map(_._1)
 
   //F(2n-1) = F(n)² + F(n-1)²
   //F(2n) = (2F(n-1) + F(n))*F(n)
