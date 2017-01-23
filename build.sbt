@@ -9,12 +9,12 @@ val myResourceDirectory = Option(System.getProperty("myResourceDirectory")).getO
 
 unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirectory
 
+initialCommands in console := "import scalaz._, Scalaz._"
 val commonSetting = Seq(
   version := "1.0",
   scalaVersion := "2.11.8",
   scalacOptions += "-feature",
   scalacOptions += "-Xplugin-require:macroparadise",
-  initialCommands in console := "import scalaz._, Scalaz._",
   addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M5" cross CrossVersion.full)
 )
 

@@ -1,2 +1,2 @@
-alias boot = ;reload ;project app;iflast shell
+alias boot = ;reload ;iflast shell
 
