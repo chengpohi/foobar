@@ -3,9 +3,9 @@ package parser
 import scala.collection.mutable
 
 /**
- * scala-parser-combinator
- * Created by chengpohi on 12/16/15.
- */
+  * scala-parser-combinator
+  * Created by chengpohi on 12/16/15.
+  */
 object FastParser {
 
   import fastparse.all._
@@ -101,7 +101,9 @@ object FastParser {
     println(binaryNum.parse("1100"))
 
     val leftTag = P("<" ~ (!">" ~ AnyChar).rep(1).! ~ ">")
+
     def rightTag(str: String) = P("</" ~ str.! ~ ">")
+
     val xml = P(leftTag.flatMap(rightTag))
     println(xml.parse("<hello></hello>"))
 
@@ -112,9 +114,12 @@ object FastParser {
 
     val digit = CharIn('0' to '9')
     val letter = CharIn('A' to 'Z')
+
     def twice[T](p: Parser[T]) = p ~ p
+
     def errorMessage[T](p: Parser[T], str: String) =
       ParseError(p.parse(str).asInstanceOf[Parsed.Failure]).getMessage
+
     val numberPlate = P(twice(digit) ~ "-" ~ twice(letter) ~ "-" ~ twice(digit))
     println(errorMessage(numberPlate, "11-A1-22"))
     val opaque = numberPlate.opaque("<number-plate>")
@@ -122,10 +127,10 @@ object FastParser {
 
 
     val logged = mutable.Buffer.empty[String]
-    implicit val logger = fastparse.Logger(logged.append(_))
+    implicit val logger = fastparse.core.Logger(logged.append(_))
 
-    val DeepFailure = P( "C" )
-    val Foo = P( (DeepFailure.log() | "A".log()) ~ "B".!.log() ).log()
+    val DeepFailure = P("C")
+    val Foo = P((DeepFailure.log() | "A".log()) ~ "B".!.log()).log()
 
     Foo.parse("AB")
 
