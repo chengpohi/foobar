@@ -1,11 +1,11 @@
 import algorithm.{Node, Scala99}
-import org.scalatest.{FlatSpec, ShouldMatchers}
+import org.scalatest.{FlatSpec, Matchers}
 
 /**
   * scala99
   * Created by chengpohi on 10/7/15.
   */
-class Scala99Test extends FlatSpec with ShouldMatchers {
+class Scala99Test extends FlatSpec with Matchers {
   val scala99 = new Scala99
   val numbers: List[Int] = List(1, 2, 3, 4, 5)
   val palindromeNumbers = List(1, 2, 3, 2, 1)

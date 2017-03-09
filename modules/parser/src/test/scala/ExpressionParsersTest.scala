@@ -1,13 +1,13 @@
-import org.scalatest.{FlatSpec, ShouldMatchers}
+import org.scalatest.{FlatSpec, Matchers}
 import parser._
 
 import scala.util.parsing.input.CharSequenceReader
 
 /**
- * scala-parser-combinator
- * Created by chengpohi on 10/4/15.
- */
-class ExpressionParsersTest extends FlatSpec with ExpressionParsers with ShouldMatchers {
+  * scala-parser-combinator
+  * Created by chengpohi on 10/4/15.
+  */
+class ExpressionParsersTest extends FlatSpec with ExpressionParsers with Matchers {
   private def parsing[T](s: String)(implicit p: Parser[T]): T = {
     //wrap the parser in the phrase parse to make sure all input is consumed
     val phraseParser = phrase(p)

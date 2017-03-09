@@ -1,12 +1,11 @@
-import org.scalatest.{FlatSpec, ShouldMatchers}
-
 import algorithm.TruthTable._
+import org.scalatest.{FlatSpec, Matchers}
 
 /**
- * scala99
- * Created by chengpohi on 11/1/15.
- */
-class TruthTableTest extends FlatSpec with ShouldMatchers {
+  * scala99
+  * Created by chengpohi on 11/1/15.
+  */
+class TruthTableTest extends FlatSpec with Matchers {
   it should "" in {
     table2((a: Boolean, b: Boolean) => and(a, or(a, b))) should equal(List((true, true, true), (true, false, true), (false, true, false), (false, false, false)))
     table2((a: Boolean, b: Boolean) => and(a, or(a, !b))) should equal(List((true, true, true), (true, false, true), (false, true, false), (false, false, false)))

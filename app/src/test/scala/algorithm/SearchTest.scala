@@ -1,13 +1,13 @@
 package algorithm
 
 import breeze.linalg.DenseMatrix
-import org.scalatest.{FlatSpec, ShouldMatchers}
+import org.scalatest.{FlatSpec, Matchers}
 
 /**
   * scala99
   * Created by chengpohi on 9/6/16.
   */
-class SearchTest extends FlatSpec with ShouldMatchers {
+class SearchTest extends FlatSpec with Matchers {
   it should "list routes two nodes by dfs" in {
     val matrix = DenseMatrix(
       (0, 0, 0),
@@ -30,7 +30,8 @@ class SearchTest extends FlatSpec with ShouldMatchers {
       (0, 0, 0, 1, 0, 0) //
     )
     import MatrixOps.BFS
-    val start = 0 // root node
+    val start = 0
+    // root node
     val route: List[Int] = matrix.route(start)
     assert(route === List(1, 2, 3, 4, 5))
   }
