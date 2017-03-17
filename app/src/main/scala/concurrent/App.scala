@@ -12,7 +12,8 @@ object App {
   }
 
   def runProducerAndConsumer() = {
-    val blockingDeque: LinkedBlockingDeque[String] = new LinkedBlockingDeque[String](20)
+    val blockingDeque: LinkedBlockingDeque[String] =
+      new LinkedBlockingDeque[String](20)
     new Thread(new Producer(blockingDeque)).start()
     for (i <- 1 to 10) {
       new Thread(new Consumer(blockingDeque)).start()
@@ -33,7 +34,8 @@ class Consumer(q: BlockingQueue[String]) extends Runnable {
   override def run(): Unit = {
     while (true) {
       val take: String = q.take()
-      println(take + " size: " + q.size() + " " + Thread.currentThread().getName)
+      println(
+        take + " size: " + q.size() + " " + Thread.currentThread().getName)
       TimeUnit.SECONDS.sleep(2)
     }
   }

@@ -5,9 +5,9 @@ import org.scalatest.prop.TableDrivenPropertyChecks._
 import org.scalatest.matchers.ShouldMatchers._
 
 /**
- * BookMark model
- * Created by chengpohi on 7/12/15.
- */
+  * BookMark model
+  * Created by chengpohi on 7/12/15.
+  */
 class DamerauLevenshteinAlgorithmTest extends FlatSpec {
   val strings =
     Table(

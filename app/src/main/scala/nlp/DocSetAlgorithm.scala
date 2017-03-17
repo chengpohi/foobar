@@ -17,10 +17,15 @@ object DocSetAlgorithm {
     def tfIdf(word: String) = {
       import AnalyzedDocAlgorithm.TF
       val id = idf(word)
-      docSet.map(doc => for {
-        t <- doc.tf(word)
-        i <- id
-      } yield (doc, t * i)).flatten.toList.sortWith(_._2 > _._2)
+      docSet
+        .map(doc =>
+          for {
+            t <- doc.tf(word)
+            i <- id
+          } yield (doc, t * i))
+        .flatten
+        .toList
+        .sortWith(_._2 > _._2)
     }
   }
 }
@@ -28,6 +33,8 @@ object DocSetAlgorithm {
 object AnalyzedDocAlgorithm {
   implicit class TF(analyzedDoc: IngestDocument) {
     def tf(word: String) =
-      analyzedDoc.words.find(w => w.word == word).map(t => t.frequency / analyzedDoc.size.toDouble)
+      analyzedDoc.words
+        .find(w => w.word == word)
+        .map(t => t.frequency / analyzedDoc.size.toDouble)
   }
 }

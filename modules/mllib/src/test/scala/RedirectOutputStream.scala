@@ -3,9 +3,8 @@ import java.io.{PrintStream, ByteArrayOutputStream}
 import org.scalatest.{FunSuite, BeforeAndAfter}
 
 /**
- * Created by chengpohi on 7/14/15.
- */
-
+  * Created by chengpohi on 7/14/15.
+  */
 class RedirectOutputStream extends FunSuite with BeforeAndAfter {
   val outContent = new ByteArrayOutputStream()
   val errContent = new ByteArrayOutputStream()
@@ -20,4 +19,3 @@ class RedirectOutputStream extends FunSuite with BeforeAndAfter {
     System.out.println("Hello World")
   }
 }
-

@@ -4,7 +4,6 @@ package sz
   * scala99
   * Created by chengpohi on 8/25/16.
   */
-
 case class User(name: String, id: Int)
 
 trait Plus[A] {

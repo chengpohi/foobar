@@ -29,8 +29,8 @@ object TransactionDemo {
   }
 
   def main(args: Array[String]): Unit = {
-    transaction {
-      implicit thisTransaction => {
+    transaction { implicit thisTransaction =>
+      {
         val res1 = f1(1)
         println(res1)
         println(if (thisTransaction.isAborted) "aborted" else s"result: $res1")

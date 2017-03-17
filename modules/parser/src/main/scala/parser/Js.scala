@@ -1,16 +1,17 @@
 package parser
 
 /**
- * scala-parser-combinator
- * Created by chengpohi on 12/27/15.
- */
+  * scala-parser-combinator
+  * Created by chengpohi on 12/27/15.
+  */
 object Js {
   sealed trait Val extends Any {
     def value: Any
 
     def apply(i: Int): Val = this.asInstanceOf[Arr].value(i)
 
-    def apply(s: java.lang.String): Val = this.asInstanceOf[Obj].value.find(_._1 == s).get._2
+    def apply(s: java.lang.String): Val =
+      this.asInstanceOf[Obj].value.find(_._1 == s).get._2
   }
 
   case class Str(value: java.lang.String) extends AnyVal with Val

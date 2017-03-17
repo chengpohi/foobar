@@ -3,7 +3,6 @@ package meta
 /**
   * Created by xiachen on 14/11/2016.
   */
-
 @main
 object MetaMacro {
   println("hello")
@@ -20,7 +19,6 @@ object MetaMacro {
   def add(x: Int, y: Int): Int = x + y
 
   println(add(2, 3, 6, 7, 8))
-
 
 }
 

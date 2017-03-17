@@ -5,7 +5,8 @@ resolvers ++= Seq(
   Resolver.sonatypeRepo("snapshots")
 )
 
-val myResourceDirectory = Option(System.getProperty("myResourceDirectory")).getOrElse("hello_world")
+val myResourceDirectory =
+  Option(System.getProperty("myResourceDirectory")).getOrElse("hello_world")
 
 unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirectory
 
@@ -15,11 +16,12 @@ val commonSetting = Seq(
   scalaVersion := "2.12.1",
   scalacOptions += "-feature",
   scalacOptions += "-Xplugin-require:macroparadise",
-  addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full)
+  addCompilerPlugin(
+    "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full)
 )
 
 val mllibDependencies = Seq(
-)
+  )
 
 val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % "3.0.1" % "test",
@@ -39,26 +41,27 @@ libraryDependencies ++= commonDependencies
 lazy val mllib = project.in(file("modules/mllib"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies ++ mllibDependencies)
-*/
+ */
 
-lazy val macros = project.in(file("modules/macros"))
+lazy val macros = project
+  .in(file("modules/macros"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
 
-
-lazy val parsers = project.in(file("modules/parser"))
+lazy val parsers = project
+  .in(file("modules/parser"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
 
-
-lazy val app = project.in(file("app"))
+lazy val app = project
+  .in(file("app"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
   .settings(
     name := "scala99",
     version := "0.1"
   )
-  .settings(unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirectory)
+  .settings(
+    unmanagedResourceDirectories in Compile += baseDirectory.value / myResourceDirectory)
   .aggregate(macros, parsers)
   .dependsOn(macros, parsers)
-

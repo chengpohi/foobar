@@ -26,8 +26,9 @@ object ScalazDemo {
     val m: IO[String] = action2.map(i => i.foldLeft("")(_ + _))
     //(program |+| program).unsafePerformIO
   }
-  def program: IO[Unit] = for {
-    line <- readLn
-    _ <- putStrLn(line)
-  } yield ()
+  def program: IO[Unit] =
+    for {
+      line <- readLn
+      _ <- putStrLn(line)
+    } yield ()
 }

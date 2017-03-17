@@ -15,4 +15,3 @@ object AdHocPoly {
     println(1.some | 2)
   }
 }
-

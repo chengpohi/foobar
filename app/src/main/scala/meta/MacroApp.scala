@@ -8,7 +8,8 @@ import mcs.{CaseClassToMap, DynamicMacros, Model, WithIdExample}
   */
 object MacroApp {
   def main(args: Array[String]): Unit = {
-    val dynamicMacros: DynamicMacros = new DynamicMacros(Map("name" -> "chengpohi"))
+    val dynamicMacros: DynamicMacros = new DynamicMacros(
+      Map("name" -> "chengpohi"))
     println(dynamicMacros.name)
     val u = User("chengpohi", Some(123))
     val u2: User = WithIdExample.withId(u, Some(456))

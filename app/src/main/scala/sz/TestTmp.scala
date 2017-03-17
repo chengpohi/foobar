@@ -4,7 +4,6 @@ package sz
   * scala99
   * Created by chengpohi on 7/2/16.
   */
-
 trait Monoid[A] {
   def mappend(a: A, b: A): A
   def mzero: A
@@ -28,7 +27,8 @@ trait FoldLeft[F[_]] {
 
 object FoldLeft {
   implicit object ListFoldLeft extends FoldLeft[List] {
-    override def foldLeft[A, B](xs: List[A], b: B, f: (B, A) => B): B = xs.foldLeft(b)(f)
+    override def foldLeft[A, B](xs: List[A], b: B, f: (B, A) => B): B =
+      xs.foldLeft(b)(f)
   }
 }
 trait MonoidOp[A] {

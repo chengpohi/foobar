@@ -6,19 +6,24 @@ import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.util.MLUtils
 
 /**
- * Linear SVM
- * Created by chengpohi on 5/24/15.
- */
+  * Linear SVM
+  * Created by chengpohi on 5/24/15.
+  */
 object LinearSVM extends App {
-  val conf = new SparkConf().setAppName("Statistical Learn").setMaster("local[2]")
+  val conf =
+    new SparkConf().setAppName("Statistical Learn").setMaster("local[2]")
 
   val sc: SparkContext = new SparkContext(conf)
   // Load training data in LIBSVM format.
-  val data = MLUtils.loadLibSVMFile(sc, "src/main/resources/sample_libsvm_data.txt")
+  val data =
+    MLUtils.loadLibSVMFile(sc, "src/main/resources/sample_libsvm_data.txt")
 
-  data.collect().foreach(t => {
-    println("label: " + t.label + " features:" + t.features.toArray.mkString(", "))
-  })
+  data
+    .collect()
+    .foreach(t => {
+      println(
+        "label: " + t.label + " features:" + t.features.toArray.mkString(", "))
+    })
 
   // Split data into training (60%) and test (40%).
   val splits = data.randomSplit(Array(0.6, 0.4), seed = 11L)

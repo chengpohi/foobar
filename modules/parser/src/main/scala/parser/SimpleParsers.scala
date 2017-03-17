@@ -15,7 +15,9 @@ class SimpleParsers extends RegexParsers {
     _.toInt
   }
 
-  def freq: Parser[WordFreq] = word ~ number ^^ { case wd ~ fr => WordFreq(wd, fr) }
+  def freq: Parser[WordFreq] = word ~ number ^^ {
+    case wd ~ fr => WordFreq(wd, fr)
+  }
 
   val plus: Parser[String] = "+"
 

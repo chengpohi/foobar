@@ -12,12 +12,14 @@ object FastParser {
 
   def eval(tree: (Int, Seq[(String, Int)])) = {
     val (base, ops) = tree
-    ops.foldLeft(base) { case (left, (op, right)) => op match {
-      case "+" => left + right
-      case "-" => left - right
-      case "*" => left * right
-      case "/" => left / right
-    }
+    ops.foldLeft(base) {
+      case (left, (op, right)) =>
+        op match {
+          case "+" => left + right
+          case "-" => left - right
+          case "*" => left * right
+          case "/" => left / right
+        }
     }
   }
 
@@ -40,7 +42,6 @@ object FastParser {
   val withEnd = P("a".rep ~ "b" ~ End)
   val startParser = P((("a" | Start) ~ "b").rep ~ End)
   val finder = P("hay".rep ~ Index ~ "needle" ~ "hay".rep)
-
 
   def printEval(str: String) = {
     expr.parse(str) match {
@@ -120,11 +121,11 @@ object FastParser {
     def errorMessage[T](p: Parser[T], str: String) =
       ParseError(p.parse(str).asInstanceOf[Parsed.Failure]).getMessage
 
-    val numberPlate = P(twice(digit) ~ "-" ~ twice(letter) ~ "-" ~ twice(digit))
+    val numberPlate = P(
+      twice(digit) ~ "-" ~ twice(letter) ~ "-" ~ twice(digit))
     println(errorMessage(numberPlate, "11-A1-22"))
     val opaque = numberPlate.opaque("<number-plate>")
     println(errorMessage(opaque, "11-A1-22"))
-
 
     val logged = mutable.Buffer.empty[String]
     implicit val logger = fastparse.core.Logger(logged.append(_))

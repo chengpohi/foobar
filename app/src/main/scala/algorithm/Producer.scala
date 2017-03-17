@@ -10,8 +10,6 @@ import scala.io.Source
   */
 class Producer(path: String, queue: BlockingQueue[String]) extends Runnable {
   override def run(): Unit = {
-    Source.fromFile(path).getLines().foreach(l =>
-      queue.put(l)
-    )
+    Source.fromFile(path).getLines().foreach(l => queue.put(l))
   }
 }

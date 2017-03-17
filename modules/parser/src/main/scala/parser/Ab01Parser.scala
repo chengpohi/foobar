@@ -4,16 +4,16 @@ import scala.util.parsing.combinator.Parsers
 import scala.util.parsing.input.CharSequenceReader
 
 /**
- * scala-parser-combinator
- * Created by chengpohi on 9/27/15.
- */
+  * scala-parser-combinator
+  * Created by chengpohi on 9/27/15.
+  */
 trait Ab01Parser extends Parsers {
   type Elem = Char
 
   val myParser = repeat(ab01)
 
-  def ab01 = charParser('a') or charParser('b') or charParser('0') or charParser('1')
-
+  def ab01 =
+    charParser('a') or charParser('b') or charParser('0') or charParser('1')
 
   def charParser(expected: Char) = new Parser[Char] {
     def apply(in: Input): ParseResult[Char] = {

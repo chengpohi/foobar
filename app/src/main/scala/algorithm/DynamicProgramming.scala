@@ -10,7 +10,11 @@ object DynamicProgramming {
   }
 
   object fib {
-    lazy val fibs: Stream[BigInt] = BigInt(0) #:: BigInt(1) #:: fibs.zip(fibs.tail).map { f => f._1 + f._2 }
+    lazy val fibs: Stream[BigInt] = BigInt(0) #:: BigInt(1) #:: fibs
+      .zip(fibs.tail)
+      .map { f =>
+        f._1 + f._2
+      }
     def take(n: Int): Stream[BigInt] = fibs take n
     def run(): Unit = {
       println(fib.take(5).toList)

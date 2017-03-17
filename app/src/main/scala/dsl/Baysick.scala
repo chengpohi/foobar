@@ -55,10 +55,12 @@ class Baysick {
   val returnStack = new mutable.Stack[Int]
 
   case class Assignment(s: Symbol) {
-    def :=[A](v: A): () => Unit = () => v match {
-      case v: String => binds.set(s, v)
-      case v: Int => binds.set(s, v)
-    }
+    def :=[A](v: A): () => Unit =
+      () =>
+        v match {
+          case v: String => binds.set(s, v)
+          case v: Int => binds.set(s, v)
+      }
 
     def :=(v: () => Int): () => Unit = () => binds.set(s, v())
   }
@@ -105,13 +107,17 @@ class Baysick {
 
   case class Appendr(lhs: Any) {
     var appendage = lhs match {
-      case sym: Symbol => () => binds.any(sym).toString
+      case sym: Symbol =>
+        () =>
+          binds.any(sym).toString
       case fn: Function0[Any] => fn
-      case _ => () => lhs.toString
+      case _ =>
+        () =>
+          lhs.toString
     }
 
-    def %(rhs: Any): () => String = {
-      () => rhs match {
+    def %(rhs: Any): () => String = { () =>
+      rhs match {
         case sym: Symbol => stringify(appendage(), binds.any(sym))
         case fn: Function0[Any] => stringify(appendage(), fn())
         case _ => stringify(appendage(), rhs)
@@ -185,8 +191,7 @@ class Baysick {
         // Temporary hack
         try {
           binds.set(name, java.lang.Integer.parseInt(entry))
-        }
-        catch {
+        } catch {
           case _: Throwable => binds.set(name, entry)
         }
 
@@ -199,8 +204,7 @@ class Baysick {
       case If(_, fn: Function0[Boolean], thenJmp: Int) => {
         if (fn()) {
           gotoLine(thenJmp)
-        }
-        else {
+        } else {
           gotoLine(line + 10)
         }
       }
@@ -223,11 +227,13 @@ class Baysick {
 
   implicit def symbol2Assignment(sym: Symbol) = Assignment(sym)
 
-  implicit def symbol2BinaryRelation(sym: Symbol) = BinaryRelation(() => binds.num(sym))
+  implicit def symbol2BinaryRelation(sym: Symbol) =
+    BinaryRelation(() => binds.num(sym))
 
   implicit def fnOfInt2BinaryRelation(fn: () => Int) = BinaryRelation(fn)
 
-  implicit def symbol2MathFunction(sym: Symbol) = MathFunction(() => binds.num(sym))
+  implicit def symbol2MathFunction(sym: Symbol) =
+    MathFunction(() => binds.num(sym))
 
   implicit def fnOfInt2MathFunction(fn: () => Int) = MathFunction(fn)
 

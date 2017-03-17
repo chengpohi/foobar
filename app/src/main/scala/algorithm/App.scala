@@ -15,7 +15,9 @@ object App {
 
     val core = 4
     val pool = Executors.newFixedThreadPool(4)
-    Range.apply(0, core).foreach(t => pool.submit(new IndexConsumer(index, queue)))
+    Range
+      .apply(0, core)
+      .foreach(t => pool.submit(new IndexConsumer(index, queue)))
 
     val searcher = new SearchEngine(index)
     new Thread(searcher).start()

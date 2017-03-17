@@ -11,7 +11,8 @@ class SearchEngine(index: InvertedIndex) extends Runnable {
     while (true) {
       println("Input User Name:")
       val input = StdIn.readLine()
-      println(index.userMap.getOrElse(input.trim.toLowerCase, "Sorry Not Found"))
+      println(
+        index.userMap.getOrElse(input.trim.toLowerCase, "Sorry Not Found"))
     }
   }
 }

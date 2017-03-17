@@ -1,9 +1,9 @@
 package parser
 
 /**
- * scala-parser-combinator
- * Created by chengpohi on 12/24/15.
- */
+  * scala-parser-combinator
+  * Created by chengpohi on 12/24/15.
+  */
 object JsonParser {
   import fastparse.all._
 
@@ -31,18 +31,18 @@ object JsonParser {
   val escape = P("\\" ~ (CharIn("\"/\\bfnrt") | unicodeEscape))
 
   val strChars = P(CharsWhile(StringChars))
-  val string = P (space ~ "\"" ~/ (strChars | escape).rep.! ~ "\"").map(Js.Str)
-  val array = P("[" ~ jsonExpr.rep(sep=",".~/) ~ space ~ "]").map(Js.Arr(_:_*))
+  val string = P(space ~ "\"" ~/ (strChars | escape).rep.! ~ "\"").map(Js.Str)
+  val array =
+    P("[" ~ jsonExpr.rep(sep = ",".~/) ~ space ~ "]").map(Js.Arr(_: _*))
   val pair = P(string.map(_.value) ~/ ":" ~/ jsonExpr)
-  val obj = P("{" ~/ pair.rep(sep=",".~/) ~ space ~ "}").map(Js.Obj(_:_*))
+  val obj = P("{" ~/ pair.rep(sep = ",".~/) ~ space ~ "}").map(Js.Obj(_: _*))
 
   val jsonExpr: P[Js.Val] = P(
     space ~ (obj | array | string | `true` | `false` | `null` | number) ~ space
   )
 
   def main(args: Array[String]): Unit = {
-    println(jsonExpr.parse(
-      """{
+    println(jsonExpr.parse("""{
         |"omg": "123",
         |"wtf": 12.4123,
         |"names": ["jack", "jason"],

@@ -15,12 +15,15 @@ object LogisticRegressionApp extends App {
     .master("local[4]")
     .getOrCreate()
   // Prepare training data from a list of (label, features) tuples.
-  val training = spark.createDataFrame(Seq(
-    (1.0, Vectors.dense(0.0, 1.1, 0.1)),
-    (0.0, Vectors.dense(2.0, 1.0, -1.0)),
-    (0.0, Vectors.dense(2.0, 1.3, 1.0)),
-    (1.0, Vectors.dense(0.0, 1.2, -0.5))
-  )).toDF("label", "features")
+  val training = spark
+    .createDataFrame(
+      Seq(
+        (1.0, Vectors.dense(0.0, 1.1, 0.1)),
+        (0.0, Vectors.dense(2.0, 1.0, -1.0)),
+        (0.0, Vectors.dense(2.0, 1.3, 1.0)),
+        (1.0, Vectors.dense(0.0, 1.2, -0.5))
+      ))
+    .toDF("label", "features")
 
   // Create a LogisticRegression instance. This instance is an Estimator.
   val lr = new LogisticRegression()
@@ -56,21 +59,29 @@ object LogisticRegressionApp extends App {
   println("Model 2 was fit using parameters: " + model2.parent.extractParamMap)
 
   // Prepare test data.
-  val test = spark.createDataFrame(Seq(
-    (1.0, Vectors.dense(-1.0, 1.5, 1.3)),
-    (0.0, Vectors.dense(3.0, 2.0, -0.1)),
-    (1.0, Vectors.dense(0.0, 2.2, -1.5))
-  )).toDF("label", "features")
+  val test = spark
+    .createDataFrame(
+      Seq(
+        (1.0, Vectors.dense(-1.0, 1.5, 1.3)),
+        (0.0, Vectors.dense(3.0, 2.0, -0.1)),
+        (1.0, Vectors.dense(0.0, 2.2, -1.5))
+      ))
+    .toDF("label", "features")
 
   // Make predictions on test data using the Transformer.transform() method.
   // LogisticRegression.transform will only use the 'features' column.
   // Note that model2.transform() outputs a 'myProbability' column instead of the usual
   // 'probability' column since we renamed the lr.probabilityCol parameter previously.
-  model2.transform(test)
+  model2
+    .transform(test)
     .select("features", "label", "myProbability", "prediction")
     .collect()
-    .foreach { case Row(features: Vector, label: Double, prob: Vector, prediction: Double) =>
-      println(s"($features, $label) -> prob=$prob, prediction=$prediction")
+    .foreach {
+      case Row(features: Vector,
+               label: Double,
+               prob: Vector,
+               prediction: Double) =>
+        println(s"($features, $label) -> prob=$prob, prediction=$prediction")
     }
 
 }

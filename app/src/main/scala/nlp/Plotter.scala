@@ -33,8 +33,9 @@ object FigureDSL {
     }
   }
 
-  case class HistPlotBuilder[D, V](data: D)(implicit xv: DomainFunction[D, Int, V], vv: V => Double)
-    extends PlotBuilder {
+  case class HistPlotBuilder[D, V](
+      data: D)(implicit xv: DomainFunction[D, Int, V], vv: V => Double)
+      extends PlotBuilder {
     def bins(b: Int) = {
       series += breeze.plot.hist(data, b)
       this
@@ -42,7 +43,9 @@ object FigureDSL {
 
   }
 
-  case class LinePlotBuilder[D, V](x: D)(implicit xv: DomainFunction[D, Int, V], vv: V => Double) extends PlotBuilder {
+  case class LinePlotBuilder[D, V](
+      x: D)(implicit xv: DomainFunction[D, Int, V], vv: V => Double)
+      extends PlotBuilder {
     def Y(y: D) = {
       series += plot(x, y)
       this
@@ -50,11 +53,13 @@ object FigureDSL {
   }
 
   case object hist {
-    def data[D, V](d: D)(implicit xv: DomainFunction[D, Int, V], vv: V => Double) = HistPlotBuilder(d)
+    def data[D, V](d: D)(implicit xv: DomainFunction[D, Int, V],
+                         vv: V => Double) = HistPlotBuilder(d)
   }
 
   case object line {
-    def X[D, V](x: D)(implicit xv: DomainFunction[D, Int, V], vv: V => Double) = LinePlotBuilder(x)
+    def X[D, V](x: D)(implicit xv: DomainFunction[D, Int, V],
+                      vv: V => Double) = LinePlotBuilder(x)
   }
 }
 

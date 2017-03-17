@@ -24,7 +24,6 @@ object ApplyU extends App {
 
   Apply[List].tuple3(List(1, 2, 3), List("a", "b"), List(())).println
 
-
   import scalaz.syntax.apply._
 
   val plus1: Int => Int = _ + 1
@@ -32,10 +31,9 @@ object ApplyU extends App {
 
   (List(1, 2, 3) <*> List(plus1, plus2)).println // f: F[A => B]
   Apply[List].ap(List(1, 2, 3))(List(plus1, plus2)).println
-  (some(1) |@| some(2) |@| some(3)) (_ + _ + _).println
-  (some(1) |@| none[Int] |@| some(3)) (_ + _ + _).println
+  (some(1) |@| some(2) |@| some(3))(_ + _ + _).println
+  (some(1) |@| none[Int] |@| some(3))(_ + _ + _).println
   (List(1, 2, 3) |@| List("a", "b", "c")).tupled.println
-
 
   import scalaz.{Writer, DList}
   import scalaz.syntax.writer._
@@ -45,7 +43,6 @@ object ApplyU extends App {
   // log a message, return no results (hence Unit)
   def log(message: String): Logged[Unit] = DList(message).tell
 
-
   // log that we are adding, and return the results of adding x and y
   def compute(x: Int, y: Int): Logged[Int] =
     log("adding " + x + " and " + y) as (x + y)
@@ -53,17 +50,18 @@ object ApplyU extends App {
   def addAndLog(x: Int, y: Int): Logged[Int] =
     log("begin") *> compute(x, y) <* log("end")
 
-
   val (written, result) = addAndLog(1, 2).run
   written.toList.println
   result.println
 
-
   val applyVLO = Apply[Vector] compose Apply[List] compose Apply[Option]
-  applyVLO.apply2(Vector(
-    List(1.some, none[Int]),
-    List(2.some, 3.some)
-  ), Vector(
-    List("a".some, "b".some, "c".some)
-  ))(_.toString + _).println
+  applyVLO
+    .apply2(Vector(
+              List(1.some, none[Int]),
+              List(2.some, 3.some)
+            ),
+            Vector(
+              List("a".some, "b".some, "c".some)
+            ))(_.toString + _)
+    .println
 }

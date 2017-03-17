@@ -6,7 +6,8 @@ import org.apache.spark.{SparkConf, SparkContext}
   */
 object QuickStart {
   def main(args: Array[String]): Unit = {
-    val conf = new SparkConf().setAppName("Simple Application").setMaster("local[4]")
+    val conf =
+      new SparkConf().setAppName("Simple Application").setMaster("local[4]")
     val sc = new SparkContext(conf)
     val content: RDD[String] = sc.textFile("build.sbt")
     content.foreach(println)

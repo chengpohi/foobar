@@ -19,5 +19,3 @@ object Search {
     matrix.routes(start, end).get.foreach(println)
   }
 }
-
-

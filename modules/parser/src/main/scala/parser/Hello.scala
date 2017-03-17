@@ -1,9 +1,9 @@
 package parser
 
 /**
- * scala-parser-combinator
- * Created by chengpohi on 12/14/15.
- */
+  * scala-parser-combinator
+  * Created by chengpohi on 12/14/15.
+  */
 object Hello {
 
   case class Expr()
@@ -14,8 +14,8 @@ object Hello {
   import fastparse.noApi._
 
   val dummyExpr = P("myexpr")
-  val expr: Parser[Expr] = P( dummyExpr | let ).!.map(_ => Expr())
-  val let = P( "let" ~ identifier ~ "=" ~ expr ~ "in" ~ expr ~ End ).map {
+  val expr: Parser[Expr] = P(dummyExpr | let).!.map(_ => Expr())
+  val let = P("let" ~ identifier ~ "=" ~ expr ~ "in" ~ expr ~ End).map {
     case (ident, lhs, rhs) => Let(ident, lhs, rhs)
   }
   val identifier = P(CharIn('a' to 'z', 'A' to 'Z', "_'").rep(1)).!

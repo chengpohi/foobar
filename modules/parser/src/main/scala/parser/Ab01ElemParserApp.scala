@@ -8,6 +8,7 @@ import scala.util.parsing.input.CharSequenceReader
   */
 object Ab01ElemParserApp extends Ab01ElemParser {
   def main(args: Array[String]): Unit = {
-    myParser(new CharSequenceReader("ab01ab01ab01")).get.foreach(c => println(c))
+    myParser(new CharSequenceReader("ab01ab01ab01")).get.foreach(c =>
+      println(c))
   }
 }

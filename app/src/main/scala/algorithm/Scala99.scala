@@ -51,11 +51,17 @@ class Scala99 {
   }
 
   def duplicate[T](list: List[T]): List[T] = {
-    list.groupBy(a => a).toList.flatMap(f => (for (i <- 1 to f._2.size * 2) yield f._1).toList)
+    list
+      .groupBy(a => a)
+      .toList
+      .flatMap(f => (for (i <- 1 to f._2.size * 2) yield f._1).toList)
   }
 
   def duplicate[T](list: List[T], n: Int): List[T] = {
-    list.groupBy(a => a).toList.flatMap(f => (for (i <- 1 to f._2.size * n) yield f._1).toList)
+    list
+      .groupBy(a => a)
+      .toList
+      .flatMap(f => (for (i <- 1 to f._2.size * n) yield f._1).toList)
   }
 
   def remove[T](list: List[T], i: Int): List[T] = {
@@ -147,7 +153,11 @@ class Scala99 {
   }
 
   def primeFactorsMulti(n: Int): List[(Int, Int)] = {
-    primeFactors(n).groupBy(i => i).map(i => (i._1, i._2.size)).toList.sortBy(i => i._1)
+    primeFactors(n)
+      .groupBy(i => i)
+      .map(i => (i._1, i._2.size))
+      .toList
+      .sortBy(i => i._1)
   }
 
   def primeRange(start: Int, end: Int): List[Int] = {
@@ -180,11 +190,7 @@ class Scala99 {
     val c = List(0, 1)
 
     def bits(n: Int): List[List[Int]] = n match {
-      case x if x > 1 => c.flatMap(i =>
-        bits(n - 1).map(b =>
-          i :: b
-        )
-      )
+      case x if x > 1 => c.flatMap(i => bits(n - 1).map(b => i :: b))
       case 1 => c.map(i => List(i))
     }
 
@@ -195,9 +201,13 @@ class Scala99 {
     def huffmanNode[T](fre: List[Node[T]]): Node[T] = {
       fre.sortBy(f => f.value) match {
         case left :: (right :: l) =>
-          val newFre: List[Node[T]] = Node(Some(left), Some(right), left.value + left.value, None) :: l
+          val newFre: List[Node[T]] = Node(Some(left),
+                                           Some(right),
+                                           left.value + left.value,
+                                           None) :: l
           huffmanNode(newFre)
-        case List(left, right) => Node[T](Some(left), Some(right), left.value + right.value, None)
+        case List(left, right) =>
+          Node[T](Some(left), Some(right), left.value + right.value, None)
         case List(result) => result
       }
     }
@@ -208,13 +218,16 @@ class Scala99 {
           val l = traverse(left).map(t => (t._1, "0" + t._2))
           val r = traverse(right).map(t => (t._1, "1" + t._2))
           l ::: r
-        case Node(Some(left), None, value, key) => traverse(left).map(t => (t._1, "0" + t._2))
-        case Node(None, Some(right), value, key) => traverse(right).map(t => (t._1, "1" + t._2))
+        case Node(Some(left), None, value, key) =>
+          traverse(left).map(t => (t._1, "0" + t._2))
+        case Node(None, Some(right), value, key) =>
+          traverse(right).map(t => (t._1, "1" + t._2))
         case Node(None, None, value, Some(key)) => List((key, ""))
       }
     }
 
-    val node: List[Node[T]] = fre.sortBy(t => t._2).map(f => Node(None, None, f._2, Some(f._1)))
+    val node: List[Node[T]] =
+      fre.sortBy(t => t._2).map(f => Node(None, None, f._2, Some(f._1)))
     val n = huffmanNode(node)
     traverse(n)
   }
@@ -232,7 +245,8 @@ class Scala99 {
       n match {
         case 1 => List(Node(None, None, 1, Some("leaf")))
         case 2 =>
-          List(Node(None, Some(generateNode(1).head), 1, Some("node")), Node(Some(generateNode(1).head), None, 1, Some("node")))
+          List(Node(None, Some(generateNode(1).head), 1, Some("node")),
+               Node(Some(generateNode(1).head), None, 1, Some("node")))
         case n1 if n1 % 2 == 0 =>
           val n2: Int = (n1 - 1) % 2 + 1
           val n3: Int = (n1 - 1) % 2
@@ -241,21 +255,26 @@ class Scala99 {
           val right1 = generateNode(n3)
           val left2 = generateNode(n3)
           val right2 = generateNode(n2)
-          val l1 = left1.flatMap(l => right1.map(r => Node(Some(l), Some(r), 1, Some("node"))))
-          val l2 = left2.flatMap(l => right2.map(r => Node(Some(l), Some(r), 1, Some("node"))))
+          val l1 = left1.flatMap(l =>
+            right1.map(r => Node(Some(l), Some(r), 1, Some("node"))))
+          val l2 = left2.flatMap(l =>
+            right2.map(r => Node(Some(l), Some(r), 1, Some("node"))))
           l1 ::: l2
         case n1 if n1 % 2 == 1 =>
           val nodes: Int = (n1 - 1) / 2
           val left = generateNode(nodes)
           val right = generateNode(nodes)
-          left.flatMap(l => right.map(r => Node(Some(l), Some(r), 1, Some("node"))))
+          left.flatMap(l =>
+            right.map(r => Node(Some(l), Some(r), 1, Some("node"))))
       }
     }
 
     generateNode(number)
   }
 
-  val fibs: Stream[BigInt] = BigInt(0) #:: BigInt(1) #:: fibs.zip(fibs.tail).map(t => t._1 + t._2)
+  val fibs: Stream[BigInt] = BigInt(0) #:: BigInt(1) #:: fibs
+    .zip(fibs.tail)
+    .map(t => t._1 + t._2)
 
   def fibsNoMemoization: Stream[BigInt] = {
     var xs: Stream[BigInt] = Stream.empty
@@ -267,17 +286,20 @@ class Scala99 {
 
     fib(1, 1)
   }
-  val fibi: Iterator[BigInt] = Iterator.iterate((0, 1)) { case (x, y) => (y, x + y) }.map(_._1)
+  val fibi: Iterator[BigInt] =
+    Iterator.iterate((0, 1)) { case (x, y) => (y, x + y) }.map(_._1)
 
   //F(2n-1) = F(n)² + F(n-1)²
   //F(2n) = (2F(n-1) + F(n))*F(n)
   def fibFormula(n: Int): BigInt = {
-    def fibs(n: Int): (BigInt, BigInt) = if (n == 1) (1, 0) else {
-      val (a, b) = fibs(n / 2)
-      val p = (2 * b + a) * a
-      val q = a * a + b * b
-      if (n % 2 == 0) (p, q) else (p + q, p)
-    }
+    def fibs(n: Int): (BigInt, BigInt) =
+      if (n == 1) (1, 0)
+      else {
+        val (a, b) = fibs(n / 2)
+        val p = (2 * b + a) * a
+        val q = a * a + b * b
+        if (n % 2 == 0) (p, q) else (p + q, p)
+      }
 
     fibs(n)._1
   }

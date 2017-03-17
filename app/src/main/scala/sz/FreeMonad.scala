@@ -9,9 +9,9 @@ import scalaz.syntax.traverse._
 import scalaz.{Free, Id, ~>}
 
 /**
- * scala99
- * Created by chengpohi on 3/17/16.
- */
+  * scala99
+  * Created by chengpohi on 3/17/16.
+  */
 object FreeMonad {
   type UserId = Int
   type UserName = String
@@ -36,44 +36,47 @@ object FreeMonad {
 object TestInterpreter extends (Request ~> Id.Id) {
   import Id._
 
-  override def apply[A](fa: Request[A]): Id[A] =  fa match {
-    case Request(service) => service match {
-      case GetTweets(userId) =>
-        println(s"Get Tweets by userId $userId")
-        List(Tweet(1, "hello world"), Tweet(2, "foo bar"))
-      case GetUserName(userId) =>
-        println(s"Get UserName $userId")
-        userId match {
-          case 1 => "name1"
-          case 2 => "name2"
-          case _ => "I don't know"
-        }
-      case GetUserPhoto(userId) =>
-        println(s"Get Photo $userId")
-        userId match {
-          case 1 => "photo1"
-          case 2 => "photo2"
-          case _ => "photo3"
-        }
-    }
+  override def apply[A](fa: Request[A]): Id[A] = fa match {
+    case Request(service) =>
+      service match {
+        case GetTweets(userId) =>
+          println(s"Get Tweets by userId $userId")
+          List(Tweet(1, "hello world"), Tweet(2, "foo bar"))
+        case GetUserName(userId) =>
+          println(s"Get UserName $userId")
+          userId match {
+            case 1 => "name1"
+            case 2 => "name2"
+            case _ => "I don't know"
+          }
+        case GetUserPhoto(userId) =>
+          println(s"Get Photo $userId")
+          userId match {
+            case 1 => "photo1"
+            case 2 => "photo2"
+            case _ => "photo3"
+          }
+      }
   }
 
 }
 
 object RunFreeMonad {
-  def getUser(userId: UserId): Free[Request, FreeMonad.User] = for {
-    name <- fetch(GetUserName(userId))
-    photo <- fetch(GetUserPhoto(userId))
-  } yield FreeMonad.User(userId, name, photo)
+  def getUser(userId: UserId): Free[Request, FreeMonad.User] =
+    for {
+      name <- fetch(GetUserName(userId))
+      photo <- fetch(GetUserPhoto(userId))
+    } yield FreeMonad.User(userId, name, photo)
 
-  def free(id: UserId): Free[Request, List[(String, FreeMonad.User)]] = for {
-    tweets <- fetch(GetTweets(id))
-    result <- tweets.map { tweet: Tweet =>
-      for {
-        user <- getUser(tweet.userId)
-      } yield tweet.msg -> user
-    }.sequenceU
-  } yield result
+  def free(id: UserId): Free[Request, List[(String, FreeMonad.User)]] =
+    for {
+      tweets <- fetch(GetTweets(id))
+      result <- tweets.map { tweet: Tweet =>
+        for {
+          user <- getUser(tweet.userId)
+        } yield tweet.msg -> user
+      }.sequenceU
+    } yield result
 
   def main(args: Array[String]): Unit = {
     import scala.concurrent.ExecutionContext.Implicits.global

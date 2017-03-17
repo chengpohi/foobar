@@ -32,7 +32,7 @@ object ToCanIsTruthyOps {
     }
 }
 
-object ScalazApp extends App{
+object ScalazApp extends App {
   import ToCanIsTruthyOps._
   implicit val intCanTruthy: CanTruthy[Int] = CanTruthy.truthys({
     case 0 => false
@@ -54,18 +54,18 @@ object ScalazApp extends App{
   println(red === yellow)
   println(10.truthy)
   val xs = List(1, 2, 3, 4)
-  val cs = xs map {(_: Int) * (_: Int)}.curried
-  val r = cs map {_(9)}
+  val cs = xs map { (_: Int) * (_: Int) }.curried
+  val r = cs map { _(9) }
   r.println
   xs.point[List].println //
   xs.point[Option].println
-  (9.some <*> {(_: Int) + 3}.some).println
+  (9.some <*> { (_: Int) + 3 }.some).println
   (1.some <* 2.some).println
   println(none <* 2.some)
   (1.some *> 2.some).println
-  println(3.some <*> { 9.some <*> {(_: Int) + (_: Int)}.curried.some })
-  println(^(3.some, 5.some) {_ + _})
-  println((3.some |@| 5.some) { _ + _})
+  println(3.some <*> { 9.some <*> { (_: Int) + (_: Int) }.curried.some })
+  println(^(3.some, 5.some) { _ + _ })
+  println((3.some |@| 5.some) { _ + _ })
 }
 
 case class TrafficLight(name: String)

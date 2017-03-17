@@ -7,7 +7,10 @@ import scala.util.parsing.input.CharSequenceReader
   * scala-parser-combinator
   * Created by chengpohi on 10/4/15.
   */
-class ExpressionParsersTest extends FlatSpec with ExpressionParsers with Matchers {
+class ExpressionParsersTest
+    extends FlatSpec
+    with ExpressionParsers
+    with Matchers {
   private def parsing[T](s: String)(implicit p: Parser[T]): T = {
     //wrap the parser in the phrase parse to make sure all input is consumed
     val phraseParser = phrase(p)
@@ -15,8 +18,9 @@ class ExpressionParsersTest extends FlatSpec with ExpressionParsers with Matcher
     val input = new CharSequenceReader(s)
     phraseParser(input) match {
       case Success(t, _) => t
-      case NoSuccess(msg, _) => throw new IllegalArgumentException(
-        "Could not parse '" + s + "': " + msg)
+      case NoSuccess(msg, _) =>
+        throw new IllegalArgumentException(
+          "Could not parse '" + s + "': " + msg)
     }
   }
 
@@ -90,7 +94,6 @@ class ExpressionParsersTest extends FlatSpec with ExpressionParsers with Matcher
     assertFail("")
   }
 
-
   they should "parse literal" in {
     implicit val parserToTest = literal
     parsing("true") should equal(BooleanLiteral(true))
@@ -105,6 +108,5 @@ class ExpressionParsersTest extends FlatSpec with ExpressionParsers with Matcher
       println(u)
     })
   }
-
 
 }

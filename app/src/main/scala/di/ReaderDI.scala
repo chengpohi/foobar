@@ -36,27 +36,29 @@ object UserInfo extends Users {
     for {
       user <- findUser(username)
       boss <- getUser(user.supervisorId)
-    } yield Map(
-      "fullName" -> s"${user.firstName} ${user.lastName}",
-      "email" -> s"${user.email}",
-      "boss" -> s"${boss.firstName} ${boss.lastName}"
-    )
+    } yield
+      Map(
+        "fullName" -> s"${user.firstName} ${user.lastName}",
+        "email" -> s"${user.email}",
+        "boss" -> s"${boss.firstName} ${boss.lastName}"
+      )
 }
 
 trait Users {
 
   import scalaz.Reader
 
-  def getUser(id: Int) = Reader((userRepository: UserRepository) =>
-    userRepository.get(id)
-  )
+  def getUser(id: Int) =
+    Reader((userRepository: UserRepository) => userRepository.get(id))
 
-  def findUser(username: String) = Reader((userRepository: UserRepository) =>
-    userRepository.find(username)
-  )
+  def findUser(username: String) =
+    Reader((userRepository: UserRepository) => userRepository.find(username))
 }
 
-case class User(email: String, supervisorId: Int, firstName: String, lastName: String)
+case class User(email: String,
+                supervisorId: Int,
+                firstName: String,
+                lastName: String)
 
 trait UserRepository {
   def get(id: Int): User

@@ -7,6 +7,6 @@ package mcs
 import scala.language.dynamics
 import scala.language.experimental.macros
 
-class DynamicMacros(fields: Map[String, Any]) extends Dynamic{
+class DynamicMacros(fields: Map[String, Any]) extends Dynamic {
   def selectDynamic(fieldName: String) = fields(fieldName)
 }

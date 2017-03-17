@@ -5,12 +5,12 @@ import fastparse.WhitespaceApi
 import scala.io.StdIn._
 
 /**
- * scala-parser-combinator
- * Created by chengpohi on 12/18/15.
- */
+  * scala-parser-combinator
+  * Created by chengpohi on 12/18/15.
+  */
 object SumParser {
 
-  val White = WhitespaceApi.Wrapper{
+  val White = WhitespaceApi.Wrapper {
     import fastparse.all._
     NoTrace(" ".rep)
   }
@@ -20,8 +20,8 @@ object SumParser {
 
   val number: P[Int] = P(CharIn('0' to '9').rep(1)).!.map(_.toInt)
   val parens: P[Int] = P("(" ~/ addSub ~ ")")
-  val sqrt: P[Int] = P("sqrt" ~ number ).map(Math.sqrt(_).toInt)
-  val sqrtQ: P[Int] = P("sqrt" ~ number ~/ "id" ).map( Math.sqrt(_).toInt)
+  val sqrt: P[Int] = P("sqrt" ~ number).map(Math.sqrt(_).toInt)
+  val sqrtQ: P[Int] = P("sqrt" ~ number ~/ "id").map(Math.sqrt(_).toInt)
   val factor: P[Int] = P(number | parens | sqrt | sqrtQ)
 
   val divMul: P[Int] = P(factor ~ (CharIn("*/").! ~/ factor).rep).map(eval)
@@ -32,12 +32,13 @@ object SumParser {
   def eval(tree: (Int, Seq[(String, Int)])): Int = {
     val (base, ops) = tree
     ops.foldLeft(base) {
-      case (left, (op, right)) => op match {
-        case "+" => left + right
-        case "-" => left - right
-        case "*" => left * right
-        case "/" => left / right
-      }
+      case (left, (op, right)) =>
+        op match {
+          case "+" => left + right
+          case "-" => left - right
+          case "*" => left * right
+          case "/" => left / right
+        }
     }
   }
 
@@ -53,7 +54,7 @@ object SumParser {
     println(expr.parse("(8 - 2)*sqrt 4").get)
     println(expr.parse("(8 - 2)*sqrt 4 id").get)
 
-    while(true) {
+    while (true) {
       val str = readLine()
       if (str == "exit") System.exit(0)
       println(expr.parse(str).get)

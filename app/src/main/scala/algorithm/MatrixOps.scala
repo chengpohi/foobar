@@ -38,7 +38,8 @@ object MatrixOps {
         return appendStart(start, (right.get ++ down.get).some)
       None
     }
-    def appendStart(start: (Int, Int), right: Option[List[List[(Int, Int)]]]): Option[List[List[(Int, Int)]]] = {
+    def appendStart(start: (Int, Int), right: Option[List[List[(Int, Int)]]])
+      : Option[List[List[(Int, Int)]]] = {
       right.map(i => i.map(j => start +: j))
     }
     def next(start: (Int, Int), end: XY): Option[List[List[XY]]] = {
@@ -68,8 +69,9 @@ object MatrixOps {
       }
     }
 
-    def next(x: Int) = denseMatrix(x, ::).inner.toArray.toList.zipWithIndex
-      .filter(a => a._1 != 0 & a._2 > x)
-      .map(_._2)
+    def next(x: Int) =
+      denseMatrix(x, ::).inner.toArray.toList.zipWithIndex
+        .filter(a => a._1 != 0 & a._2 > x)
+        .map(_._2)
   }
 }

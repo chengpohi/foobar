@@ -13,10 +13,11 @@ class Crawler {
 
   import IngestMonad._
 
-  def get(url: String): Free[Request, IngestMonad.IngestDocument] = for {
-    webdoc <- fetch(GetDoc(url))
-    result <- fetch(TokenizeWords(webdoc))
-  } yield result
+  def get(url: String): Free[Request, IngestMonad.IngestDocument] =
+    for {
+      webdoc <- fetch(GetDoc(url))
+      result <- fetch(TokenizeWords(webdoc))
+    } yield result
 
   def crawl(urls: List[Seed]): DocSet = DocSet(urls.par.map(s => crawl(s.url)))
   def crawl(s: String) = get(s).foldMap(AnalyzerInterpreter)

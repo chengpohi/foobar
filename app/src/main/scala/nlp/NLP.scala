@@ -14,10 +14,11 @@ object NLP {
     import DocSetAlgorithm.IDF
     println(docs.head tf "stakeholders")
     println(docs idf "stakeholders")
-    docs.tfIdf("stakeholders").foreach(i => {
-      println(i._2)
-    })
+    docs
+      .tfIdf("stakeholders")
+      .foreach(i => {
+        println(i._2)
+      })
   }
-
 
 }

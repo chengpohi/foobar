@@ -5,9 +5,10 @@ package algorithm
   * Created by chengpohi on 8/17/16.
   */
 object OJ {
-  def primeStream(s: Stream[Int]): Stream[BigInt] = s.head #:: primeStream(s.tail filter {
-    _ % s.head != 0
-  })
+  def primeStream(s: Stream[Int]): Stream[BigInt] =
+    s.head #:: primeStream(s.tail filter {
+      _ % s.head != 0
+    })
   val primes = primeStream(Stream.from(2))
 
   def primeFactors(r: Stream[BigInt], n: BigInt): Stream[BigInt] = {

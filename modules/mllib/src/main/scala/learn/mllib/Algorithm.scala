@@ -1,9 +1,9 @@
 package learn.mllib
 
 /**
- * mllib
- * Created by chengpohi on 8/18/15.
- */
+  * mllib
+  * Created by chengpohi on 8/18/15.
+  */
 object Algorithm {
   //get the mean of numbers
   def mean[T](x: Array[T])(implicit num: Numeric[T]): Double = {

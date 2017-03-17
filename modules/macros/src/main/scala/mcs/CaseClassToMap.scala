@@ -2,6 +2,7 @@ package mcs
 
 import scala.language.experimental.macros
 import scala.language.dynamics
+
 /**
   * Default (Template) Project
   * Created by chengpohi on 7/2/16.
