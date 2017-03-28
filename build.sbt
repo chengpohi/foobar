@@ -17,11 +17,12 @@ val commonSetting = Seq(
   scalacOptions += "-feature",
   scalacOptions += "-Xplugin-require:macroparadise",
   addCompilerPlugin(
-    "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full)
+    "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
+  addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3")
 )
 
 val mllibDependencies = Seq(
-  )
+)
 
 val commonDependencies = Seq(
   "org.scalatest" %% "scalatest" % "3.0.1" % "test",
