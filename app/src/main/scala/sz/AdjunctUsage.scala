@@ -1,7 +1,7 @@
 package sz
 
+import scalaz.Scalaz._
 import scalaz._
-import Scalaz._
 
 
 object AdjunctUsage extends App {

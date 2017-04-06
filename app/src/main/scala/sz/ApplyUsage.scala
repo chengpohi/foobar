@@ -3,7 +3,7 @@ package sz
 import scalaz._
 import Scalaz._
 
-object ApplyU extends App {
+object ApplyUsage extends App {
   val intToString: Int => String = _.toString
   val double: Int => Int = _ * 2
   val addTwo: Int => Int = _ + 2
