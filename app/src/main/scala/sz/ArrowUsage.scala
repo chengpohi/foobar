@@ -7,6 +7,9 @@ object ArrowUsage extends App {
   val plus1 = (_: Int) + 1
   val plus2 = (_: Int) + 2
   val rev = (_: String).reverse
+
+  //Arrow is function in the `Morphism`
+  //Applying first on the Function1 arrow.
   (plus1.first apply (1, "abc")).println
   (plus1.second apply ("abc", 2)).println
   (rev.second apply (1, "abc")).println

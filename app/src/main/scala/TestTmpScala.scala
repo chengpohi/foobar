@@ -1,5 +1,3 @@
-package sz
-
 /**
   * scala99
   * Created by chengpohi on 7/2/16.
@@ -37,7 +35,7 @@ trait MonoidOp[A] {
   def |+|(a2: A) = F.mappend(value, a2)
 }
 
-object TestTmp {
+object TestTmpScala {
   implicit def toMonoidOp[A: Monoid](a: A): MonoidOp[A] = new MonoidOp[A] {
     val F = implicitly[Monoid[A]]
     val value = a
