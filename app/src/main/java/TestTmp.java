@@ -4,6 +4,8 @@
  */
 public class TestTmp {
     public static void main(String[] args) {
+        TestFunctionalInterface<String> testFunctionalInterface = String::toUpperCase;
+        testFunctionalInterface.apply("asdf");
         int[] a = new int[]{1, 2, 3};
         Foo foo1 = new Foo(a);
         System.out.println(a[0]);
@@ -14,11 +16,12 @@ public class TestTmp {
         System.out.println(aDog);
 
         if (aDog.getName().equals("Max")) { //true
-            System.out.println( "Java passes by value." );
+            System.out.println("Java passes by value.");
         } else if (aDog.getName().equals("Fifi")) {
-            System.out.println( "Java passes by reference." );
+            System.out.println("Java passes by reference.");
         }
     }
+
     public static void foo(Dog d) {
         d.getName().equals("Max"); // true
         d = new Dog("Fifi");
@@ -30,6 +33,7 @@ public class TestTmp {
 
 class Foo {
     public int[] a;
+
     public Foo(int[] a) {
         this.a = a;
         a[0] = 5;
