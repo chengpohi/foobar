@@ -2,7 +2,10 @@
  * scala99
  * Created by chengpohi on 6/25/16.
  */
-public class TestTmp {
+public class TestTmp<T> {
+    public TestTmp(TestFunctionalInterface<T> testFunctionalInterface) {
+    }
+
     public static void main(String[] args) {
         TestFunctionalInterface<String> testFunctionalInterface = String::toUpperCase;
         testFunctionalInterface.apply("asdf");

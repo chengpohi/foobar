@@ -5,13 +5,10 @@ import scala.reflect.runtime.universe._
   * Created by chengpohi on 9/20/16.
   */
 
-class A(a: TestFunctionalInterface[String])
-
-class B(c: String => String) extends A((t: String) => c.apply(t))
+class B(c: String => String) extends TestTmp((s: String) => c.apply(s))
 
 object TestFooBar {
 
-  case class A(attr1: String)
 
   def foo[T](t: T)(implicit typeTag: TypeTag[T]): Any = {
     typeTag.tpe.members
@@ -19,10 +16,6 @@ object TestFooBar {
 
   def main(args: Array[String]): Unit = {
     val s: String => String = s => s.toUpperCase
-    val interface = new TestFunctionalInterface[String] {
-      override def apply(t: String): String = s.apply(t)
-    }
     new B(s)
-    val a = A("1")
   }
 }

@@ -4,3 +4,4 @@ import java.util.function.Predicate;
 public interface TestFunctionalInterface<T> {
     T apply(T t);
 }
+
