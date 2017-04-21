@@ -23,13 +23,14 @@ object FoldableUsage extends App {
 
   assert(Foldable[Stream].foldr(trues, false)(lazyOr))
 
-  val digits = List(0,1,2,3,4,5,6,7,8,9)
+  val digits = List(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 
   assert(Foldable[List].fold(digits) === 45)
 
   assert(Tag.unwrap(Foldable[Stream].foldMap(trues)((b: Boolean) => Tags.Disjunction(b))))
 
   import scalaz.syntax.foldable._
+
   assert(trues.foldr(false)(lazyOr))
   assert(Tag.unwrap(trues.foldMap((b: Boolean) => Tags.Disjunction(b))))
   assert(digits.map(_.toString).intercalate(",") === "0,1,2,3,4,5,6,7,8,9")
@@ -54,22 +55,22 @@ object FoldableUsage extends App {
   val deepFolder = Foldable[List] compose Foldable[Vector] compose Foldable[Stream] compose Foldable[Option]
   val deep: List[Vector[Stream[Option[Int]]]] = List(Vector(Stream(1.some, none[Int]), Stream(2.some)), Vector(Stream(3.some)))
   assert(deepFolder.fold(deep) === 6)
-  assert(deepFolder.collapse[IList, Int](deep) === IList(1,2,3))
+  assert(deepFolder.collapse[IList, Int](deep) === IList(1, 2, 3))
   assert(deepFolder.foldLeft(deep, "")(_ + _.toString) === "123")
 
   // Monadic Folds: we can fold over a structure with a function
   // which returns its value in a Monad,
-  val sumEvens: (Int,Int) => Option[Int] = { (x, y) =>
+  val sumEvens: (Int, Int) => Option[Int] = { (x, y) =>
     // if the right int is even, add it to the left
     // otherwise return None
-    if((y % 2) == 0) Some(x+y) else None
+    if ((y % 2) == 0) Some(x + y) else None
   }
 
   // all numbers are even, so we end up with Some
-  val allEvens = List(2,4,6,8,10)
-  assert(allEvens.foldLeftM[Option,Int](0)(sumEvens) === Some(30))
+  val allEvens = List(2, 4, 6, 8, 10)
+  assert(allEvens.foldLeftM[Option, Int](0)(sumEvens) === Some(30))
 
   // when the 7 is encountered, the entire computation results in None
-  val notAllEvens = List(2,4,7,8,10)
-  assert(notAllEvens.foldLeftM[Option,Int](0)(sumEvens) === None)
+  val notAllEvens = List(2, 4, 7, 8, 10)
+  assert(notAllEvens.foldLeftM[Option, Int](0)(sumEvens) === None)
 }
