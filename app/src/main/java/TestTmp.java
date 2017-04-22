@@ -2,6 +2,9 @@
  * scala99
  * Created by chengpohi on 6/25/16.
  */
+class Hello {
+
+}
 public class TestTmp<T> {
     public TestTmp(TestFunctionalInterface<T> testFunctionalInterface) {
     }
