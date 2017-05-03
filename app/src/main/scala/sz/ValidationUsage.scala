@@ -38,8 +38,12 @@ object ValidationUsage extends App {
   import scalaz._
   import Scalaz._
 
-  val b: String => ValidationNel[String, Int] = (a: String) => parseInt(a).toValidationNel.flatMap(i => isEven(i).toValidationNel +++ isGT10(i).toValidationNel)
+  val b: String => ValidationNel[String, Int] = (a: String) =>
+    parseInt(a).toValidationNel.flatMap(i => isEven(i).toValidationNel +++ isGT10(i).toValidationNel)
   println(b("7"))
   println(b("11"))
   println(b("20"))
+
+  val d = (i: Int) => (isEven(i).toValidationNel |@| isGT10(i).toValidationNel) (_ * _)
+  println(d(1))
 }
