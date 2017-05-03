@@ -1,14 +1,13 @@
 package information.theory
 
-import org.scalatest.FlatSpec
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.prop.TableDrivenPropertyChecks._
-import org.scalatest.matchers.ShouldMatchers._
 
 /**
   * BookMark model
   * Created by chengpohi on 7/12/15.
   */
-class DamerauLevenshteinAlgorithmTest extends FlatSpec {
+class DamerauLevenshteinAlgorithmTest extends FlatSpec with Matchers{
   val strings =
     Table(
       ("n", "n", "d"),

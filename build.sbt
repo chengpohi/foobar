@@ -21,30 +21,25 @@ val commonSetting = Seq(
   addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3")
 )
 
-val mllibDependencies = Seq(
-)
-
 val commonDependencies = Seq(
+  "org.apache.spark" % "spark-core_2.11" % "2.1.1",
+  "org.apache.spark" % "spark-mllib_2.11" % "2.1.1",
   "org.scalatest" %% "scalatest" % "3.0.1" % "test",
-  "com.chuusai" %% "shapeless" % "2.3.2",
   "org.scalaz" %% "scalaz-core" % "7.3.0-M9",
   "org.scalaz" %% "scalaz-effect" % "7.3.0-M9",
   "org.scalaz" %% "scalaz-concurrent" % "7.3.0-M9",
   "org.scalaz" %% "scalaz-iteratee" % "7.3.0-M9",
   "org.scala-lang" % "scala-reflect" % "2.12.1",
   //"org.scalanlp" %% "breeze-natives" % "0.12",
-  "org.scalanlp" %% "breeze-viz" % "0.13",
   "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.5",
   "org.jsoup" % "jsoup" % "1.8.3",
   "org.scalameta" %% "scalameta" % "1.6.0"
 )
 libraryDependencies ++= commonDependencies
 
-/*
 lazy val mllib = project.in(file("modules/mllib"))
   .settings(commonSetting: _*)
-  .settings(libraryDependencies ++= commonDependencies ++ mllibDependencies)
- */
+  .settings(libraryDependencies ++= commonDependencies)
 
 lazy val macros = project
   .in(file("modules/macros"))
