@@ -7,7 +7,12 @@ import scalaz.effect._
 
 
 object ChanUsage extends App {
+  // val DefaultExecutorService: ExecutorService = {
+  //  Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors, DefaultDaemonThreadFactory)
+  //}
+  // implicit Executor
   //Asynchronous evaluate function
+  Runtime.getRuntime.availableProcessors()
   def forkIO(f: => IO[Unit])(implicit s: Strategy): IO[Unit] = IO {
     s(f.unsafePerformIO)
     ()
