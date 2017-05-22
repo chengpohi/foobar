@@ -25,6 +25,8 @@ object Settings {
     "org.scala-lang" % "scala-reflect" % "2.12.1",
     //"org.scalanlp" %% "breeze-natives" % "0.12",
     "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.5",
+    "org.scalanlp" %% "breeze" % "0.13.1",
+    "com.chuusai" %% "shapeless" % "2.3.2",
     "org.jsoup" % "jsoup" % "1.8.3",
     "org.scalameta" %% "scalameta" % "1.6.0"
   )
