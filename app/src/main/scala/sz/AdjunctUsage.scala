@@ -29,6 +29,11 @@ object AdjunctUsage extends App {
   res1.println
   res2.println
 
+  val tf: Int => List[Option[String]] = { i =>
+    List(some("value: " + i.toString))
+  }
+  println("TraverseM: " + Traverse[Option].traverseM(None)(tf))
+
   // when we collapse the lists of booleans, we expect the non-repeating list to all be false
   assert(Tag.unwrap(res1.foldMap(Tags.Disjunction(_))) === false)
   // and we expect the repeating list to have at least one true
