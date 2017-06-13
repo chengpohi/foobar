@@ -35,8 +35,7 @@ object Settings {
   val commonSetting = Seq(
     version := "1.0",
     scalaVersion := "2.12.1",
-    scalacOptions += "-feature",
-    scalacOptions += "-Xplugin-require:macroparadise",
+    scalacOptions ++= Seq("-language:implicitConversions", "-language:higherKinds", "-feature", "-language:postfixOps", "-Xplugin-require:macroparadise"),
     initialCommands in console := "import scalaz._, Scalaz._",
     addCompilerPlugin(
       "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
@@ -48,6 +47,9 @@ object Settings {
   val mllibSettings = Seq(
     version := "1.0",
     scalaVersion := "2.11.8",
+    scalacOptions ++= Seq("-language:implicitConversions", "-language:higherKinds", "-feature", "-language:postfixOps", "-Xplugin-require:macroparadise"),
+    addCompilerPlugin(
+      "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
     libraryDependencies ++= mllibDependencies
   )
 
