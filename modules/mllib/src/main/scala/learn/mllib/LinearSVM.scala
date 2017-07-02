@@ -1,6 +1,5 @@
 package learn.mllib
 
-import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.mllib.classification.SVMWithSGD
 import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
 import org.apache.spark.mllib.util.MLUtils
@@ -9,11 +8,7 @@ import org.apache.spark.mllib.util.MLUtils
   * Linear SVM
   * Created by chengpohi on 5/24/15.
   */
-object LinearSVM extends App {
-  val conf =
-    new SparkConf().setAppName("Statistical Learn").setMaster("local[2]")
-
-  val sc: SparkContext = new SparkContext(conf)
+object LinearSVM extends MLLibApp {
   // Load training data in LIBSVM format.
   val data =
     MLUtils.loadLibSVMFile(sc, "src/main/resources/sample_libsvm_data.txt")
