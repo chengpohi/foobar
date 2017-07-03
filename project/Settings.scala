@@ -28,6 +28,7 @@ object Settings {
     "org.scalanlp" %% "breeze" % "0.13.1",
     "com.chuusai" %% "shapeless" % "2.3.2",
     "org.jsoup" % "jsoup" % "1.8.3",
+    "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT",
     "org.scalameta" %% "scalameta" % "1.6.0"
   )
 
