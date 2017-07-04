@@ -13,7 +13,19 @@ object Settings {
   val mllibDependencies = Seq(
     "org.apache.spark" %% "spark-core" % "2.1.1",
     "org.apache.spark" %% "spark-mllib" % "2.1.1",
+    "org.scalaz" %% "scalaz-core" % "7.3.0-M9",
+    "org.scalaz" %% "scalaz-effect" % "7.3.0-M9",
+    "org.scalaz" %% "scalaz-concurrent" % "7.3.0-M9",
+    "org.scalaz" %% "scalaz-iteratee" % "7.3.0-M9",
     "org.scalatest" %% "scalatest" % "3.0.3" % "test"
+  )
+
+  lazy val akkaDependencies = Seq(
+    "com.typesafe" % "config" % "1.2.1",
+    "com.typesafe.akka" %% "akka-slf4j" % "2.4.16",
+    "com.typesafe.akka" %% "akka-http" % "10.0.1",
+    "com.typesafe.akka" %% "akka-http-testkit" % "10.0.9",
+    "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.1"
   )
 
   val commonDependencies = Seq(

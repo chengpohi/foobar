@@ -17,7 +17,7 @@ lazy val parsers = project
 lazy val app = project
   .in(file("app"))
   .settings(commonSetting: _*)
-  .settings(libraryDependencies ++= commonDependencies)
+  .settings(libraryDependencies ++= commonDependencies ++ akkaDependencies)
   .settings(
     name := "scala99",
     version := "0.1"
