@@ -35,6 +35,7 @@ object Settings {
     "org.scalaz" %% "scalaz-concurrent" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-iteratee" % "7.3.0-M9",
     "org.scala-lang" % "scala-reflect" % "2.12.1",
+    "org.scala-lang" % "scala-compiler" % "2.12.1",
     //"org.scalanlp" %% "breeze-natives" % "0.12",
     "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.5",
     "org.scalanlp" %% "breeze" % "0.13.1",
