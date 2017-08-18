@@ -42,7 +42,8 @@ object Settings {
     "com.chuusai" %% "shapeless" % "2.3.2",
     "org.jsoup" % "jsoup" % "1.8.3",
     "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT",
-    "org.scalameta" %% "scalameta" % "1.6.0"
+    "org.scalameta" %% "scalameta" % "1.6.0",
+    "org.json4s" %% "json4s-core" % "3.5.3"
   )
 
 
