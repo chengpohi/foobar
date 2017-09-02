@@ -7,19 +7,24 @@ import org.json4s._
 import org.json4s.native.JsonMethods._
 
 object TestFooBar extends App {
-  val  json = """
-    |{
-    |    "id": "1",
-    |    "details": [{
-    |        "tax": [{
-    |            "amount": 1
-    |        },
-    |        {
-    |            "amount": 2
-    |        }]
-    |    }]
-    |}
-    |
+  var t: () => Int = _
+
+  t = () => 1
+  println(t())
+  val json =
+    """
+      |{
+      |    "id": "1",
+      |    "details": [{
+      |        "tax": [{
+      |            "amount": 1
+      |        },
+      |        {
+      |            "amount": 2
+      |        }]
+      |    }]
+      |}
+      |
   """.stripMargin
 
   val amounts = parse(json) \ "details" \ "tax" \ "amount"
