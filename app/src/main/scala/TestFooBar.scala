@@ -33,3 +33,4 @@ object TestFooBar extends App {
   decimals.map(i => i.bigDecimal)
   println(decimals)
 }
+
