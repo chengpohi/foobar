@@ -3,6 +3,7 @@ package sz
 import scalaz._
 import Scalaz._
 
+//F[A, B] fa: A => C, fb: B => D = F[C, D]
 object BiFunctorUsage extends App {
 
   // For a tuple, the result of bimap is obvious:
@@ -10,6 +11,7 @@ object BiFunctorUsage extends App {
   // For sum types, which function is applied depends on what value is present:
   assert(Bifunctor[Either].bimap(Left("asdf"): Either[String, Int])(_.toUpperCase, _ + 1) === (Left("ASDF")))
   assert(Bifunctor[Either].bimap(Right(1): Either[String, Int])(_.toUpperCase, _ + 1) === (Right(2)))
+  Bifunctor[Either].bimap(Right(1): Either[String, Int])(_.toUpperCase, _ + 1).println
 
   assert(Bifunctor[Validation].bimap("asdf".failure[Int])(_.toUpperCase, _ + 1) === "ASDF".failure)
   assert(Bifunctor[Validation].bimap(1.success[String])(_.toUpperCase, _ + 1) === 2.success)

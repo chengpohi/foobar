@@ -4,6 +4,10 @@ import scalaz.Scalaz._
 import scalaz._
 
 
+//State
+//Traverse
+//Reader
+//Writer
 object AdjunctUsage extends App {
   // two lists we'll be traversing
   val nonRepeating = List(1, 2, 3, 4)
@@ -15,8 +19,8 @@ object AdjunctUsage extends App {
   val checkForRepeats: Int => State[Option[Int], Boolean] = { next =>
     import State._
     for {
-      last ← get // get the last value from the previous iteration
-      _ ← put(some(next)) // set the next value to the value in this iteration
+      last <- get // get the last value from the previous iteration
+      _ <- put(some(next)) // set the next value to the value in this iteration
     } yield (last === some(next)) // emit a boolean if this is the same as last
   }
 
@@ -34,7 +38,8 @@ object AdjunctUsage extends App {
   }
   println("TraverseM: " + Traverse[Option].traverseM(None)(tf))
 
-  // when we collapse the lists of booleans, we expect the non-repeating list to all be false
+  // when we collapse the lists of booleans,
+  // we expect the non-repeating list to all be false
   assert(Tag.unwrap(res1.foldMap(Tags.Disjunction(_))) === false)
   // and we expect the repeating list to have at least one true
   assert(Tag.unwrap(res2.foldMap(Tags.Disjunction(_))) === true)

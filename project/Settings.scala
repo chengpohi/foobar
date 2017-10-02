@@ -43,7 +43,9 @@ object Settings {
     "org.jsoup" % "jsoup" % "1.8.3",
     "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT",
     "org.scalameta" %% "scalameta" % "1.6.0",
-    "org.json4s" %% "json4s-core" % "3.5.3"
+    "org.json4s" %% "json4s-core" % "3.5.3",
+    "org.apache.commons" % "commons-lang3" % "3.6",
+    "org.apache.commons" % "commons-compress" % "1.14"
   )
 
 

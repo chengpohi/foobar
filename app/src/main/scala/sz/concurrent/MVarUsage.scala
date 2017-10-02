@@ -35,7 +35,7 @@ object MVarUsage extends App {
     def calc(in: MVar[Int], out: MVar[Int]): IO[Unit] =
       for {
         a <- in.take
-        b <- in.take
+        b <- in.take // take will block until there is extra element put in
         _ <- out.put(a * b)
       } yield ()
 

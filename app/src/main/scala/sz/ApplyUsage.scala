@@ -3,6 +3,7 @@ package sz
 import scalaz._
 import Scalaz._
 
+//F[A], F[A => B] = F[B]
 object ApplyUsage extends App {
   val intToString: Int => String = _.toString
   val double: Int => Int = _ * 2
@@ -29,7 +30,9 @@ object ApplyUsage extends App {
   val plus1: Int => Int = _ + 1
   val plus2: Int => Int = _ + 2
 
+  println("-" * 20)
   (List(1, 2, 3) <*> List(plus1, plus2)).println // f: F[A => B]
+  println("-" * 20)
   Apply[List].ap(List(1, 2, 3))(List(plus1, plus2)).println
   (some(1) |@| some(2) |@| some(3)) (_ + _ + _).println
   (some(1) |@| none[Int] |@| some(3)) (_ + _ + _).println
@@ -54,6 +57,7 @@ object ApplyUsage extends App {
   written.toList.println
   result.println
 
+  //nest compose
   val applyVLO = Apply[Vector] compose Apply[List] compose Apply[Option]
   applyVLO
     .apply2(Vector(

@@ -21,12 +21,15 @@ object ChanUsage extends App {
   def calc(chan: Chan[Int], a: Int) =
     chan.write((1 to a).sum)
 
+  //chan is thread safe FIFO queue
   val io = for {
     chan <- newChan[Int]
-    _ <- calc(chan, 100)
-    _ <- calc(chan, 200)
+    _ <- forkIO(calc(chan, 100))
+    _ <- forkIO(calc(chan, 200))
     a <- chan.read
     b <- chan.read
   } yield a + b
+  //IO is used to bound the safe side effect
+  //when fina call, we will call unsafePerformIO
   io.unsafePerformIO().println
 }
