@@ -4,6 +4,7 @@ import sz.FreeMonad.{Request, _}
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
+import scala.util.{Failure, Success}
 import scalaz.std.list._
 import scalaz.syntax.traverse._
 import scalaz.{Free, Id, ~>}
@@ -16,7 +17,9 @@ object FreeMonad {
   type UserId = Int
   type UserName = String
   type UserPhoto = String
+
   final case class Tweet(userId: UserId, msg: String)
+
   final case class User(id: UserId, name: UserName, photo: UserPhoto)
 
   sealed trait Service[A]
@@ -34,6 +37,7 @@ object FreeMonad {
 }
 
 object TestInterpreter extends (Request ~> Id.Id) {
+
   import Id._
 
   override def apply[A](fa: Request[A]): Id[A] = fa match {
@@ -61,7 +65,7 @@ object TestInterpreter extends (Request ~> Id.Id) {
 
 }
 
-object RunFreeMonad {
+object RunFreeMonad extends App {
   def getUser(userId: UserId): Free[Request, FreeMonad.User] =
     for {
       name <- fetch(GetUserName(userId))
@@ -78,15 +82,13 @@ object RunFreeMonad {
       }.sequenceU
     } yield result
 
-  def main(args: Array[String]): Unit = {
-    import scala.concurrent.ExecutionContext.Implicits.global
-    Future {
-      free(1).foldMap(TestInterpreter)
-    }
+  import scala.concurrent.ExecutionContext.Implicits.global
 
-    val t = Future {
-      free(2).foldMap(TestInterpreter)
-    }
-    Await.result(t, Duration.Inf)
+  free(1).foldMap(TestInterpreter)
+
+  val t = Future {
+    free(2).foldMap(TestInterpreter)
   }
+  val res = t.map(s => s.foreach(i => println(i._2.name)))
+  Await.result(res, Duration.Inf)
 }

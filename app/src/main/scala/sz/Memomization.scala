@@ -12,6 +12,7 @@ object Memomization {
     case 1 => 1
     case n => slowFib(n - 1) + slowFib(n - 2)
   }
+  //not thread safe, since it's using mutable.HashMap
   val memoizedFib: Int => Int = Memo.mutableHashMapMemo {
     case 0 => 0
     case 1 => 1

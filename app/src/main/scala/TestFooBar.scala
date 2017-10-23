@@ -4,5 +4,6 @@
   */
 
 object TestFooBar extends App {
+  println("Hello")
 }
 

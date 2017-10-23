@@ -17,6 +17,7 @@ object FunctorUsage extends App {
 
   println(Functor[Option].map(Some("foo"))(len))
   assert(Functor[Option].map(None)(len) === None)
+  println(List("1", "12", "123").map(len))
   assert(Functor[List].map(List("qwer", "adsfg"))(len) === List(4, 5))
 
   val lenOption: Option[String] => Option[Int] = Functor[Option].lift(len)

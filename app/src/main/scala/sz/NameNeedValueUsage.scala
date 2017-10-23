@@ -6,6 +6,7 @@ import Scalaz._
 object NameNeedValueUsage extends App {
 
   def undefined = sys.error("!!")
+
   class Inc {
     var i = 0
 
@@ -21,6 +22,9 @@ object NameNeedValueUsage extends App {
 
   {
     val inc = new Inc
+    //it will eval when call, in the below example, it's called by value
+    //named parameter
+    //a: => A
     val n = Name(inc.apply())
     assert(n.value == 1)
     assert(n.value == 2)

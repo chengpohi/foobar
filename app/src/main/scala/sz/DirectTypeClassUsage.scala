@@ -13,12 +13,13 @@ object DirectTypeClassUsage extends App {
   // Direct use of type class for one type, Option
   def direct1(): Unit = {
     import scalaz._
+    import Scalaz._
 
     // Import the members of the type class instance for Option.
     import std.option.optionInstance.{bind, join}
 
-    bind(o1)(x => if (x > 0) Some(2) else None)
-    join(o2)
+    bind(o1)(x => if (x > 0) Some(2) else None).println
+    join(o2).println
   }
 
 
