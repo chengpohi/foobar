@@ -20,7 +20,7 @@ object Algorithm {
 
     length / 2 match {
       case t: Int if t != 0 => (r(length / 2) + r(length / 2 - 1)).toDouble / 2
-      case 0 => r(length / 2).toDouble
+      case 0                => r(length / 2).toDouble
     }
   }
 

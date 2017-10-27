@@ -7,12 +7,14 @@ import org.apache.spark.rdd.RDD
 
 object PCAOnSourceVectorUsage extends MLLibApp {
   //lift local collection to RDD
-  val data: RDD[LabeledPoint] = sc.parallelize(Seq(
-    new LabeledPoint(0, Vectors.dense(1, 0, 0, 0, 1)),
-    new LabeledPoint(1, Vectors.dense(1, 1, 0, 1, 0)),
-    new LabeledPoint(1, Vectors.dense(1, 1, 0, 0, 0)),
-    new LabeledPoint(0, Vectors.dense(1, 0, 0, 0, 0)),
-    new LabeledPoint(1, Vectors.dense(1, 1, 0, 0, 0))))
+  val data: RDD[LabeledPoint] = sc.parallelize(
+    Seq(
+      new LabeledPoint(0, Vectors.dense(1, 0, 0, 0, 1)),
+      new LabeledPoint(1, Vectors.dense(1, 1, 0, 1, 0)),
+      new LabeledPoint(1, Vectors.dense(1, 1, 0, 0, 0)),
+      new LabeledPoint(0, Vectors.dense(1, 0, 0, 0, 0)),
+      new LabeledPoint(1, Vectors.dense(1, 1, 0, 0, 0))
+    ))
 
   // Compute the top 5 principal components.
   val pca = new PCA(5).fit(data.map(_.features))
@@ -24,7 +26,9 @@ object PCAOnSourceVectorUsage extends MLLibApp {
   val collect = projected.collect()
 
   println("Projected vector of principal component:")
-  collect.foreach { vector => println(vector) }
+  collect.foreach { vector =>
+    println(vector)
+  }
 
   sc.stop()
 }

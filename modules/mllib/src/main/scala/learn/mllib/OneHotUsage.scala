@@ -9,14 +9,17 @@ object OneHotUsage extends App {
     .appName("Simple Application")
     .master("local[4]")
     .getOrCreate()
-  val df = spark.createDataFrame(Seq(
-    (0, "a"),
-    (1, "b"),
-    (2, "c"),
-    (3, "a"),
-    (4, "a"),
-    (5, "c")
-  )).toDF("id", "category")
+  val df = spark
+    .createDataFrame(
+      Seq(
+        (0, "a"),
+        (1, "b"),
+        (2, "c"),
+        (3, "a"),
+        (4, "a"),
+        (5, "c")
+      ))
+    .toDF("id", "category")
 
   val indexer = new StringIndexer()
     .setInputCol("category")

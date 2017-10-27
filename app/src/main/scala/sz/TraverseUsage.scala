@@ -17,43 +17,42 @@ object TraverseUsage extends App {
   val list1: List[Option[Int]] = List(Some(1), Some(2), Some(3), Some(4))
   assert(Traverse[List].sequence(list1) === Some(List(1, 2, 3, 4)))
 
-
   val list2: List[Option[Int]] = List(Some(1), Some(2), None, Some(4))
   assert(Traverse[List].sequence(list2) === None)
-
 
   import scalaz.syntax.traverse._
 
   assert(list1.sequence === Some(List(1, 2, 3, 4)))
   assert(list1.sequence.sequence === list1)
 
-
   val smallNumbers = List(1, 2, 3, 4, 5)
   val bigNumbers = List(10, 20, 30, 40, 50)
   val doubleSmall: Int => Option[Int] = (x => if (x < 30) Some(x * 2) else None)
 
-
   assert(smallNumbers.traverse(doubleSmall) === Some(List(2, 4, 6, 8, 10)))
-  assert(smallNumbers.traverse(doubleSmall) === smallNumbers.map(doubleSmall).sequence)
+  assert(
+    smallNumbers
+      .traverse(doubleSmall) === smallNumbers.map(doubleSmall).sequence)
 
-  val validations: Vector[ValidationNel[String, Int]] = Vector(1.success,
-    "failure2".failureNel,
-    3.success,
-    "failure4".failureNel)
+  val validations: Vector[ValidationNel[String, Int]] =
+    Vector(1.success, "failure2".failureNel, 3.success, "failure4".failureNel)
 
   val result: ValidationNel[String, Vector[Int]] = validations.sequenceU
   assert(result === NonEmptyList("failure2", "failure4").failure[Vector[Int]])
 
   println(validations.sequenceU)
 
-  val onlyEvenAllowed: Int => ValidationNel[String, Int] = x => if (x % 2 === 0) x.successNel else (x.toString + " is not even").failureNel
+  val onlyEvenAllowed: Int => ValidationNel[String, Int] = x =>
+    if (x % 2 === 0) x.successNel else (x.toString + " is not even").failureNel
 
   val evens = IList(2, 4, 6, 8)
   val notAllEvens = List(1, 2, 3, 4)
 
-
   assert(evens.traverseU(onlyEvenAllowed) === IList(2, 4, 6, 8).success)
-  assert(notAllEvens.traverseU(onlyEvenAllowed) === NonEmptyList("1 is not even", "3 is not even").failure)
+  assert(
+    notAllEvens.traverseU(onlyEvenAllowed) === NonEmptyList(
+      "1 is not even",
+      "3 is not even").failure)
 
   import scalaz.State._
 

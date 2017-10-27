@@ -93,11 +93,7 @@ class Scala99Test extends FlatSpec with Matchers {
       ))
     scala99 lsort List(List(1, 2), List(3), List(4, 5, 6)) should equal(
       List(List(3), List(1, 2), List(4, 5, 6)))
-    scala99 lfsort List(List(1, 2),
-                        List(7, 8),
-                        List(3),
-                        List(9),
-                        List(4, 5, 6)) should equal(
+    scala99 lfsort List(List(1, 2), List(7, 8), List(3), List(9), List(4, 5, 6)) should equal(
       List(List(4, 5, 6), List(1, 2), List(7, 8), List(3), List(9)))
     scala99 isPrime 7 should equal(true)
     scala99 isPrime 4 should equal(false)

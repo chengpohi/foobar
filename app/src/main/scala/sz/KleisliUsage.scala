@@ -12,24 +12,20 @@ object KleisliUsage extends App {
 
   case class Country(name: String, cities: List[City] = List.empty)
 
-  case class City(name: String, isCapital: Boolean = false, inhabitants: Int = 20)
+  case class City(name: String,
+                  isCapital: Boolean = false,
+                  inhabitants: Int = 20)
 
   val data: List[Continent] = List(
     Continent("Europe"),
     Continent("America",
-      List(
-        Country("USA",
-          List(
-            City("Washington"), City("New York"))))),
+              List(Country("USA", List(City("Washington"), City("New York"))))),
     Continent("Asia",
-      List(
-        Country("India",
-          List(City("New Dehli"), City("Calcutta"))))))
-
+              List(Country("India", List(City("New Dehli"), City("Calcutta")))))
+  )
 
   def continents(name: String): List[Continent] =
     data.filter(k => k.name.contains(name))
-
 
   def countries(continent: Continent): List[Country] = continent.countries
 
@@ -40,19 +36,17 @@ object KleisliUsage extends App {
       cities.foreach(c => println("Saving " + c.name))
     }
 
-
   def inhabitants(c: City): Int = c.inhabitants
 
   //andThenK = this >=> kleisli(_)
   val allCities = kleisli(continents) >==> countries >==> cities
 
   //andThen
-  val allCities2 = kleisli(continents) >=> kleisli(countries) >=> kleisli(cities)
-
+  val allCities2 = kleisli(continents) >=> kleisli(countries) >=> kleisli(
+    cities)
 
   (allCities("America")).map(println)
   (allCities =<< List("Amer", "Asi")).map(println)
-
 
   //map kleisli
   val cityInhabitants = allCities map inhabitants

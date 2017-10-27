@@ -9,7 +9,6 @@ object Settings {
     Resolver.sonatypeRepo("snapshots")
   )
 
-
   val mllibDependencies = Seq(
     "org.apache.spark" %% "spark-core" % "2.1.1",
     "org.apache.spark" %% "spark-mllib" % "2.1.1",
@@ -48,11 +47,14 @@ object Settings {
     "org.apache.commons" % "commons-compress" % "1.14"
   )
 
-
   val commonSetting = Seq(
     version := "1.0",
     scalaVersion := "2.12.1",
-    scalacOptions ++= Seq("-language:implicitConversions", "-language:higherKinds", "-feature", "-language:postfixOps", "-Xplugin-require:macroparadise"),
+    scalacOptions ++= Seq("-language:implicitConversions",
+                          "-language:higherKinds",
+                          "-feature",
+                          "-language:postfixOps",
+                          "-Xplugin-require:macroparadise"),
     initialCommands in console := "import scalaz._, Scalaz._",
     addCompilerPlugin(
       "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
@@ -60,11 +62,14 @@ object Settings {
     libraryDependencies ++= commonDependencies
   )
 
-
   val mllibSettings = Seq(
     version := "1.0",
     scalaVersion := "2.11.8",
-    scalacOptions ++= Seq("-language:implicitConversions", "-language:higherKinds", "-feature", "-language:postfixOps", "-Xplugin-require:macroparadise"),
+    scalacOptions ++= Seq("-language:implicitConversions",
+                          "-language:higherKinds",
+                          "-feature",
+                          "-language:postfixOps",
+                          "-Xplugin-require:macroparadise"),
     addCompilerPlugin(
       "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
     libraryDependencies ++= mllibDependencies

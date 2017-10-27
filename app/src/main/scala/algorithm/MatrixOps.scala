@@ -21,11 +21,11 @@ object MatrixOps {
         return List(List(end)).some
 
       val down = startX + 1 >= denseMatrix.rows match {
-        case true => None
+        case true  => None
         case false => next((startX + 1, startY), end)
       }
       val right = startY + 1 >= denseMatrix.cols match {
-        case true => None
+        case true  => None
         case false => next((startX, startY + 1), end)
       }
       if (down == None && right == None)
@@ -49,7 +49,7 @@ object MatrixOps {
         case 1 => None
         case 0 =>
           routes((x, y), end) match {
-            case None => None
+            case None      => None
             case Some(res) => res.some
           }
       }
@@ -64,7 +64,7 @@ object MatrixOps {
     def rec(xs: List[Int]): List[Int] = {
       val ls: List[Int] = xs.flatMap(i => next(i))
       ls.empty match {
-        case true => List()
+        case true  => List()
         case false => ls ::: rec(ls)
       }
     }

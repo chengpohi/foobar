@@ -45,7 +45,7 @@ object FastParser {
 
   def printEval(str: String) = {
     expr.parse(str) match {
-      case Parsed.Success(value, _) => println("Eval: " + value)
+      case Parsed.Success(value, _)     => println("Eval: " + value)
       case Parsed.Failure(_, _, detail) => println("Eval: " + detail)
     }
   }
@@ -121,8 +121,7 @@ object FastParser {
     def errorMessage[T](p: Parser[T], str: String) =
       ParseError(p.parse(str).asInstanceOf[Parsed.Failure]).getMessage
 
-    val numberPlate = P(
-      twice(digit) ~ "-" ~ twice(letter) ~ "-" ~ twice(digit))
+    val numberPlate = P(twice(digit) ~ "-" ~ twice(letter) ~ "-" ~ twice(digit))
     println(errorMessage(numberPlate, "11-A1-22"))
     val opaque = numberPlate.opaque("<number-plate>")
     println(errorMessage(opaque, "11-A1-22"))

@@ -11,7 +11,6 @@ import syntax.equal._
 import scalaz.concurrent.Task
 import syntax.functor._
 
-
 object FunctorUsage extends App {
   val len: String => Int = _.length
 
@@ -23,8 +22,12 @@ object FunctorUsage extends App {
   val lenOption: Option[String] => Option[Int] = Functor[Option].lift(len)
   assert(lenOption(Some("abcd")) === Some(4))
 
-  assert(Functor[List].strengthL("a", List(1, 2, 3)) === List("a" -> 1, "a" -> 2, "a" -> 3))
-  assert(Functor[List].strengthR(List(1, 2, 3), "a") === List(1 -> "a", 2 -> "a", 3 -> "a"))
+  assert(
+    Functor[List]
+      .strengthL("a", List(1, 2, 3)) === List("a" -> 1, "a" -> 2, "a" -> 3))
+  assert(
+    Functor[List]
+      .strengthR(List(1, 2, 3), "a") === List(1 -> "a", 2 -> "a", 3 -> "a"))
 
   println(List(1, 2, 3).strengthL("a"))
   println(List(1, 2, 3).strengthR("a"))
@@ -36,15 +39,12 @@ object FunctorUsage extends App {
   assert(Functor[Option].void(Some(1)) === Some(()))
 
   // pretend this is our database
-  var database = Map("abc" → 1,
-    "aaa" → 2,
-    "qqq" → 3)
-
+  var database = Map("abc" → 1, "aaa" → 2, "qqq" → 3)
 
   def del(f: String => Boolean): Task[Int] = Task.delay {
     val (count, db) = database.foldRight(0 → List.empty[(String, Int)]) {
       case ((k, _), (d, r)) if f(k) => (d + 1, r)
-      case (i, (d, r)) => (d, i :: r)
+      case (i, (d, r))              => (d, i :: r)
     }
     database = db.toMap
     count
@@ -69,5 +69,8 @@ object FunctorUsage extends App {
   assert(database.size === 1)
 
   val listOpt = Functor[List] compose Functor[Option]
-  assert(listOpt.map(List(Some(1), None, Some(3)))(_ + 1) === List(Some(2), None, Some(4)))
+  assert(
+    listOpt.map(List(Some(1), None, Some(3)))(_ + 1) === List(Some(2),
+                                                              None,
+                                                              Some(4)))
 }

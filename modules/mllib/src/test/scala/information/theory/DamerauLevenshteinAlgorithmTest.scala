@@ -7,7 +7,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks._
   * BookMark model
   * Created by chengpohi on 7/12/15.
   */
-class DamerauLevenshteinAlgorithmTest extends FlatSpec with Matchers{
+class DamerauLevenshteinAlgorithmTest extends FlatSpec with Matchers {
   val strings =
     Table(
       ("n", "n", "d"),

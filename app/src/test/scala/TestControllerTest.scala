@@ -7,19 +7,23 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import org.scalatest.{Matchers, WordSpec}
 
-
-class TestControllerTest extends WordSpec with Matchers with ScalatestRouteTest {
+class TestControllerTest
+    extends WordSpec
+    with Matchers
+    with ScalatestRouteTest {
   def myRoute: Route = {
     get {
       pathSingleSlash {
-        extractClientIP { ip => {
-          headerValueByName("Remote-Address") { res => {
-            println(res)
-            println(ip)
-            complete("Hello World")
+        extractClientIP { ip =>
+          {
+            headerValueByName("Remote-Address") { res =>
+              {
+                println(res)
+                println(ip)
+                complete("Hello World")
+              }
+            }
           }
-          }
-        }
         }
       }
     }

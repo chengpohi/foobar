@@ -9,7 +9,6 @@ object IdUsage extends App {
 
   def g(i: Int): Double = i.toDouble
 
-
   val r = "1" |> f |> g
 
   println(r)

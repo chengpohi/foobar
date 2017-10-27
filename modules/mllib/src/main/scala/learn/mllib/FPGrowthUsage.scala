@@ -3,7 +3,7 @@ package learn.mllib
 import org.apache.spark.mllib.fpm.FPGrowth
 import org.apache.spark.rdd.RDD
 
-object FPGrowthUsage extends MLLibApp{
+object FPGrowthUsage extends MLLibApp {
   val data = sc.textFile("data/mllib/sample_fpgrowth.txt".toMLLibPath)
 
   val transactions: RDD[Array[String]] = data.map(s => s.trim.split(' '))
@@ -21,7 +21,7 @@ object FPGrowthUsage extends MLLibApp{
   model.generateAssociationRules(minConfidence).collect().foreach { rule =>
     println(
       rule.antecedent.mkString("[", ",", "]")
-        + " => " + rule.consequent .mkString("[", ",", "]")
+        + " => " + rule.consequent.mkString("[", ",", "]")
         + ", " + rule.confidence)
   }
 }

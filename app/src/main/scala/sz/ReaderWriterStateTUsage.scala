@@ -1,6 +1,5 @@
 package sz
 
-
 /*
  A rather contrived example which shows how ReaderWriterStateT could be used.
  @author stew@vireo.org / stew@helloreverb.com
@@ -42,7 +41,6 @@ object Token {
   }
 }
 
-
 object CABRunLengthEncoder {
 
   /*
@@ -61,15 +59,16 @@ object CABRunLengthEncoder {
 
   // The State we will carry in the Monad during our computation
   case class RunLengthState(
-                             lastToken: Option[Token], // what is the last char we've seen
-                             length: Int, // how many of that char have we seen
-                             input: List[Token] // remaining input
-                           ) {
+      lastToken: Option[Token], // what is the last char we've seen
+      length: Int, // how many of that char have we seen
+      input: List[Token] // remaining input
+  ) {
     def incLength = this.copy(length = length + 1)
 
     def newToken(t: Token) = RunLengthState(Some(t), 0, input)
 
-    def uncons: (Token, RunLengthState) = (input.head, this.copy(input = input.tail))
+    def uncons: (Token, RunLengthState) =
+      (input.head, this.copy(input = input.tail))
   }
 
   object RunLengthState {
@@ -80,17 +79,18 @@ object CABRunLengthEncoder {
     * the configuration of our encoder, this will be used in the
     * Reader part of our RWST    */
   case class RunLengthConfig(
-                              /**
-                                * if we are emitting less than minRun tokens, just emit them as
-                                * individual tokens instead of as a run of tokens
-                                */
-                              minRun: Int
-                            )
+      /**
+        * if we are emitting less than minRun tokens, just emit them as
+        * individual tokens instead of as a run of tokens
+        */
+      minRun: Int
+  )
 
   import Token._
   import Free.Trampoline
 
-  type RunLength[A] = ReaderWriterStateT[Trampoline, RunLengthConfig, Cord, RunLengthState, A]
+  type RunLength[A] =
+    ReaderWriterStateT[Trampoline, RunLengthConfig, Cord, RunLengthState, A]
 
   // At its essence the RWST monad transformer is a wrap around a function with the following shape:
   // (ReaderType, StateType) => Monad[WriterType, Result, StateType]
@@ -98,9 +98,10 @@ object CABRunLengthEncoder {
   /**
     * read a token from the input
     */
-  val readToken: RunLength[Token] = ReaderWriterStateT { (config: RunLengthConfig, oldState: RunLengthState) =>
-    val (nextTok, newState) = oldState.uncons
-    Applicative[Trampoline].point((Monoid[Cord].zero, nextTok, newState))
+  val readToken: RunLength[Token] = ReaderWriterStateT {
+    (config: RunLengthConfig, oldState: RunLengthState) =>
+      val (nextTok, newState) = oldState.uncons
+      Applicative[Trampoline].point((Monoid[Cord].zero, nextTok, newState))
   }
 
   // Bring the RWST syntax into scope.
@@ -111,7 +112,8 @@ object CABRunLengthEncoder {
   // modify -- alter the current state
   // tell   -- append to the writer
   // ask    -- read from the reader
-  val rle = ReaderWriterStateT.rwstMonad[Trampoline, RunLengthConfig, Cord, RunLengthState]
+  val rle = ReaderWriterStateT
+    .rwstMonad[Trampoline, RunLengthConfig, Cord, RunLengthState]
 
   import rle._
 
@@ -135,8 +137,8 @@ object CABRunLengthEncoder {
   def done: RunLength[Boolean] =
     get flatMap { state =>
       if (state.input.isEmpty)
-      // we have, better emit whatever tokens are stored in the
-      // current state
+        // we have, better emit whatever tokens are stored in the
+        // current state
         emit as true
       else
         point(false)
@@ -151,7 +153,6 @@ object CABRunLengthEncoder {
     else
       tell(length.show ++ token.show)
 
-
   /**
     * emit the lastToken
     */
@@ -160,9 +161,9 @@ object CABRunLengthEncoder {
       state <- get
       config <- ask
       _ <- state.lastToken.cata(none = point(()), // nothing to emit
-        some = writeOutput(_, state.length, config.minRun))
+                                some =
+                                  writeOutput(_, state.length, config.minRun))
     } yield ()
-
 
   /**
     * emit tokens if the next input token is different than the last
@@ -173,13 +174,13 @@ object CABRunLengthEncoder {
       next <- readToken
       _ <- {
         if (state.lastToken.map(_ == next) getOrElse (false))
-        // Same token as last, so we just increment our counter
+          // Same token as last, so we just increment our counter
           modify(_.incLength)
         else
-        // its a new token, so emit the previous, then change
-        // the token in the state.
-        // *> here chains two actions, ignoring the output of
-        // the first (which is unit in this case)
+          // its a new token, so emit the previous, then change
+          // the token in the state.
+          // *> here chains two actions, ignoring the output of
+          // the first (which is unit in this case)
           emit *> put(state.newToken(next))
       }
     } yield ()
@@ -187,7 +188,8 @@ object CABRunLengthEncoder {
   def encode(minRun: Int, input: List[Token]): String = {
     val config = RunLengthConfig(minRun)
     val initialState = RunLengthState.initial(input)
-    val (output, result, finalState) = untilM_(maybeEmit, done).run(config, initialState).run
+    val (output, result, finalState) =
+      untilM_(maybeEmit, done).run(config, initialState).run
     output.shows
   }
 }

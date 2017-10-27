@@ -8,7 +8,8 @@ object WordCount extends App {
 
     val text = "the cat in the hat\n sat on the mat\n".toList
 
-    import scalaz.std.anyVal._, scalaz.std.list._, scalaz.std.boolean.test, scalaz.std.int.heaviside
+    import scalaz.std.anyVal._, scalaz.std.list._, scalaz.std.boolean.test,
+    scalaz.std.int.heaviside
 
     // To count words, we need to detect transitions from whitespace to non-whitespace.
     // atWordStart_{i} = heaviside( test(isSpace(c_{i}) - test(isSpace(c_{i-1})) )
@@ -30,7 +31,8 @@ object WordCount extends App {
       .product[λ[α => State[Boolean, Int]]](WordCount)
 
     // ... and execute them in a single traversal
-    val ((charCount, lineCount), wordCountState) = A.traverse(text)((c: Char) => ((1, test(c == '\n')), atWordStart(c)))
+    val ((charCount, lineCount), wordCountState) =
+      A.traverse(text)((c: Char) => ((1, test(c == '\n')), atWordStart(c)))
     val wordCount = wordCountState.eval(false)
 
     println("%d\t%d\t%d\t".format(lineCount, wordCount, charCount)) // 2	9	35

@@ -9,8 +9,6 @@ import std.anyVal._
 import syntax.equal._
 import Scalaz._
 
-
-
 object MVarUsage extends App {
 
   def forkIO(f: IO[Unit])(implicit s: Strategy): IO[Unit] = IO {
@@ -29,7 +27,6 @@ object MVarUsage extends App {
 
     println(io.unsafePerformIO())
   }
-
 
   def inout(): Unit = {
     def calc(in: MVar[Int], out: MVar[Int]): IO[Unit] =

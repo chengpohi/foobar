@@ -70,7 +70,8 @@ object MixedBag extends App {
     import syntax.traverse._
     import std.vector._
 
-    val tree: StrictTree[Int] = 1.strictNode(2.strictNode(3.strictLeaf), 4.strictLeaf, 5.strictLeaf)
+    val tree: StrictTree[Int] =
+      1.strictNode(2.strictNode(3.strictLeaf), 4.strictLeaf, 5.strictLeaf)
     val r = tree.foldRight(".")((i, s) => i.toString |+| s)
     r assert_=== "12345."
     val f = tree.flatten.foldMap(_.toString)
@@ -111,7 +112,7 @@ object MixedBag extends App {
 
     def flattenWriter[A](t: Tree[A]): DList[A] = {
       def flatten(t: Tree[A]): Writer[DList[A], Unit] = t.resume match {
-        case \/-(a) => DList(a).tell
+        case \/-(a)      => DList(a).tell
         case -\/((x, y)) => flatten(x) >> flatten(y)
       }
 

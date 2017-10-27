@@ -34,8 +34,8 @@ object EndoUsage {
   //use fist Endo(f1) result to the next Endo(f2) parameter
   val ef3 = Endo(f1) |+| Endo(f2)
 
-  assert(ef3(1) == (f1 compose f2) (1))
-  assert(ef3(10) == (f1 compose f2) (10))
+  assert(ef3(1) == (f1 compose f2)(1))
+  assert(ef3(10) == (f1 compose f2)(10))
 
   // having this monoid allows us to take a Foldable full of
   // endomorphisms for some type, and squash that down into a single
@@ -43,12 +43,14 @@ object EndoUsage {
 
   case class Person(first: String, last: String, age: Int)
 
-  val lowercaseFirst: Endo[Person] = Endo(p ⇒ p.copy(first = p.first.toLowerCase))
+  val lowercaseFirst: Endo[Person] = Endo(
+    p ⇒ p.copy(first = p.first.toLowerCase))
   val lowercaseLast: Endo[Person] = Endo(p ⇒ p.copy(last = p.last.toLowerCase))
   val trimFirst: Endo[Person] = Endo(p ⇒ p.copy(first = p.first.trim))
   val trimLast: Endo[Person] = Endo(p ⇒ p.copy(last = p.last.trim))
   val birthday: Endo[Person] = Endo(p ⇒ p.copy(age = p.age + 1))
-  val endos: IList[Endo[Person]] = IList(lowercaseFirst, lowercaseLast, trimFirst, trimLast, birthday)
+  val endos: IList[Endo[Person]] =
+    IList(lowercaseFirst, lowercaseLast, trimFirst, trimLast, birthday)
 
   val stewBefore = Person(" Stew ", "O'Connor", 70)
   assert(endos.suml.apply(stewBefore) == Person("stew", "o'connor", 71))

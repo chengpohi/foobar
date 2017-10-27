@@ -5,7 +5,6 @@ import scalaz.concurrent.Chan._
 import scalaz.concurrent._
 import scalaz.effect._
 
-
 object ChanUsage extends App {
   // val DefaultExecutorService: ExecutorService = {
   //  Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors, DefaultDaemonThreadFactory)

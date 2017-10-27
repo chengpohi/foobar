@@ -7,7 +7,6 @@ import scalaz.effect.IO
 
 import scala.util.Random
 
-
 object FreeUsage extends App {
 
   sealed trait RngOp[A]
@@ -57,7 +56,8 @@ object FreeUsage extends App {
   // You can of course derive new operations from the primitives
   def nextNonNegativeInt = nextInt.map(n => if (n == Int.MinValue) 0 else n.abs)
 
-  def choose[A](h: A, tl: A*) = nextIntInRange(tl.length + 1).map((h +: tl).apply)
+  def choose[A](h: A, tl: A*) =
+    nextIntInRange(tl.length + 1).map((h +: tl).apply)
 
   // Natural transformation to (Random => A)
   type RandomReader[A] = Random => A
@@ -65,16 +65,16 @@ object FreeUsage extends App {
     new (RngOp ~> RandomReader) {
       def apply[A](fa: RngOp[A]) =
         fa match {
-          case RngOp.NextBoolean => _.nextBoolean
-          case RngOp.NextDouble => _.nextDouble
-          case RngOp.NextFloat => _.nextFloat
-          case RngOp.NextGaussian => _.nextGaussian
-          case RngOp.NextInt => _.nextInt
+          case RngOp.NextBoolean       => _.nextBoolean
+          case RngOp.NextDouble        => _.nextDouble
+          case RngOp.NextFloat         => _.nextFloat
+          case RngOp.NextGaussian      => _.nextGaussian
+          case RngOp.NextInt           => _.nextInt
           case RngOp.NextIntInRange(n) => _.nextInt(n)
-          case RngOp.NextLong => _.nextLong
+          case RngOp.NextLong          => _.nextLong
           case RngOp.NextPrintableChar => _.nextPrintableChar
-          case RngOp.NextString(n) => _.nextString(n)
-          case RngOp.SetSeed(n) => _.setSeed(n)
+          case RngOp.NextString(n)     => _.nextString(n)
+          case RngOp.SetSeed(n)        => _.setSeed(n)
         }
     }
 

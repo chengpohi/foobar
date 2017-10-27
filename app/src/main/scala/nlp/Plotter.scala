@@ -9,9 +9,9 @@ import nlp.FigureDSL.PlotBuilder
 import scala.collection.mutable.ArrayBuffer
 
 /**
-  * scala99
-  * Created by chengpohi on 7/9/16.
-  */
+ * scala99
+ * Created by chengpohi on 7/9/16.
+ */
 object FigureDSL {
   case class LinePlotDefinition[D](var x: D, var y: D)
   class PlotBuilder {

@@ -15,10 +15,8 @@ object TagUsage extends App {
   import std.option._
   import std.list._
 
-
   assert((3 |+| 3) === 6)
   assert(Monoid[Int].zero === 0)
-
 
   assert((Multiplication(3) |+| Multiplication(3)) === Multiplication(9))
   assert(Monoid[Int @@ Multiplication].zero === Multiplication(1))
@@ -33,10 +31,10 @@ object TagUsage extends App {
   assert((Disjunction(false) |+| Disjunction(false)) === Disjunction(false))
   assert(Monoid[Boolean @@ Disjunction].zero === Disjunction(false))
 
-
   // tags have a convenience method name subst for tagging an F[A] as
   // a F[A @@ SomeTag]
-  assert(Conjunction.subst(List(false, true, false)).suml === Conjunction(false))
+  assert(
+    Conjunction.subst(List(false, true, false)).suml === Conjunction(false))
   assert(Conjunction.subst(List.empty[Boolean]).suml === Conjunction(true))
   assert(Conjunction.subst(List(true, true)).suml === Conjunction(true))
 
@@ -44,15 +42,15 @@ object TagUsage extends App {
 
   assert(equalsTrue(Disjunction(true)))
 
-
   // however at compile time, they appear to be different types, so a
   // typesafe comparison would fail to compile:
   // assert(Disjunction(true) === true)
 
   // Tags have an unwrap method which converts the value back to a untagged type:
   assert(Disjunction.unwrap(Disjunction(true)) === true)
-  assert(Conjunction.unwrap(Conjunction.subst(List(false, true, false)).suml) === false)
-
+  assert(
+    Conjunction
+      .unwrap(Conjunction.subst(List(false, true, false)).suml) === false)
 
   // A Semigroup that selects the minimum element:
   assert(MinVal.unwrap(MinVal(3) |+| MinVal(1) |+| MinVal(5)) === 1)
@@ -75,7 +73,8 @@ object TagUsage extends App {
     Sorted(as.sorted)
 
   // now we can define a function which takes lists which are tagged as being sorted
-  def minOption[A](a: List[A] @@ Sorted): Option[A] = Sorted.unwrap(a).headOption
+  def minOption[A](a: List[A] @@ Sorted): Option[A] =
+    Sorted.unwrap(a).headOption
 
   implicit val ord = implicitly[Order[Option[Int]]].toScalaOrdering
   assert(minOption(sortList(List(3, 2, 1, 5, 3))) === Some(1))

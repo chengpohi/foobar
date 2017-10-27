@@ -12,7 +12,6 @@ object IListUsage extends App {
   val ns2 = ICons(1, ICons(2, ICons(3, INil())))
   val ns3 = 1 :: 2 :: 3 :: INil()
 
-
   // Construct from something else
   val ns4 = IList.fromList(List(1, 3, 4))
   val ns5 = IList.fromOption(Some(2))
@@ -38,11 +37,12 @@ object IListUsage extends App {
   println(prod)
 
   // Destructure with uncons
-  val s1 = ns.uncons("empty", (h, t) => "head is %s and tail is %s".format(h, t))
+  val s1 =
+    ns.uncons("empty", (h, t) => "head is %s and tail is %s".format(h, t))
   println(s1)
   // Destructure with matching
   val s2 = ns match {
-    case INil() => "empty"
+    case INil()      => "empty"
     case ICons(h, t) => "head is %s and tail is %s".format(h, t)
   }
 
@@ -62,7 +62,6 @@ object IListUsage extends App {
   val lst = ns.toList
   val vec = ns.toVector
   val str = ns.toStream
-
 
   // Or less familiar
   val estr = ns.toEphemeralStream

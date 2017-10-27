@@ -32,7 +32,7 @@ trait Ab01Parser extends Parsers {
         def apply(in: Input) =
           left(in) match {
             case s: Success[T] => s
-            case _ => right(in)
+            case _             => right(in)
           }
       }
     }

@@ -18,19 +18,19 @@ class Scala99 {
 
   def reverse[T](list: List[T]): List[T] = list match {
     case al :+ a0 => a0 :: reverse(al)
-    case Nil => Nil
+    case Nil      => Nil
   }
 
   def palindrome[T](list: List[T]): Boolean = list match {
-    case List(a) => true
+    case List(a)    => true
     case head :: ar => head == ar.last && palindrome(ar.init)
-    case List() => true
-    case _ => false
+    case List()     => true
+    case _          => false
   }
 
   def flatten[T](list: List[T]): List[Any] = list flatMap {
     case a: List[_] => flatten(a)
-    case b => List(b)
+    case b          => List(b)
   }
 
   def compress[T](list: List[T]): List[T] = list.distinct
@@ -46,7 +46,7 @@ class Scala99 {
   def encodeModified[T](list: List[T]): List[Any] = {
     list.groupBy(a => a).toList.map {
       case f if f._2.size == 1 => f._1
-      case f => (f._2.size, f._1)
+      case f                   => (f._2.size, f._1)
     }
   }
 
@@ -191,7 +191,7 @@ class Scala99 {
 
     def bits(n: Int): List[List[Int]] = n match {
       case x if x > 1 => c.flatMap(i => bits(n - 1).map(b => i :: b))
-      case 1 => c.map(i => List(i))
+      case 1          => c.map(i => List(i))
     }
 
     bits(n).map(i => i.mkString(""))
@@ -235,9 +235,9 @@ class Scala99 {
   def countLeaves[T](binaryTree: Node[T]): Int = binaryTree match {
     case Node(Some(left), Some(right), value, key) =>
       countLeaves(left) + countLeaves(right)
-    case Node(Some(left), None, value, key) => countLeaves(left)
+    case Node(Some(left), None, value, key)  => countLeaves(left)
     case Node(None, Some(right), value, key) => countLeaves(right)
-    case Node(None, None, value, Some(key)) => 1
+    case Node(None, None, value, Some(key))  => 1
   }
 
   def completeBinaryTrees(number: Int): List[Node[String]] = {

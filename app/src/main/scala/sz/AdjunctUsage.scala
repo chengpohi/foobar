@@ -3,7 +3,6 @@ package sz
 import scalaz.Scalaz._
 import scalaz._
 
-
 //State
 //Traverse
 //Reader
@@ -27,7 +26,7 @@ object AdjunctUsage extends App {
   // traverse the list with our stateful computation, producing a list
   // of booleans for "was this a repeat of the previous"
   val res1: List[Boolean] =
-  Traverse[List].traverseS(nonRepeating)(checkForRepeats).eval(None)
+    Traverse[List].traverseS(nonRepeating)(checkForRepeats).eval(None)
   val res2: List[Boolean] =
     Traverse[List].traverseS(repeating)(checkForRepeats).eval(None)
   res1.println
@@ -110,16 +109,18 @@ object AdjunctUsage extends App {
   // computations: look for repeats and sum the ints, could be
   // composed together, so that they happen on a single pass through a
   // Traversable,
-  type ROIRIWW[A] = Reader[Option[Int], // read the previous value for computing repeats
-    Reader[Int, // read the accumulated sum
-      Writer[Int, // write the new sum
+  type ROIRIWW[A] = Reader[
+    Option[Int], // read the previous value for computing repeats
+    Reader[
+      Int, // read the accumulated sum
+      Writer[
+        Int, // write the new sum
         Writer[Option[Int], A]]]] // write the next value for computing repeats
 
   // now we can combine our two stateful computations
   val checkForRepeatsAdjAndSum2: Int ⇒ ROIRIWW[Boolean] = { next ⇒
     checkForRepeatsAdj(next).map(w ⇒ sum(next).map(_.map(_ ⇒ w)))
   }
-
 
   // but this can be done more generically
   // for any two of these Reader/Writer adjunctions
@@ -132,7 +133,7 @@ object AdjunctUsage extends App {
   // with the above function we can combine the two stateful
   // computations with a function that throws away the Unit from sum.
   val checkForRepeatsAdjAndSum: Int ⇒ ROIRIWW[Boolean] =
-  run2RWState(checkForRepeatsAdj, sum, (a: Boolean, _: Any) ⇒ a)
+    run2RWState(checkForRepeatsAdj, sum, (a: Boolean, _: Any) ⇒ a)
 
   // since the adjunctions compose, we can run both stateful
   // computations with a single traverse of the list. This
@@ -150,6 +151,5 @@ object AdjunctUsage extends App {
 
   assert(repeats === false) // no repeats
   assert(sumResult === 10) // sum is 10
-
 
 }

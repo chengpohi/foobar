@@ -25,7 +25,7 @@ object Animal {
           case None =>
             s.find(_.id == id) match {
               case Some(c) => c.animals.get.mkString("\\n")
-              case None => "Not Found"
+              case None    => "Not Found"
             }
           case Some(t) => "Conflict found at " + t
         }
@@ -45,7 +45,7 @@ object Animal {
            f1.lastX + f1.xOffest.get == f2.lastX && f1.lastY + f1.yOffest.get == f2.lastY))
     res.find(_._2 == false) match {
       case Some(res) => Some(res._1)
-      case None => None
+      case None      => None
     }
   }
 
@@ -62,9 +62,7 @@ object Animal {
             !animals.exists(_.isEmpty) match {
               case true =>
                 Some(
-                  FixedTimeAnimals(filter(0),
-                                   filter(1),
-                                   Some(animals.flatten)))
+                  FixedTimeAnimals(filter(0), filter(1), Some(animals.flatten)))
               case false => None
             }
           }

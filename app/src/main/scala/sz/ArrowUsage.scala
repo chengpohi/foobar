@@ -13,7 +13,7 @@ object ArrowUsage extends App {
   (plus1.first apply (1, "abc")).println
   (plus1.second apply ("abc", 2)).println
   (rev.second apply (1, "abc")).println
-  (plus1 *** rev apply(7, "abc")).println
+  (plus1 *** rev apply (7, "abc")).println
   (plus1 &&& plus2 apply 7).println
   (plus1.product apply (1, 2)).println
 }

@@ -17,7 +17,7 @@ object OJ {
     val f: Option[BigInt] = r.find(i => n % i == 0)
     f match {
       case Some(t) => t #:: primeFactors(r.tail, n / t)
-      case None => Stream.empty
+      case None    => Stream.empty
     }
   }
 

@@ -4,7 +4,7 @@ object TrampolineUsage extends App {
 
   import scalaz._, Scalaz._, Free._
 
-  def quickSort[F[_] : Applicative, T: Order](xs: List[T]): Free[F, List[T]] = {
+  def quickSort[F[_]: Applicative, T: Order](xs: List[T]): Free[F, List[T]] = {
     xs match {
       case Nil =>
         return_ {
@@ -21,7 +21,7 @@ object TrampolineUsage extends App {
     }
   }
 
-  def runQuickSort[F[_] : Applicative : Comonad, T: Order](xs: List[T]): List[T] =
+  def runQuickSort[F[_]: Applicative: Comonad, T: Order](xs: List[T]): List[T] =
     quickSort[F, T](xs).go(f => Comonad[F].copoint(f))(Applicative[F])
 
   val xs = List.fill(32)(util.Random.nextInt(100))
@@ -33,7 +33,9 @@ object TrampolineUsage extends App {
     val sorted = runQuickSort[Function0, Int](xs)
     println(sorted)
 
-    val step = λ[λ[α => (Int, Function0[α])] ~> (Int, ?)] { case (i, f) => (i + 1, f()) }
+    val step = λ[λ[α => (Int, Function0[α])] ~> (Int, ?)] {
+      case (i, f) => (i + 1, f())
+    }
     val (steps, sorted1) = quickSort[Function0, Int](xs).foldRun(0)(step)
     println("sort using heap took %d steps".format(steps))
   }
@@ -58,9 +60,10 @@ object TrampolineUsage extends App {
       return_(n + 1)
     else if (n <= 0)
       suspend(ackermann(m - 1, 1))
-    else for {
-      a <- suspend(ackermann(m, n - 1))
-      b <- suspend(ackermann(m - 1, a))
-    } yield b
+    else
+      for {
+        a <- suspend(ackermann(m, n - 1))
+        b <- suspend(ackermann(m - 1, a))
+      } yield b
 
 }

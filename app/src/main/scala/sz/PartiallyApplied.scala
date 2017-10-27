@@ -1,6 +1,6 @@
 package sz
 
-object PartiallyApplied extends App{
+object PartiallyApplied extends App {
 
   val f1: (String => Int) = _.length
   val f2: (String => String => Int) = x => y => x.length + y.length

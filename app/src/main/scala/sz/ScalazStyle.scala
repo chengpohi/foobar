@@ -17,8 +17,6 @@ object ScalazStyle extends App {
   "foo".left[String]
 
   case class Version(major: Int, minor: Int) {
-    require(major >= 0,
-      "major must greater than 0: %d".format(major)
-    )
+    require(major >= 0, "major must greater than 0: %d".format(major))
   }
 }

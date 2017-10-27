@@ -6,7 +6,8 @@ import scalaz._
 import Scalaz._
 
 object CodensityUsage extends SafeApp {
-  def bracketCodensity[A, B](before: IO[A])(after: A => IO[B]): Codensity[IO, A] =
+  def bracketCodensity[A, B](before: IO[A])(
+      after: A => IO[B]): Codensity[IO, A] =
     new Codensity[IO, A] {
       def apply[C](f: A => IO[C]): IO[C] =
         before.bracket(after)(f) // store the instructions
@@ -27,9 +28,12 @@ object CodensityUsage extends SafeApp {
 
   //get the Condesity type resource
   val resource1 = resource("R8")
-  resource1.map(s => {
-    println(s.toUpperCase()) // during do something
-  }).improve.unsafePerformIO() // finally release it
+  resource1
+    .map(s => {
+      println(s.toUpperCase()) // during do something
+    })
+    .improve
+    .unsafePerformIO() // finally release it
 
   val prg = for {
     r1 <- resource("R1")

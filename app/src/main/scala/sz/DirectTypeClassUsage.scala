@@ -22,7 +22,6 @@ object DirectTypeClassUsage extends App {
     join(o2).println
   }
 
-
   // Direct use of type class for multiple types
   def direct2(): Unit = {
     import scalaz._
