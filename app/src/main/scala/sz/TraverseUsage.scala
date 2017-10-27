@@ -75,5 +75,4 @@ object TraverseUsage extends App {
 
   assert(Tag.unwrap(res1.foldMap(Tags.Disjunction(_))) === false)
   assert(Tag.unwrap(res2.foldMap(Tags.Disjunction(_))) === true)
-
 }

@@ -104,7 +104,7 @@ object SyntaxUsage extends App {
     kleisliArrow[Option].compose(k, k)
     k >>> k
 
-    List(some(0)).sequence
+    List(some(0)).sequence.println
   }
 
 }
