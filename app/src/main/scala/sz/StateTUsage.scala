@@ -29,7 +29,7 @@ object FibStateExample extends App {
 
   val initialState = (0, 1)
 
-  val (nextFib: State[(Int, Int), Int]) = for {
+  val nextFib: State[(Int, Int), Int] = for {
     s <- init:State[(Int, Int), (Int, Int)] // source: (Int, Int) target: (Int, Int)
     (a,b) = s
     n = a + b
@@ -41,13 +41,16 @@ object FibStateExample extends App {
     nextFib.replicateM(k)
   }
 
+  //State[Input, Output]
   def getNthFib(k:Int): State[(Int, Int), Int] = {
     if (k == 0)
       pure(0) // will be thrown away
     else
-      getNthFib(k - 1) >> nextFib
+      getNthFib(k - 1) >> nextFib // run k times nextFib and return last
   }
 
+  //state is used to data update on variable and remeber change in context
+  println( getNthFib(0).eval( initialState ) )
   // run two examples through the magic of App
   println( getNthFib(5).eval( initialState ) )
   println( getNFibs(10).eval( initialState ) )

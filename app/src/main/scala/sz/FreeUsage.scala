@@ -45,11 +45,10 @@ object FreeUsage extends App {
   val nextFloat = Free.liftF(RngOp.NextFloat)
   val nextGaussian = Free.liftF(RngOp.NextGaussian)
   val nextInt = Free.liftF(RngOp.NextInt)
-
-  def nextIntInRange(max: Int) = Free.liftF(RngOp.NextIntInRange(max))
-
   val nextLong = Free.liftF(RngOp.NextLong)
   val nextPrintableChar = Free.liftF(RngOp.NextPrintableChar)
+
+  def nextIntInRange(max: Int) = Free.liftF(RngOp.NextIntInRange(max))
 
   def nextString(length: Int) = Free.liftF(RngOp.NextString(length))
 
