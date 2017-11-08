@@ -12,6 +12,7 @@ object Settings {
   val mllibDependencies = Seq(
     "org.apache.spark" %% "spark-core" % "2.1.1",
     "org.apache.spark" %% "spark-mllib" % "2.1.1",
+    "com.johnsnowlabs.nlp" %% "spark-nlp" % "1.2.3",
     "org.scalaz" %% "scalaz-core" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-effect" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-concurrent" % "7.3.0-M9",
@@ -54,17 +55,14 @@ object Settings {
     version := "1.0",
     scalaVersion := "2.12.1",
     scalacOptions ++= Seq("-language:implicitConversions",
-      "-language:higherKinds",
-      "-feature",
-      "-language:postfixOps",
-      "-Xplugin-require:macroparadise"),
+                          "-language:higherKinds",
+                          "-feature",
+                          "-language:postfixOps",
+                          "-Xplugin-require:macroparadise"),
     initialCommands in console := "import scalaz._, Scalaz._",
     addCompilerPlugin(
       "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4"),
-    addCompilerPlugin(
-      "org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full
-    ),
     libraryDependencies ++= commonDependencies
   )
 
@@ -72,10 +70,10 @@ object Settings {
     version := "1.0",
     scalaVersion := "2.11.8",
     scalacOptions ++= Seq("-language:implicitConversions",
-      "-language:higherKinds",
-      "-feature",
-      "-language:postfixOps",
-      "-Xplugin-require:macroparadise"),
+                          "-language:higherKinds",
+                          "-feature",
+                          "-language:postfixOps",
+                          "-Xplugin-require:macroparadise"),
     addCompilerPlugin(
       "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
     libraryDependencies ++= mllibDependencies

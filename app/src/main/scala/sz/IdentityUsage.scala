@@ -15,5 +15,5 @@ object IdentityUsage extends App {
 
   (Map("foo" -> List(1)) merge Map("foo" -> List(1), "bar" -> List(2))).println
   (Map("foo" -> 1) merge Map("foo" -> 1, "bar" -> 2)).println
-  (List(1,2,3) alignSwap List(4,5)).println
+  (List(1, 2, 3) alignSwap List(4, 5)).println
 }
