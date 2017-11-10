@@ -4,7 +4,6 @@ scalaVersion := "2.12.1"
 lazy val mllib = project
   .in(file("modules/mllib"))
   .settings(mllibSettings: _*)
-  .settings(libraryDependencies ++= mllibDependencies)
 
 lazy val macros = project
   .in(file("modules/macros"))

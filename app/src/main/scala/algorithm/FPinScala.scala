@@ -1,6 +1,7 @@
 package algorithm
 
-import java.util.concurrent.{Callable, TimeUnit}
+import java.util.concurrent.atomic.AtomicReference
+import java.util.concurrent.{Callable, CountDownLatch, TimeUnit}
 
 import scalaz._
 import Scalaz._
@@ -37,7 +38,7 @@ object FPinScala extends App {
   def tail[A](l: List[A]): List[A] = {
     l match {
       case h :: t => t
-      case Nil    => throw new UnsupportedOperationException("tail of empty list")
+      case Nil => throw new UnsupportedOperationException("tail of empty list")
     }
   }
 
@@ -50,7 +51,7 @@ object FPinScala extends App {
   def dropWhile[A](l: List[A])(f: A => Boolean): List[A] = {
     l match {
       case h :: t if f(h) => dropWhile(t)(f)
-      case _              => l
+      case _ => l
     }
   }
 
@@ -77,6 +78,7 @@ object FPinScala extends App {
     def cancel(evenIfRunning: Boolean): Boolean
     def isDone: Boolean
     def isCancelled: Boolean
+    def apply(k: A => Unit): Unit
   }
 
   type Par[A] = ExecutorService => Future[A]
@@ -89,11 +91,12 @@ object FPinScala extends App {
       def get(timeout: Long, units: TimeUnit) = get
       def isCancelled = false
       def cancel(evenIfRunning: Boolean): Boolean = false
+      def apply(k: A => Unit): Unit = ???
     }
 
     def map2[A, B, C](a: Par[A], b: Par[B])(f: (A, B) => C)(
-        implicit timeout: Long = Long.MaxValue,
-        unit: TimeUnit = TimeUnit.SECONDS): Par[C] = (es: ExecutorService) => {
+      implicit timeout: Long = Long.MaxValue,
+      unit: TimeUnit = TimeUnit.SECONDS): Par[C] = (es: ExecutorService) => {
       val af = a(es)
       val bf = b(es)
       UnitFuture(f(af.get(timeout, unit), bf.get(timeout, unit)))
@@ -103,8 +106,8 @@ object FPinScala extends App {
       map2(a, unit(()))((a, _) => f(a))
 
     def asyncF[A, B](f: A => B): A => Par[B] = {
-      (a: A) => (es: ExecutorService) =>
-        {
+      (a: A) =>
+        (es: ExecutorService) => {
           UnitFuture(f(a))
         }
     }
@@ -121,23 +124,43 @@ object FPinScala extends App {
       map(sequence(res))(l => l.flatten)
     }
 
-    def sequence[A](ps: List[Par[A]]): Par[List[A]] = {
-      if (ps.isEmpty)
-        return unit(List())
-      if (ps.length == 1)
-        return map(ps.head)(i => List(i))
 
-      val (l, r) = ps.splitAt(ps.length / 2)
-      map2(sequence(l), sequence(r))(_ ++ _)
+    def sequence[A](l: List[Par[A]]): Par[List[A]] = l match {
+      case List() => unit(List())
+      case List(i) => map(i)(f => List(f))
+      case _ =>
+        val (a, b) = l.splitAt(l.length / 2)
+        map2(sequence(a), sequence(b))(_ ++ _)
     }
 
     def sortPar(parList: Par[List[Int]]) = map(parList)(_.sorted)
 
     def fork[A](a: => Par[A]): Par[A] =
-      (es: ExecutorService) =>
-        es.submit(new Callable[A] {
-          def call = a(es).get
-        })
+      (es: ExecutorService) => new Future[A] {
+        override def get: A = ???
+        override def get(timeout: Long, unit: TimeUnit): A = ???
+        override def cancel(evenIfRunning: Boolean): Boolean = ???
+        override def isDone: Boolean = ???
+        override def isCancelled: Boolean = ???
+        override def apply(k: A => Unit): Unit = {
+          eval(es)(a(es)(k))
+        }
+      }
+
+    def eval(es: ExecutorService)(r: => Unit): Unit = {
+      es.submit(new Callable[Unit] {
+        def call = r
+      })
+    }
+
+    def delay[A](fa: => Par[A]): Par[A] = es => fa(es)
+    def run[A](es: ExecutorService)(p: Par[A]): A = {
+      val ref = new AtomicReference[A]()
+      val latch = new CountDownLatch(1)
+      p(es) { i => ref.set(i); latch.countDown() }
+      latch.await()
+      ref.get()
+    }
   }
 
 }
