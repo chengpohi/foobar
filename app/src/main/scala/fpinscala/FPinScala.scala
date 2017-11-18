@@ -1,10 +1,10 @@
-package algorithm
+package fpinscala
 
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.{Callable, CountDownLatch, TimeUnit}
 
+import scalaz.Scalaz._
 import scalaz._
-import Scalaz._
 
 object FPinScala extends App {
   def isSorted[A](arr: Array[A], f: (A, A) => Boolean): Boolean = {
