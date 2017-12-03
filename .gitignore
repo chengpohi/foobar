@@ -25,3 +25,4 @@ project/target/*
 lib/*
 release/*
 .DS_store
+.vscode/
