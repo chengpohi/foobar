@@ -1,3 +1,5 @@
+package concurrency;
+
 /**
  * scala99
  * Created by chengpohi on 7/21/16.

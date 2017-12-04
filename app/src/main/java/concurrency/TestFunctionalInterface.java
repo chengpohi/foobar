@@ -1,3 +1,5 @@
+package concurrency;
+
 import java.util.function.Predicate;
 
 @FunctionalInterface

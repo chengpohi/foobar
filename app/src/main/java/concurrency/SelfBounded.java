@@ -1,3 +1,5 @@
+package concurrency;
+
 public class SelfBounded<SELF extends SelfBounded<SELF>> {
     public String testField = "TEST";
 
