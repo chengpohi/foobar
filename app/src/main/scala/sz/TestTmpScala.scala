@@ -1,3 +1,5 @@
+package sz
+
 /**
   * scala99
   * Created by chengpohi on 7/2/16.

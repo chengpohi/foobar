@@ -1,4 +1,4 @@
-package di
+package sz.di
 
 import scalaz.Reader
 
