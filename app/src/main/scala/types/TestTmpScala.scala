@@ -1,4 +1,4 @@
-package sz
+package types
 
 /**
   * scala99
