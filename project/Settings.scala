@@ -49,7 +49,8 @@ object Settings {
     "org.json4s" %% "json4s-core" % "3.5.3",
     "org.apache.commons" % "commons-lang3" % "3.6",
     "org.apache.commons" % "commons-compress" % "1.14",
-    "com.google.guava" % "guava" % "23.5-jre"
+    "com.google.guava" % "guava" % "23.5-jre",
+    "org.tensorflow" % "tensorflow" % "1.4.0"
   )
 
   val commonSetting = Seq(

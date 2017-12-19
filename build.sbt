@@ -1,5 +1,4 @@
 import Settings._
-
 scalaVersion := "2.12.1"
 lazy val mllib = project
   .in(file("modules/mllib"))

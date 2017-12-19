@@ -1,4 +1,8 @@
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * scala99
@@ -6,10 +10,9 @@ import java.io.IOException;
  */
 public class TestTmp {
     public static void main(String[] args) throws IOException {
-        new TestTmp().test();
-    }
-
-    public void test() {
+        for (int i = 0; i < 20000; i++) {
+            Files.lines(Paths.get("build.sbt"));
+        }
     }
 }
 
