@@ -1,7 +1,7 @@
 package learn.mllib
 
 import org.apache.log4j.Logger
-import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkConf, SparkContext}
 
 trait MLLibApp extends App {
@@ -10,7 +10,12 @@ trait MLLibApp extends App {
   val conf =
     new SparkConf().setAppName("Statistical Learn").setMaster("local[2]")
 
-  val sc: SparkContext = new SparkContext(conf)
+  val spark = SparkSession
+    .builder()
+    .config(conf)
+    .getOrCreate()
+
+  val sc: SparkContext = spark.sparkContext
 
   val SPARK_HOME = sys.env("SPARK_HOME")
 
@@ -19,4 +24,5 @@ trait MLLibApp extends App {
       SPARK_HOME + "/" + s
     }
   }
+
 }

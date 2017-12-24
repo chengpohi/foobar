@@ -9,8 +9,8 @@ import org.tensorflow.types.UInt8
 
 
 object LabelImage extends App {
-  val modelDir = "./inception5h"
-  val imageFile = "./inception5h/download.jpeg"
+  val modelDir = "./model/inception5h"
+  val imageFile = "./model/inception5h/download.jpeg"
   val graphDef: Array[Byte] = Files.readAllBytes(Paths.get(modelDir, "tensorflow_inception_graph.pb"))
   val labels =
     Files.lines(Paths.get(modelDir, "imagenet_comp_graph_label_strings.txt")).collect(Collectors.toList())

@@ -3,12 +3,7 @@ package learn.mllib
 import org.apache.spark.ml.feature.{OneHotEncoder, StringIndexer}
 import org.apache.spark.sql.SparkSession
 
-object OneHotUsage extends App {
-  val spark = SparkSession
-    .builder()
-    .appName("Simple Application")
-    .master("local[4]")
-    .getOrCreate()
+object OneHotUsage extends MLLibApp {
   val df = spark
     .createDataFrame(
       Seq(
