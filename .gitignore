@@ -27,3 +27,5 @@ release/*
 .DS_store
 .vscode/
 inception5h/
+*.iml
+model/*
