@@ -17,6 +17,7 @@ from nltk.corpus import names
 from nltk.classify import apply_features
 from nltk.corpus import movie_reviews
 import math
+import gensim, logging
 
 # word tokenize
 sentence = """At eight o'clock on Thursday morning Arthur didn't feel very good."""
@@ -506,3 +507,10 @@ def entropy(labels):
     freqdist = nltk.FreqDist(labels)
     probs = [freqdist.freq(l) for l in nltk.FreqDist(labels)]
     return -sum([p * math.log(p, 2) for p in probs])
+
+
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+
+sentences = [['first', 'sentence'], ['second', 'sentence']]
+# train word2vec on the two sentences
+model = gensim.models.Word2Vec(sentences, min_count=4)
