@@ -8,9 +8,6 @@ import java.nio.file.Paths;
  */
 public class TestTmp {
     public static void main(String[] args) throws IOException {
-        for (int i = 0; i < 20000; i++) {
-            Files.lines(Paths.get("build.sbt"));
-        }
     }
 }
 
