@@ -19,6 +19,9 @@ from nltk.corpus import movie_reviews
 import math
 import gensim, logging
 from nltk.corpus import conll2000
+from nltk.corpus import conll2002
+import re
+from nltk import load_parser
 
 # word tokenize
 sentence = """At eight o'clock on Thursday morning Arthur didn't feel very good."""
@@ -558,7 +561,7 @@ banking NN I-NP
 concern NN I-NP
 . . O
 '''
-nltk.chunk.conllstr2tree(text, chunk_types=['NP']).draw()
+nltk.chunk.conllstr2tree(text).draw()
 print conll2000.chunked_sents('train.txt')[99]
 print conll2000.chunked_sents('train.txt', chunk_types=['NP'])[99]
 cp = nltk.RegexpParser("")
@@ -673,7 +676,56 @@ def traverse(t):
 t = nltk.Tree('(S (NP Alice) (VP chased (NP the rabbit)))')
 traverse(t)
 
-
 sent = nltk.corpus.treebank.tagged_sents()[22]
 print nltk.ne_chunk(sent, binary=True)
 print nltk.ne_chunk(sent)
+
+IN = re.compile(r'.*\bin\b(?!\b.+ing)')
+for doc in nltk.corpus.ieer.parsed_docs('NYT_19980315'):
+    for rel in nltk.sem.extract_rels('ORG', 'LOC', doc,
+                                     corpus='ieer', pattern=IN):
+        print rel
+
+vnv = """
+(
+is/V|    # 3rd sing present and
+was/V|   # past forms of the verb zijn ('be')
+werd/V|  # and also present
+wordt/V  # past of worden ('become)
+)
+.*       # followed by anything
+van/Prep # followed by van ('of')
+"""
+VAN = re.compile(vnv, re.VERBOSE)
+
+for doc in conll2002.chunked_sents('ned.train'):
+    for r in nltk.sem.extract_rels('PER', 'ORG', doc,
+                                   corpus='conll2002', pattern=VAN):
+        print r
+
+nltk.data.show_cfg('grammars/book_grammars/sql0.fcfg')
+cp = load_parser('grammars/book_grammars/sql0.fcfg')
+query = 'What cities are located in China'
+trees = cp.parse_sents(query.split())
+answer = trees[0].node['SEM']
+q = ' '.join(answer)
+
+nltk.boolean_ops()
+
+phonetic = nltk.corpus.timit.phones('dr1-fvmh0/sa1')
+nltk.corpus.timit.word_times('dr1-fvmh0/sa1')
+timitdict = nltk.corpus.timit.transcription_dict()
+print timitdict['greasy'] + timitdict['wash'] + timitdict['water']
+print phonetic[17:30]
+mappings = [('ph', 'f'), ('ght', 't'), ('^kn', 'n'), ('qu', 'kw'),
+            ('[aeiou]+', 'a'), (r'(.)\1', r'\1')]
+
+
+def signature(word):
+    for patt, repl in mappings:
+        word = re.sub(patt, repl, word)
+    pieces = re.findall('[^aeiou]+', word)
+    return ''.join(char for piece in pieces for char in sorted(piece))[:8]
+
+
+signature('illefent')
