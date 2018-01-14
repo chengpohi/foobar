@@ -20,6 +20,10 @@ object Settings {
     "org.scalatest" %% "scalatest" % "3.0.3" % "test"
   )
 
+  val biDependencies = Seq(
+    "org.apache.hadoop" % "hadoop-client" % "2.5.2" % "provided"
+  )
+
   lazy val akkaDependencies = Seq(
     "com.typesafe" % "config" % "1.2.1",
     "com.typesafe.akka" %% "akka-slf4j" % "2.4.16",
@@ -51,6 +55,7 @@ object Settings {
     "org.apache.commons" % "commons-compress" % "1.14",
     "com.google.guava" % "guava" % "23.5-jre",
     "org.tensorflow" % "tensorflow" % "1.4.0"
+
   )
 
   val commonSetting = Seq(
@@ -79,6 +84,12 @@ object Settings {
     addCompilerPlugin(
       "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
     libraryDependencies ++= mllibDependencies
+  )
+
+  val biSettings = Seq(
+    version := "1.0",
+    scalaVersion := "2.12.1",
+    libraryDependencies ++= biDependencies
   )
 
 }

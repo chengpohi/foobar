@@ -1,8 +1,14 @@
 import Settings._
+
 scalaVersion := "2.12.1"
 lazy val mllib = project
   .in(file("modules/mllib"))
   .settings(mllibSettings: _*)
+
+lazy val bi = project
+  .in(file("modules/bi"))
+  .settings(biSettings: _*)
+
 
 lazy val macros = project
   .in(file("modules/macros"))
@@ -24,3 +30,4 @@ lazy val app = project
   )
   .aggregate(macros, parsers)
   .dependsOn(macros, parsers)
+
