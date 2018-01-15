@@ -96,7 +96,7 @@ object HotTagAggs {
   @throws[Exception]
   def main(args: Array[String]) {
     val conf: JobConf = new JobConf(this.getClass)
-    conf.setJobName("WordCountScala")
+    conf.setJobName("HotTagAggs")
     conf.setOutputKeyClass(classOf[Text])
     conf.setOutputValueClass(classOf[TagHotWritable])
     conf.setMapperClass(classOf[Map])
