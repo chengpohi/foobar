@@ -5,6 +5,7 @@ import java.io.{DataInput, DataOutput, IOException}
 import org.apache.commons.logging.LogFactory
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io._
+import org.apache.hadoop.io.compress._
 import org.apache.hadoop.mapred._
 
 import scala.util.Try
@@ -27,10 +28,10 @@ object HotTagAggs {
 
     override def toString: String =
       s"""
-        |{
-        |"tag": $tag,
-        |"hot": $hot
-        |}
+         |{
+         |"tag": $tag,
+         |"hot": $hot
+         |}
       """.stripMargin
     override def compareTo(o: TagHotWritable): Int =
       Integer.compare(o.hot, hot)
@@ -100,12 +101,17 @@ object HotTagAggs {
     conf.setOutputKeyClass(classOf[Text])
     conf.setOutputValueClass(classOf[TagHotWritable])
     conf.setMapperClass(classOf[Map])
+    conf.setBoolean("mapreduce.output.compress", true)
+    conf.setClass("mapreduce.map.output.compression.codec", classOf[GzipCodec], classOf[CompressionCodec])
+    conf.setStrings("mapreduce.reduce.shuffle.memory.limit.percent", "0.05")
 
     conf.setCombinerClass(classOf[Reduce])
     conf.setReducerClass(classOf[Reduce])
     conf.setInputFormat(classOf[TextInputFormat])
     conf.setOutputFormat(classOf[TextOutputFormat[Text, TagHotWritable]])
 
+    FileOutputFormat.setCompressOutput(conf, true)
+    FileOutputFormat.setOutputCompressorClass(conf, classOf[GzipCodec])
     FileInputFormat.setInputPaths(conf, new Path(args(0)))
     FileOutputFormat.setOutputPath(conf, new Path(args(1)))
     JobClient.runJob(conf)
