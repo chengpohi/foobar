@@ -2,3 +2,4 @@ nltk
 beautifulsoup4
 matplotlib
 gensim
+tensorflow
