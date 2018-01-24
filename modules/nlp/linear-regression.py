@@ -57,6 +57,8 @@ estimator.train(input_fn=input_fn, steps=1000)
 
 train_metrics = estimator.evaluate(input_fn=train_input_fn)
 eval_metrics = estimator.evaluate(input_fn=eval_input_fn)
+print("Loss: %s" % train_metrics["loss"])
+print("Loss: %s" % eval_metrics["loss"])
 print("train metrics: %r" % train_metrics)
 print("eval metrics: %r" % eval_metrics)
 
