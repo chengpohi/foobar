@@ -22,6 +22,8 @@ def bias_variable(shape):
     return tf.Variable(initial)
 
 
+# Our convolutions uses a stride of one and are zero padded
+# so that the output is the same size as the input.
 def conv2d(x, W):
     return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
@@ -32,34 +34,46 @@ def max_pool_2x2(x):
 
 
 def main(_):
-    W_conv1 = weight_variable([5, 5, 1, 32])
-    b_conv1 = bias_variable([32])
     # Import data
     mnist = input_data.read_data_sets(FLAGS.data_dir, one_hot=True)
 
     # Create the model
+    # 5 * 5 patch
+    # 5 * 5 * 1 * 32
+    W_conv1 = weight_variable([5, 5, 1, 32])
+    b_conv1 = bias_variable([32])
+
+    # x to a 4d tensor, with the second and third dimensions corresponding
+    # to image width and height, and the final dimension corresponding to the number of color channels.
     x = tf.placeholder(tf.float32, [None, 784])
+    # flatten x firstly, and generate sub 28 matrix that shape 28 * 1
     x_image = tf.reshape(x, [-1, 28, 28, 1])
     h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
+    # max_pool_2x2 method will reduce the image size to 14x14.
     h_pool1 = max_pool_2x2(h_conv1)
 
     W_conv2 = weight_variable([5, 5, 32, 64])
     b_conv2 = bias_variable([64])
-    b_conv2 = bias_variable([64])
     h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
+    # Now that the image size has been reduced to 7x7,
     h_pool2 = max_pool_2x2(h_conv2)
+
+    # add a fully-connected layer with 1024 neurons to allow processing on the entire image.
     W_fc1 = weight_variable([7 * 7 * 64, 1024])
     b_fc1 = bias_variable([1024])
 
+    # We reshape the tensor from the pooling layer into a batch of vectors,
+    # multiply by a weight matrix, add a bias, and apply a ReLU.
     h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
     h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
+    # To reduce overfitting, we will apply dropout before the readout layer.
+    # We create a placeholder for the probability that a neuron's output is kept during dropout
     keep_prob = tf.placeholder(tf.float32)
     h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
     W_fc2 = weight_variable([1024, 10])
     b_fc2 = bias_variable([10])
-
     y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
     y_ = tf.placeholder(tf.float32, [None, 10])
