@@ -2,6 +2,7 @@ import tensorflow as tf
 
 sess = tf.InteractiveSession()
 
+print(tf.reshape(list(range(0, 4)), [-1, 2, 2, 1]).eval())
 print("-----" * 5)
 print(tf.reshape(list(range(0, 9)), [3, 3]).eval())
 
