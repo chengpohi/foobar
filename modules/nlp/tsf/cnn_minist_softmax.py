@@ -78,11 +78,15 @@ def main(_):
 
     y_ = tf.placeholder(tf.float32, [None, 10])
 
+    # minimize loss by cross_entropy and create train step
     cross_entropy = tf.reduce_mean(
         tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
     train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+
+    # calculate the accuracy
     correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         for i in range(1000):
