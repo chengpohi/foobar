@@ -16,7 +16,6 @@ import sys
 from subprocess import Popen
 
 import tensorflow as tf
-
 from tensorflow.examples.tutorials.mnist import input_data
 
 FLAGS = None

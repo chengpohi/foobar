@@ -5,7 +5,7 @@ import java.io.IOException;
  * Created by chengpohi on 6/25/16.
  */
 public class TestTmp {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
     }
 }
 
