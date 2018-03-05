@@ -1,3 +1,4 @@
+import numpy
 import tensorflow as tf
 from tensorflow.python.data.ops.dataset_ops import TensorSliceDataset
 
@@ -89,3 +90,14 @@ constant = tf.constant([1, 2, 3])
 tensor = constant * constant
 
 print(tensor.eval())
+
+a = tf.constant(2)
+b = tf.constant(5)
+result = tf.cond(a < b, lambda: tf.add(a, b), lambda: tf.square(b))
+print(result.eval())
+
+data = tf.data.Dataset.range(18)
+x = tf.placeholder(tf.float32, shape=[None, 9, 2])
+
+# FLATTEN
+print(tf.contrib.layers.flatten(x).get_shape().as_list())
