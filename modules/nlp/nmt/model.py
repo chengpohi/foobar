@@ -378,8 +378,7 @@ class BaseModel(object):
             hparams, iterator.source_sequence_length)
 
         ## Decoder.
-        with tf.device("/cpu:0"):
-            with tf.variable_scope("decoder") as decoder_scope:
+        with tf.variable_scope("decoder") as decoder_scope:
                 cell, decoder_initial_state = self._build_decoder_cell(
                     hparams, encoder_outputs, encoder_state,
                     iterator.source_sequence_length)
