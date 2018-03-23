@@ -35,7 +35,7 @@ print('Total sentences: %-8s' % len(sentences))
 print('Start training sentences')
 model = train(sentences)
 test(model)
-print model.wv['like']
+print(model.wv['like'])
 model.wv.most_similar(positive=['woman', 'king'], negative=['man'])
 model.wv.most_similar_cosmul(positive=['woman', 'king'], negative=['man'])
 

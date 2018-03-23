@@ -2,16 +2,15 @@
 # import sys
 # reload(sys)
 # sys.setdefaultencoding('utf8')
+from pickle import dump
+from pickle import loads
+from urllib.request import urlopen
 
 import nltk
 import pylab
 from nltk.book import *
-from urllib import urlopen
 from bs4 import BeautifulSoup
 from nltk.corpus import brown
-from nltk.corpus import rte
-from cPickle import dump
-from cPickle import load
 import random
 from nltk.corpus import names
 from nltk.classify import apply_features
@@ -33,7 +32,6 @@ entities = nltk.chunk.ne_chunk(tagged)
 
 print(tokens)
 print(tagged[0:6])
-print entities
 # find similar word
 print(text1.similar("monstrous"))
 print(text3.generate("hello"))
@@ -85,7 +83,7 @@ nltk.corpus.nps_chat.tagged_words()
 def process(sentence):
     for (w1, t1), (w2, t2), (w3, t3) in nltk.trigrams(sentence):
         if t1.startswith('V') and t2 == 'TO' and t3.startswith('V'):
-            print w1, w2, w3[3]
+            print(w1, w2, w3[3])
 
 
 for tagged_sent in brown.tagged_sents():
@@ -170,7 +168,7 @@ dump(t2, output, -1)
 output.close()
 
 input = open('../../model/t2.pkl', 'rb')
-tagger = load(input)
+tagger = loads(input)
 input.close()
 
 text = """The board's action shows what free enterprise
@@ -189,7 +187,7 @@ test_tags = [tag for sent in brown.sents(categories='editorial') for (word, tag)
 
 gold_tags = [tag for (word, tag) in brown.tagged_words(categories='editorial')]
 
-print nltk.ConfusionMatrix(gold_tags, test_tags)
+print(nltk.ConfusionMatrix(gold_tags, test_tags))
 
 
 # feature extract for bayes classfier train
@@ -212,7 +210,7 @@ classifier = nltk.NaiveBayesClassifier.train(train_set)
 classifier.classify(gender_features('Neo'))
 classifier.classify(gender_features('Trinity'))
 
-print nltk.classify.accuracy(classifier, test_set)
+print(nltk.classify.accuracy(classifier, test_set))
 
 classifier.show_most_informative_features(5)
 
@@ -233,7 +231,7 @@ def gender_features2(name):
 featuresets = [(gender_features2(n), g) for (n, g) in names]
 train_set, test_set = featuresets[500:], featuresets[:500]
 classifier = nltk.NaiveBayesClassifier.train(train_set)
-print nltk.classify.accuracy(classifier, test_set)
+print(nltk.classify.accuracy(classifier, test_set))
 
 train_names = names[1500:]
 devtest_names = names[500:1500]
@@ -242,7 +240,7 @@ train_set = [(gender_features(n), g) for (n, g) in train_names]
 devtest_set = [(gender_features(n), g) for (n, g) in devtest_names]
 test_set = [(gender_features(n), g) for (n, g) in test_names]
 classifier = nltk.NaiveBayesClassifier.train(train_set)
-print nltk.classify.accuracy(classifier, devtest_set)
+print(nltk.classify.accuracy(classifier, devtest_set))
 
 errors = []
 for (name, tag) in devtest_names:
@@ -250,10 +248,10 @@ for (name, tag) in devtest_names:
     if guess != tag:
         errors.append((tag, guess, name))
 
-print 'total size: %-8s failed size: %-8s' % (len(train_names), len(errors))
+print('total size: %-8s failed size: %-8s' % (len(train_names), len(errors)))
 
 for (tag, guess, name) in sorted(errors):
-    print 'correct=%-8s guess=%-8s name=%-30s' % (tag, guess, name)
+    print('correct=%-8s guess=%-8s name=%-30s' % (tag, guess, name))
 
 
 def gender_features3(name):
@@ -267,7 +265,7 @@ train_set = [(gender_features3(n), g) for (n, g) in train_names]
 devtest_set = [(gender_features3(n), g) for (n, g) in devtest_names]
 test_set = [(gender_features3(n), g) for (n, g) in test_names]
 classifier = nltk.NaiveBayesClassifier.train(train_set)
-print nltk.classify.accuracy(classifier, devtest_set)
+print(nltk.classify.accuracy(classifier, devtest_set))
 
 documents = [(list(movie_reviews.words(fileid)), category)
              for category in movie_reviews.categories()
@@ -287,13 +285,13 @@ def document_features(document):
     return features
 
 
-print document_features(movie_reviews.words('pos/cv957_8737.txt'))
+print(document_features(movie_reviews.words('pos/cv957_8737.txt')))
 
 featuresets = [(document_features(d), c) for (d, c) in documents]
 train_set, test_set = featuresets[100:], featuresets[:100]
 classifier = nltk.NaiveBayesClassifier.train(train_set)
 
-print nltk.classify.accuracy(classifier, test_set)
+print(nltk.classify.accuracy(classifier, test_set))
 classifier.show_most_informative_features(5)
 
 suffix_fdist = nltk.FreqDist()
@@ -305,7 +303,7 @@ for word in brown.words():
     suffix_fdist[word[-3:]] += 1
 
 common_suffixes = suffix_fdist.keys()[:100]
-print common_suffixes
+print(common_suffixes)
 
 
 def pos_features(word):
@@ -324,7 +322,7 @@ classifier = nltk.DecisionTreeClassifier.train(train_set)
 nltk.classify.accuracy(classifier, test_set)
 classifier.classify(pos_features('cats'))
 
-print classifier.pseudocode(depth=4)
+print(classifier.pseudocode(depth=4))
 
 
 def pos_features(sentence, i):
@@ -394,7 +392,7 @@ size = int(len(tagged_sents) * 0.1)
 train_sents, test_sents = tagged_sents[size:], tagged_sents[:size]
 
 tagger = ConsecutivePosTagger(train_sents)
-print tagger.evaluate(test_sents)
+print(tagger.evaluate(test_sents))
 
 sents = nltk.corpus.treebank_raw.sents()
 tokens = []
@@ -452,7 +450,7 @@ featuresets = [(dialogue_act_features(post.text), post.get('class'))
 size = int(len(featuresets) * 0.1)
 train_set, test_set = featuresets[size:], featuresets[:size]
 classifier = nltk.NaiveBayesClassifier.train(train_set)
-print nltk.classify.accuracy(classifier, test_set)
+print(nltk.classify.accuracy(classifier, test_set))
 
 
 def rte_features(rtepair):
@@ -467,11 +465,11 @@ def rte_features(rtepair):
 
 rtepair = nltk.corpus.rte.pairs(['rte3_dev.xml'])[33]
 extractor = nltk.RTEFeatureExtractor(rtepair)
-print extractor.text_words
-print extractor.hyp_words
-print extractor.overlap('word')
-print extractor.overlap('ne')
-print extractor.hyp_extra('word')
+print(extractor.text_words)
+print(extractor.hyp_words)
+print(extractor.overlap('word'))
+print(extractor.overlap('ne'))
+print(extractor.hyp_extra('word'))
 
 tagged_sents = list(brown.tagged_sents(categories='news'))
 random.shuffle(tagged_sents)
@@ -487,7 +485,7 @@ size = int(len(tagged_sents) * 0.1)
 # # test_set = brown.tagged_sents(categories='fiction')
 
 # classifier = nltk.NaiveBayesClassifier.train(train_set)
-# print 'Accuracy: %4.2f' % nltk.classify.accuracy(classifier, test_set)
+# print('Accuracy: %4.2f' % nltk.classify.accuracy(classifier, test_set))
 
 def tag_list(tagged_sents):
     return [tag for sent in tagged_sents for (word, tag) in sent]
@@ -500,7 +498,7 @@ def apply_tagger(tagger, corpus):
 gold = tag_list(brown.tagged_sents(categories='editorial'))
 test = tag_list(apply_tagger(t2, brown.tagged_sents(categories='editorial')))
 cm = nltk.ConfusionMatrix(gold, test)
-print cm.pretty_format(sort_by_count=True, show_percents=True, truncate=9)
+print(cm.pretty_format(sort_by_count=True, show_percents=True, truncate=9))
 
 
 # cross validation
@@ -541,7 +539,7 @@ brown = nltk.corpus.brown
 for sent in brown.tagged_sents():
     tree = cp.parse(sent)
     for subtree in tree.subtrees():
-        if subtree.node == 'CHUNK': print subtree
+        if subtree.node == 'CHUNK': print(subtree)
 
 text = '''
 he PRP B-NP
@@ -562,15 +560,15 @@ concern NN I-NP
 . . O
 '''
 nltk.chunk.conllstr2tree(text).draw()
-print conll2000.chunked_sents('train.txt')[99]
-print conll2000.chunked_sents('train.txt', chunk_types=['NP'])[99]
+print(conll2000.chunked_sents('train.txt')[99])
+print(conll2000.chunked_sents('train.txt', chunk_types=['NP'])[99])
 cp = nltk.RegexpParser("")
 test_sents = conll2000.chunked_sents('test.txt', chunk_types=['NP'])
-print cp.evaluate(test_sents)
+print(cp.evaluate(test_sents))
 
 grammar = r"NP: {<[CDJNP].*>+}"
 cp = nltk.RegexpParser(grammar)
-print cp.evaluate(test_sents)
+print(cp.evaluate(test_sents))
 
 
 class UnigramChunker(nltk.ChunkParserI):
@@ -591,7 +589,7 @@ class UnigramChunker(nltk.ChunkParserI):
 test_sents = conll2000.chunked_sents('test.txt', chunk_types=['NP'])
 train_sents = conll2000.chunked_sents('train.txt', chunk_types=['NP'])
 unigram_chunker = UnigramChunker(train_sents)
-print unigram_chunker.evaluate(test_sents)
+print(unigram_chunker.evaluate(test_sents))
 postags = sorted(set(pos for sent in train_sents
                      for (word, pos) in sent.leaves()))
 
@@ -637,7 +635,7 @@ def npchunk_features(sentence, i, history):
 
 
 chunker = ConsecutiveNPChunker(train_sents)
-print chunker.evaluate(test_sents)
+print(chunker.evaluate(test_sents))
 
 grammar = r"""
   NP: {<DT|JJ|NN.*>+}          # Chunk sequences of DT, JJ, NN
@@ -650,12 +648,12 @@ sentence = [("John", "NNP"), ("thinks", "VBZ"), ("Mary", "NN"),
             ("saw", "VBD"), ("the", "DT"), ("cat", "NN"), ("sit", "VB"),
             ("on", "IN"), ("the", "DT"), ("mat", "NN")]
 
-print cp.parse(sentence)
+print(cp.parse(sentence))
 
 tree1 = nltk.Tree('NP', ['Alice'])
-print tree1
+print(tree1)
 tree2 = nltk.Tree('NP', ['the', 'rabbit'])
-print tree2
+print(tree2)
 tree3 = nltk.Tree('VP', ['chased', tree2])
 tree4 = nltk.Tree('S', [tree1, tree3])
 
@@ -664,27 +662,27 @@ def traverse(t):
     try:
         t.node
     except AttributeError:
-        print t,
+        print(t,)
     else:
         # Now we know that t.node is defined
-        print '(', t.node,
+        print('(', t.node,)
         for child in t:
             traverse(child)
-        print ')',
+        print(')',)
 
 
 t = nltk.Tree('(S (NP Alice) (VP chased (NP the rabbit)))')
 traverse(t)
 
 sent = nltk.corpus.treebank.tagged_sents()[22]
-print nltk.ne_chunk(sent, binary=True)
-print nltk.ne_chunk(sent)
+print(nltk.ne_chunk(sent, binary=True))
+print(nltk.ne_chunk(sent))
 
 IN = re.compile(r'.*\bin\b(?!\b.+ing)')
 for doc in nltk.corpus.ieer.parsed_docs('NYT_19980315'):
     for rel in nltk.sem.extract_rels('ORG', 'LOC', doc,
                                      corpus='ieer', pattern=IN):
-        print rel
+        print(rel)
 
 vnv = """
 (
@@ -701,7 +699,7 @@ VAN = re.compile(vnv, re.VERBOSE)
 for doc in conll2002.chunked_sents('ned.train'):
     for r in nltk.sem.extract_rels('PER', 'ORG', doc,
                                    corpus='conll2002', pattern=VAN):
-        print r
+        print(r)
 
 nltk.data.show_cfg('grammars/book_grammars/sql0.fcfg')
 cp = load_parser('grammars/book_grammars/sql0.fcfg')
@@ -715,8 +713,8 @@ nltk.boolean_ops()
 phonetic = nltk.corpus.timit.phones('dr1-fvmh0/sa1')
 nltk.corpus.timit.word_times('dr1-fvmh0/sa1')
 timitdict = nltk.corpus.timit.transcription_dict()
-print timitdict['greasy'] + timitdict['wash'] + timitdict['water']
-print phonetic[17:30]
+print(timitdict['greasy'] + timitdict['wash'] + timitdict['water'])
+print(phonetic[17:30])
 mappings = [('ph', 'f'), ('ght', 't'), ('^kn', 'n'), ('qu', 'kw'),
             ('[aeiou]+', 'a'), (r'(.)\1', r'\1')]
 

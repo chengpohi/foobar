@@ -1,4 +1,3 @@
-import numpy
 import tensorflow as tf
 from tensorflow.python.data.ops.dataset_ops import TensorSliceDataset
 
@@ -77,7 +76,6 @@ while True:
     except tf.errors.OutOfRangeError:
         break
 
-
 x = tf.placeholder(tf.float32, shape=[None, 3])
 y = tf.layers.dense(x, units=1)
 
@@ -101,3 +99,31 @@ x = tf.placeholder(tf.float32, shape=[None, 9, 2])
 
 # FLATTEN
 print(tf.contrib.layers.flatten(x).get_shape().as_list())
+
+rr = tf.reshape(list(range(0, 9)), [3, 3])
+
+print(rr.eval())
+print(tf.expand_dims(rr, 0).eval())
+
+print(tf.reshape(rr, [1, 3, 3]).eval())
+
+res = tf.train.batch([rr], 1)
+
+print(rr.get_shape())
+
+coord = tf.train.Coordinator()
+threads = tf.train.start_queue_runners(coord=coord)
+print(res.eval())
+coord.request_stop()
+coord.join(threads)
+
+d1 = tf.data.TextLineDataset("vocab.py")
+d2 = tf.data.TextLineDataset("vocab.py")
+
+res = tf.data.Dataset.zip((d1, d2))
+src_tgt_dataset = res.map(
+    lambda src, tgt: (tf.string_split([src]).values, tf.string_split([tgt]).values)
+)
+constant = tf.constant("hello world")
+print(tf.string_split(["hello world"]).values.eval())
+tv = tf.Variable("hello world")

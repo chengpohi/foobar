@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 tf.logging.set_verbosity(tf.logging.INFO)
 
 
-# input -> cov1 -> conv2 -> pool -> flatten -> dense -> dropout -> logit -> cross_entropy
+# input -> conv1 -> pool1 -> conv2 -> pool2 -> flatten -> dense -> dropout -> logit -> cross_entropy
 def cnn_model_fn(features, labels, mode):
     input_layer = tf.reshape(features['x'], [-1, 28, 28, 1])
     conv1 = tf.layers.conv2d(inputs=input_layer,
@@ -41,6 +41,8 @@ def cnn_model_fn(features, labels, mode):
                                 training=mode == tf.estimator.ModeKeys.TRAIN)
     logits = tf.layers.dense(inputs=dropout, units=10)
 
+    loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)
+
     predictions = {
         "classes": tf.argmax(input=logits, axis=1),
         "probabilities": tf.nn.softmax(logits, name="softmax_tensor")
@@ -49,7 +51,6 @@ def cnn_model_fn(features, labels, mode):
     if mode == tf.estimator.ModeKeys.PREDICT:
         return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 
-    loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)
 
     if mode == tf.estimator.ModeKeys.TRAIN:
         optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)
