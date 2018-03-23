@@ -142,6 +142,7 @@ def get_config_proto(log_device_placement=False, allow_soft_placement=True,
       log_device_placement=log_device_placement,
       allow_soft_placement=allow_soft_placement)
   config_proto.gpu_options.allow_growth = True
+  config_proto.report_tensor_allocations_upon_oom = True
 
   # CPU threads options
   if num_intra_threads:
