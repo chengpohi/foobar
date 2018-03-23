@@ -77,6 +77,7 @@ def main(unused_argv):
     FLAGS.dropout = 0.2
     FLAGS.metrics = "bleu"
     FLAGS.batch_size = 2
+    FLAGS.tgt_max_len_infer = 1
 
     default_hparams = create_hparams(FLAGS)
     train_fn = train.train
