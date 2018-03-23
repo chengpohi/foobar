@@ -357,14 +357,14 @@ def train(hparams, scope=None, target_session=""):
             utils.print_out(
                 "# Finished an epoch, step %d. Perform external evaluation" %
                 global_step)
-            run_sample_decode(infer_model, infer_sess, model_dir, hparams,
-                              summary_writer, sample_src_data, sample_tgt_data)
-            run_external_eval(infer_model, infer_sess, model_dir, hparams,
-                              summary_writer)
+            #run_sample_decode(infer_model, infer_sess, model_dir, hparams,
+            #                  summary_writer, sample_src_data, sample_tgt_data)
+            #run_external_eval(infer_model, infer_sess, model_dir, hparams,
+            #                  summary_writer)
 
-            if avg_ckpts:
-                run_avg_external_eval(infer_model, infer_sess, model_dir, hparams,
-                                      summary_writer, global_step)
+            #if avg_ckpts:
+            #    run_avg_external_eval(infer_model, infer_sess, model_dir, hparams,
+            #                          summary_writer, global_step)
 
             train_sess.run(
                 train_model.iterator.initializer,
