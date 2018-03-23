@@ -71,7 +71,7 @@ def main(unused_argv):
     FLAGS.test_prefix = MODEL_HOME + "model/nmt/en-zh/test"
     FLAGS.out_dir = OUTPUT_HOME + "/nmt/model/en-zh/"
     FLAGS.num_train_steps = 12000
-    FLAGS.steps_per_stats = 100
+    FLAGS.steps_per_stats = 1000
     FLAGS.num_layers = 2
     FLAGS.num_units = 128
     FLAGS.dropout = 0.2
