@@ -63,12 +63,12 @@ def run_main(flags, default_hparams, train_fn, inference_fn, target_session=""):
 def main(unused_argv):
     MODEL_HOME = os.environ.get("MODEL_HOME", "/Users/xiachen/IdeaProjects/scala99/")
     OUTPUT_HOME = os.environ.get("OUTPUT_HOME", "/Users/xiachen/IdeaProjects/scala99/")
-    FLAGS.src = "vi"
-    FLAGS.tgt = "en"
-    FLAGS.vocab_prefix = MODEL_HOME + "model/nmt/vocab"
-    FLAGS.train_prefix = MODEL_HOME + "model/nmt/train"
-    FLAGS.dev_prefix = MODEL_HOME + "model/nmt/tst2012"
-    FLAGS.test_prefix = MODEL_HOME + "model/nmt/tst2013"
+    FLAGS.src = "en"
+    FLAGS.tgt = "zh"
+    FLAGS.vocab_prefix = MODEL_HOME + "model/nmt/en-zh/vocab"
+    FLAGS.train_prefix = MODEL_HOME + "model/nmt/en-zh/train"
+    FLAGS.dev_prefix = MODEL_HOME + "model/nmt/en-zh/dev"
+    FLAGS.test_prefix = MODEL_HOME + "model/nmt/en-zh/test"
     FLAGS.out_dir = OUTPUT_HOME + "/nmt/model/en-zh/"
     FLAGS.num_train_steps = 12000
     FLAGS.steps_per_stats = 100
@@ -76,8 +76,7 @@ def main(unused_argv):
     FLAGS.num_units = 128
     FLAGS.dropout = 0.2
     FLAGS.metrics = "bleu"
-    FLAGS.batch_size = 16
-    # FLAGS.tgt_max_len_infer = 1
+    FLAGS.batch_size = 8
 
     default_hparams = create_hparams(FLAGS)
     train_fn = train.train
