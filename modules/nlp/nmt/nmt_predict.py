@@ -40,8 +40,6 @@ def eval(flags, default_hparams, inference_fn, target_session=""):
         (hparams.inference_indices) = (
             [int(token) for token in flags.inference_list.split(",")])
 
-    # Inference
-    trans_file = flags.inference_output_file
     ckpt = tf.train.latest_checkpoint(out_dir)
     # get ckpt from out dir
     if not ckpt:
@@ -64,5 +62,5 @@ if __name__ == "__main__":
     tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
 
 
-    #I couldn ' t give them money , nothing .
-    #I couldn give them money , nothing .
+    # I couldn ' t give them money , nothing .
+    # I couldn give them money , nothing .
