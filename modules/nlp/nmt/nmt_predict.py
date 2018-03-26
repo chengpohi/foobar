@@ -2,16 +2,16 @@ import argparse
 import random
 import sys
 
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
 
-from nmt import train, inference
+from nmt import inference
 from nmt.nmt_input import add_arguments
 from nmt.nmt_train import create_hparams, create_or_load_hparams
-from nmt.utils import misc_utils as utils, evaluation_utils
+from nmt.utils import misc_utils as utils
 
 
-def eval(flags, default_hparams, train_fn, inference_fn, target_session=""):
+def eval(flags, default_hparams, inference_fn, target_session=""):
     """Run main."""
     # Job
     jobid = flags.jobid
@@ -27,7 +27,8 @@ def eval(flags, default_hparams, train_fn, inference_fn, target_session=""):
 
     ## Train / Decode
     out_dir = flags.out_dir
-    if not tf.gfile.Exists(out_dir): tf.gfile.MakeDirs(out_dir)
+    if not tf.gfile.Exists(out_dir):
+        raise IOError("%s path not exist." % out_dir)
 
     # Load hparams.
     hparams = create_or_load_hparams(
@@ -41,33 +42,19 @@ def eval(flags, default_hparams, train_fn, inference_fn, target_session=""):
 
     # Inference
     trans_file = flags.inference_output_file
-    ckpt = flags.ckpt
+    ckpt = tf.train.latest_checkpoint(out_dir)
+    # get ckpt from out dir
     if not ckpt:
-        ckpt = tf.train.latest_checkpoint(out_dir)
-    inputs = ["Cám ơn rất nhiều ."]
-    result = inference_fn(ckpt, inputs, trans_file, hparams, num_workers, jobid)
-    print(result.decode("utf-8"))
-
-    # Evaluation
-    ref_file = flags.inference_ref_file
-    if ref_file and tf.gfile.Exists(trans_file):
-        for metric in hparams.metrics:
-            score = evaluation_utils.evaluate(
-                ref_file,
-                trans_file,
-                metric,
-                hparams.subword_option)
-            utils.print_out("  %s: %.1f" % (metric, score))
+        raise IOError("%s ckpt not find in path." % ckpt)
+    inference_fn(ckpt, hparams, num_workers, jobid)
 
 
 def main(unused_argv):
-    FLAGS.out_dir = "/Users/xiachen/IdeaProjects/scala99/model/nmt/vi-en/"
-    FLAGS.inference_input_file = "/Users/xiachen/IdeaProjects/scala99/model/nmt/test.vi"
-    FLAGS.inference_output_file = "/Users/xiachen/IdeaProjects/scala99/model/nmt/vi-en"
+    # FLAGS.out_dir = "/Users/xiachen/IdeaProjects/scala99/model/nmt/vi-en/"
+    FLAGS.out_dir = "/Users/xiachen/IdeaProjects/scala99/model/nmt/en-zh/model/"
     default_hparams = create_hparams(FLAGS)
-    train_fn = train.train
-    inference_fn = inference.translate
-    eval(FLAGS, default_hparams, train_fn, inference_fn)
+    inference_fn = inference.predicate
+    eval(FLAGS, default_hparams, inference_fn)
 
 
 if __name__ == "__main__":
@@ -75,3 +62,7 @@ if __name__ == "__main__":
     add_arguments(nmt_parser)
     FLAGS, unparsed = nmt_parser.parse_known_args()
     tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+
+
+    #I couldn ' t give them money , nothing .
+    #I couldn give them money , nothing .

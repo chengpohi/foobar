@@ -1,19 +1,3 @@
-# Copyright 2017 Google Inc. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
-
-"""To perform inference on test set given a trained model."""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -201,6 +185,7 @@ def translate(ckpt,
             graph=infer_model.graph, config=utils.get_config_proto()) as sess:
         loaded_infer_model = model_helper.load_model(
             infer_model.model, ckpt, sess, "infer")
+        # Encode Data
         sess.run(
             infer_model.iterator.initializer,
             feed_dict={
@@ -220,6 +205,67 @@ def translate(ckpt,
             beam_width=hparams.beam_width,
             tgt_eos=hparams.eos,
             num_translations_per_input=hparams.num_translations_per_input)
+
+
+def predicate(ckpt,
+              hparams,
+              num_workers=1,
+              jobid=0,
+              scope=None):
+    """Perform translation."""
+    if hparams.inference_indices:
+        assert num_workers == 1
+
+    if not hparams.attention:
+        model_creator = nmt_model.Model
+    elif hparams.attention_architecture == "standard":
+        model_creator = attention_model.AttentionModel
+    elif hparams.attention_architecture in ["gnmt", "gnmt_v2"]:
+        model_creator = gnmt_model.GNMTModel
+    else:
+        raise ValueError("Unknown model architecture")
+    infer_model = model_helper.create_infer_model(model_creator, hparams, scope)
+
+    with tf.Session(graph=infer_model.graph,
+                    config=utils.get_config_proto()) as sess:
+        loaded_infer_model = model_helper.load_model(
+            infer_model.model, ckpt, sess, "infer")
+        while True:
+            input_data = input("translate>")
+            res = translate_return(hparams,
+                                   infer_model,
+                                   [input_data.lower()],
+                                   loaded_infer_model,
+                                   sess)
+            print("result: %s" % res.decode("utf-8"))
+
+
+def translate_return(hparams,
+                     infer_model,
+                     input_data,
+                     loaded_infer_model,
+                     sess):
+    # Encode Data
+    sess.run(
+        infer_model.iterator.initializer,
+        feed_dict={
+            infer_model.src_placeholder: input_data,
+            infer_model.batch_size_placeholder: hparams.infer_batch_size
+        })
+    # Decode
+    utils.print_out("# Start decoding")
+    res = nmt_utils.decode_and_return(
+        "infer",
+        loaded_infer_model,
+        sess,
+        None,
+        ref_file=None,
+        metrics=hparams.metrics,
+        subword_option=hparams.subword_option,
+        beam_width=hparams.beam_width,
+        tgt_eos=hparams.eos,
+        num_translations_per_input=hparams.num_translations_per_input)
+    return res
 
 
 def multi_worker_inference(infer_model,

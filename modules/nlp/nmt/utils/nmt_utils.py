@@ -122,7 +122,8 @@ def decode_and_return(name,
                       num_translations_per_input=1):
     """Decode a test set and compute a score according to the evaluation task."""
     # Decode
-    utils.print_out("  decoding to output %s." % trans_file)
+    if not trans_file:
+        utils.print_out("  decoding to output %s." % trans_file)
 
     start_time = time.time()
     num_sentences = 0
