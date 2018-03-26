@@ -1,10 +1,11 @@
 import jieba
+import re
 
 path = "/Users/xiachen/IdeaProjects/scala99/model/nmt/en-zh/"
 
 
 def tokenizer_file(file_name, read):
-    res = [" ".join(jieba.cut(line)).strip() for line in read]
+    res = [re.sub(' +', ' ', " ".join(jieba.cut(line)).strip()) for line in read]
     write_to_file(file_name, res)
 
 

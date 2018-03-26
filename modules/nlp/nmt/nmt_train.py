@@ -61,8 +61,8 @@ def run_main(flags, default_hparams, train_fn, inference_fn, target_session=""):
 
 
 def main(unused_argv):
-    #train_zh_params()
-    train_vi_params()
+    train_zh_params()
+    #train_vi_params()
 
     default_hparams = create_hparams(FLAGS)
     train_fn = train.train
@@ -81,12 +81,13 @@ def train_vi_params():
     FLAGS.test_prefix = MODEL_HOME + "model/nmt/tst2013"
     FLAGS.out_dir = OUTPUT_HOME + "/nmt/model/vi-en/"
     FLAGS.num_train_steps = 12000
-    FLAGS.steps_per_stats = 1000
+    FLAGS.steps_per_stats = 100
     FLAGS.num_layers = 2
     FLAGS.num_units = 128
     FLAGS.dropout = 0.2
     FLAGS.metrics = "bleu"
     FLAGS.batch_size = 8
+
 
 def train_zh_params():
     MODEL_HOME = os.environ.get("MODEL_HOME", "/Users/xiachen/IdeaProjects/scala99/")
@@ -99,7 +100,7 @@ def train_zh_params():
     FLAGS.test_prefix = MODEL_HOME + "model/nmt/en-zh/test"
     FLAGS.out_dir = OUTPUT_HOME + "/nmt/model/en-zh/"
     FLAGS.num_train_steps = 12000
-    FLAGS.steps_per_stats = 1000
+    FLAGS.steps_per_stats = 100
     FLAGS.num_layers = 2
     FLAGS.num_units = 128
     FLAGS.dropout = 0.2
