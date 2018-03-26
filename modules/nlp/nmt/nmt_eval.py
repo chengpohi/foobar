@@ -44,10 +44,8 @@ def eval(flags, default_hparams, train_fn, inference_fn, target_session=""):
     ckpt = flags.ckpt
     if not ckpt:
         ckpt = tf.train.latest_checkpoint(out_dir)
-    inputs = ["Ông là ông của tôi ."]
+    inputs = ["Some I even considered like my second home."]
     result = inference_fn(ckpt, inputs, trans_file, hparams, num_workers, jobid)
-
-    print(result)
 
     # Evaluation
     ref_file = flags.inference_ref_file
@@ -62,9 +60,9 @@ def eval(flags, default_hparams, train_fn, inference_fn, target_session=""):
 
 
 def main(unused_argv):
-    FLAGS.out_dir = "/Users/xiachen/IdeaProjects/scala99/model/nmt/model/"
-    FLAGS.inference_input_file = "/Users/xiachen/IdeaProjects/scala99/model/nmt/infer/infer_file.vi"
-    FLAGS.inference_output_file = "/Users/xiachen/IdeaProjects/scala99/model/nmt/infer/output_infer"
+    FLAGS.out_dir = "/Users/xiachen/IdeaProjects/scala99/model/nmt/en-zh/"
+    FLAGS.inference_input_file = "/Users/xiachen/IdeaProjects/scala99/model/nmt/en-zh/test.en"
+    FLAGS.inference_output_file = "/Users/xiachen/IdeaProjects/scala99/model/nmt/en-zh"
     default_hparams = create_hparams(FLAGS)
     train_fn = train.train
     inference_fn = inference.translate
