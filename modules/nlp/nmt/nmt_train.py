@@ -51,7 +51,8 @@ def run_main(flags, default_hparams, train_fn, inference_fn, target_session=""):
 
     ## Train / Decode
     out_dir = flags.out_dir
-    if not tf.gfile.Exists(out_dir): tf.gfile.MakeDirs(out_dir)
+    if not tf.gfile.Exists(out_dir):
+        tf.gfile.MakeDirs(out_dir)
 
     # Load hparams.
     hparams = create_or_load_hparams(
@@ -62,7 +63,7 @@ def run_main(flags, default_hparams, train_fn, inference_fn, target_session=""):
 
 def main(unused_argv):
     train_zh_params()
-    #train_vi_params()
+    # train_vi_params()
 
     default_hparams = create_hparams(FLAGS)
     train_fn = train.train
@@ -98,6 +99,7 @@ def train_zh_params():
     FLAGS.train_prefix = MODEL_HOME + "model/nmt/en-zh/train"
     FLAGS.dev_prefix = MODEL_HOME + "model/nmt/en-zh/dev"
     FLAGS.test_prefix = MODEL_HOME + "model/nmt/en-zh/test"
+    FLAGS.out_dir = MODEL_HOME + "en-zh/"
     FLAGS.num_train_steps = 24000
     FLAGS.steps_per_stats = 100
     FLAGS.num_layers = 2
