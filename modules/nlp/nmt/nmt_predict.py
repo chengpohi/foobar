@@ -11,7 +11,7 @@ from nmt.nmt_train import create_hparams, create_or_load_hparams
 from nmt.utils import misc_utils as utils
 
 
-def eval(flags, default_hparams, inference_fn, target_session=""):
+def eval(flags, default_hparams, target_session=""):
     """Run main."""
     # Job
     jobid = flags.jobid
@@ -25,34 +25,30 @@ def eval(flags, default_hparams, inference_fn, target_session=""):
         random.seed(random_seed + jobid)
         np.random.seed(random_seed + jobid)
 
-    ## Train / Decode
+    ## Decode
     out_dir = flags.out_dir
     if not tf.gfile.Exists(out_dir):
         raise IOError("%s path not exist." % out_dir)
 
     # Load hparams.
     hparams = create_or_load_hparams(
-        out_dir, default_hparams, flags.hparams_path, save_hparams=(jobid == 0))
+        out_dir, default_hparams, flags.hparams_path, False)
 
     # Inference indices
     hparams.inference_indices = None
-    if flags.inference_list:
-        (hparams.inference_indices) = (
-            [int(token) for token in flags.inference_list.split(",")])
 
     ckpt = tf.train.latest_checkpoint(out_dir)
     # get ckpt from out dir
     if not ckpt:
         raise IOError("%s ckpt not find in path." % ckpt)
-    inference_fn(ckpt, hparams, num_workers, jobid)
+    inference.predicate(ckpt, hparams, num_workers, jobid)
 
 
 def main(unused_argv):
     # FLAGS.out_dir = "/Users/xiachen/IdeaProjects/scala99/model/nmt/vi-en/"
     FLAGS.out_dir = "/Users/xiachen/IdeaProjects/scala99/model/nmt/en-zh/model/"
     default_hparams = create_hparams(FLAGS)
-    inference_fn = inference.predicate
-    eval(FLAGS, default_hparams, inference_fn)
+    eval(FLAGS, default_hparams)
 
 
 if __name__ == "__main__":

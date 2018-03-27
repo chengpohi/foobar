@@ -180,8 +180,10 @@ def create_infer_model(model_creator, hparams, scope=None, extra_args=None):
     tgt_vocab_file = hparams.tgt_vocab_file
 
     with graph.as_default(), tf.container(scope or "infer"):
+        # convert words to ids
         src_vocab_table, tgt_vocab_table = vocab_utils.create_vocab_tables(
             src_vocab_file, tgt_vocab_file, hparams.share_vocab)
+        # convert ids to words used for decode
         reverse_tgt_vocab_table = lookup_ops.index_to_string_table_from_file(
             tgt_vocab_file, default_value=vocab_utils.UNK)
 

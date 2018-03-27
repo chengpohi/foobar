@@ -79,7 +79,7 @@ def train_vi_params():
     FLAGS.train_prefix = MODEL_HOME + "model/nmt/train"
     FLAGS.dev_prefix = MODEL_HOME + "model/nmt/tst2012"
     FLAGS.test_prefix = MODEL_HOME + "model/nmt/tst2013"
-    FLAGS.out_dir = OUTPUT_HOME + "/nmt/model/vi-en/"
+    FLAGS.out_dir = OUTPUT_HOME + "/vi-en/"
     FLAGS.num_train_steps = 12000
     FLAGS.steps_per_stats = 100
     FLAGS.num_layers = 2
@@ -98,8 +98,7 @@ def train_zh_params():
     FLAGS.train_prefix = MODEL_HOME + "model/nmt/en-zh/train"
     FLAGS.dev_prefix = MODEL_HOME + "model/nmt/en-zh/dev"
     FLAGS.test_prefix = MODEL_HOME + "model/nmt/en-zh/test"
-    FLAGS.out_dir = OUTPUT_HOME + "/nmt/model/en-zh/"
-    FLAGS.num_train_steps = 12000
+    FLAGS.num_train_steps = 24000
     FLAGS.steps_per_stats = 100
     FLAGS.num_layers = 2
     FLAGS.num_units = 128

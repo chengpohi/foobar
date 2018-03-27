@@ -232,19 +232,19 @@ def predicate(ckpt,
             infer_model.model, ckpt, sess, "infer")
         while True:
             input_data = input("translate>")
-            res = translate_return(hparams,
-                                   infer_model,
-                                   [input_data.lower()],
-                                   loaded_infer_model,
-                                   sess)
+            res = translate_and_return(hparams,
+                                       infer_model,
+                                       [input_data.lower()],
+                                       loaded_infer_model,
+                                       sess)
             print("result: %s" % res.decode("utf-8"))
 
 
-def translate_return(hparams,
-                     infer_model,
-                     input_data,
-                     loaded_infer_model,
-                     sess):
+def translate_and_return(hparams,
+                         infer_model,
+                         input_data,
+                         loaded_infer_model,
+                         sess):
     # Encode Data
     sess.run(
         infer_model.iterator.initializer,
