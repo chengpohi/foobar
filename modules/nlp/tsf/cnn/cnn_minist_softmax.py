@@ -8,7 +8,6 @@ from subprocess import Popen
 import numpy as np
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
-import matplotlib.pyplot as plt
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -50,7 +49,6 @@ def cnn_model_fn(features, labels, mode):
 
     if mode == tf.estimator.ModeKeys.PREDICT:
         return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
-
 
     if mode == tf.estimator.ModeKeys.TRAIN:
         optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001)

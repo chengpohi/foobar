@@ -21,8 +21,8 @@ from __future__ import print_function
 
 import codecs
 import os
-import tensorflow as tf
 
+import tensorflow as tf
 from tensorflow.python.ops import lookup_ops
 
 from nmt.utils import misc_utils as utils

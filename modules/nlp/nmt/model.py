@@ -379,98 +379,98 @@ class BaseModel(object):
 
         ## Decoder.
         with tf.variable_scope("decoder") as decoder_scope:
-                cell, decoder_initial_state = self._build_decoder_cell(
-                    hparams, encoder_outputs, encoder_state,
-                    iterator.source_sequence_length)
+            cell, decoder_initial_state = self._build_decoder_cell(
+                hparams, encoder_outputs, encoder_state,
+                iterator.source_sequence_length)
 
-                ## Train or eval
-                if self.mode != tf.contrib.learn.ModeKeys.INFER:
-                    # decoder_emp_inp: [max_time, batch_size, num_units]
-                    target_input = iterator.target_input
-                    if self.time_major:
-                        target_input = tf.transpose(target_input)
-                    decoder_emb_inp = tf.nn.embedding_lookup(
-                        self.embedding_decoder, target_input)
+            ## Train or eval
+            if self.mode != tf.contrib.learn.ModeKeys.INFER:
+                # decoder_emp_inp: [max_time, batch_size, num_units]
+                target_input = iterator.target_input
+                if self.time_major:
+                    target_input = tf.transpose(target_input)
+                decoder_emb_inp = tf.nn.embedding_lookup(
+                    self.embedding_decoder, target_input)
 
+                # Helper
+                helper = tf.contrib.seq2seq.TrainingHelper(
+                    decoder_emb_inp, iterator.target_sequence_length,
+                    time_major=self.time_major)
+
+                # Decoder
+                my_decoder = tf.contrib.seq2seq.BasicDecoder(
+                    cell,
+                    helper,
+                    decoder_initial_state, )
+
+                # Dynamic decoding
+                outputs, final_context_state, _ = tf.contrib.seq2seq.dynamic_decode(
+                    my_decoder,
+                    output_time_major=self.time_major,
+                    swap_memory=True,
+                    scope=decoder_scope)
+
+                sample_id = outputs.sample_id
+
+                # Note: there's a subtle difference here between train and inference.
+                # We could have set output_layer when create my_decoder
+                #   and shared more code between train and inference.
+                # We chose to apply the output_layer to all timesteps for speed:
+                #   10% improvements for small models & 20% for larger ones.
+                # If memory is a concern, we should apply output_layer per timestep.
+                logits = self.output_layer(outputs.rnn_output)
+
+            ## Inference
+            else:
+                beam_width = hparams.beam_width
+                length_penalty_weight = hparams.length_penalty_weight
+                start_tokens = tf.fill([self.batch_size], tgt_sos_id)
+                end_token = tgt_eos_id
+
+                if beam_width > 0:
+                    my_decoder = tf.contrib.seq2seq.BeamSearchDecoder(
+                        cell=cell,
+                        embedding=self.embedding_decoder,
+                        start_tokens=start_tokens,
+                        end_token=end_token,
+                        initial_state=decoder_initial_state,
+                        beam_width=beam_width,
+                        output_layer=self.output_layer,
+                        length_penalty_weight=length_penalty_weight)
+                else:
                     # Helper
-                    helper = tf.contrib.seq2seq.TrainingHelper(
-                        decoder_emb_inp, iterator.target_sequence_length,
-                        time_major=self.time_major)
+                    sampling_temperature = hparams.sampling_temperature
+                    if sampling_temperature > 0.0:
+                        helper = tf.contrib.seq2seq.SampleEmbeddingHelper(
+                            self.embedding_decoder, start_tokens, end_token,
+                            softmax_temperature=sampling_temperature,
+                            seed=hparams.random_seed)
+                    else:
+                        helper = tf.contrib.seq2seq.GreedyEmbeddingHelper(
+                            self.embedding_decoder, start_tokens, end_token)
 
                     # Decoder
                     my_decoder = tf.contrib.seq2seq.BasicDecoder(
                         cell,
                         helper,
-                        decoder_initial_state, )
+                        decoder_initial_state,
+                        output_layer=self.output_layer  # applied per timestep
+                    )
 
-                    # Dynamic decoding
-                    outputs, final_context_state, _ = tf.contrib.seq2seq.dynamic_decode(
-                        my_decoder,
-                        output_time_major=self.time_major,
-                        swap_memory=True,
-                        scope=decoder_scope)
+                # Dynamic decoding
+                outputs, final_context_state, _ = tf.contrib.seq2seq.dynamic_decode(
+                    my_decoder,
+                    maximum_iterations=maximum_iterations,
+                    output_time_major=self.time_major,
+                    swap_memory=True,
+                    scope=decoder_scope)
 
-                    sample_id = outputs.sample_id
-
-                    # Note: there's a subtle difference here between train and inference.
-                    # We could have set output_layer when create my_decoder
-                    #   and shared more code between train and inference.
-                    # We chose to apply the output_layer to all timesteps for speed:
-                    #   10% improvements for small models & 20% for larger ones.
-                    # If memory is a concern, we should apply output_layer per timestep.
-                    logits = self.output_layer(outputs.rnn_output)
-
-                ## Inference
+                if beam_width > 0:
+                    logits = tf.no_op()
+                    sample_id = outputs.predicted_ids
                 else:
-                    beam_width = hparams.beam_width
-                    length_penalty_weight = hparams.length_penalty_weight
-                    start_tokens = tf.fill([self.batch_size], tgt_sos_id)
-                    end_token = tgt_eos_id
-
-                    if beam_width > 0:
-                        my_decoder = tf.contrib.seq2seq.BeamSearchDecoder(
-                            cell=cell,
-                            embedding=self.embedding_decoder,
-                            start_tokens=start_tokens,
-                            end_token=end_token,
-                            initial_state=decoder_initial_state,
-                            beam_width=beam_width,
-                            output_layer=self.output_layer,
-                            length_penalty_weight=length_penalty_weight)
-                    else:
-                        # Helper
-                        sampling_temperature = hparams.sampling_temperature
-                        if sampling_temperature > 0.0:
-                            helper = tf.contrib.seq2seq.SampleEmbeddingHelper(
-                                self.embedding_decoder, start_tokens, end_token,
-                                softmax_temperature=sampling_temperature,
-                                seed=hparams.random_seed)
-                        else:
-                            helper = tf.contrib.seq2seq.GreedyEmbeddingHelper(
-                                self.embedding_decoder, start_tokens, end_token)
-
-                        # Decoder
-                        my_decoder = tf.contrib.seq2seq.BasicDecoder(
-                            cell,
-                            helper,
-                            decoder_initial_state,
-                            output_layer=self.output_layer  # applied per timestep
-                        )
-
-                    # Dynamic decoding
-                    outputs, final_context_state, _ = tf.contrib.seq2seq.dynamic_decode(
-                        my_decoder,
-                        maximum_iterations=maximum_iterations,
-                        output_time_major=self.time_major,
-                        swap_memory=True,
-                        scope=decoder_scope)
-
-                    if beam_width > 0:
-                        logits = tf.no_op()
-                        sample_id = outputs.predicted_ids
-                    else:
-                        logits = outputs.rnn_output
-                        sample_id = outputs.sample_id
+                    logits = outputs.rnn_output
+                    sample_id = outputs.sample_id
 
         return logits, sample_id, final_context_state
 

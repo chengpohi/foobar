@@ -6,7 +6,6 @@ BASIC = "basic"
 CUDNN = "cudnn"
 BLOCK = "block"
 
-
 flags = tf.flags
 
 flags.DEFINE_string(
