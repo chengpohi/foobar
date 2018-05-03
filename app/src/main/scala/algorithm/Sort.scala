@@ -14,6 +14,7 @@ object Sort {
     val result = sort.ssort(Stream(1, 5, 4, 3, 2)).toList
     println(result)
   }
+
 }
 
 class SelectionSort {
