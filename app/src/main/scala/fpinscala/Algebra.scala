@@ -127,7 +127,8 @@ object Algebra extends App {
     _ <- printLine(fahrenheitToCelsius(d).toString)
   } yield ()
 
-  @annotation.tailrec def run[A](io: IO[A]): A = io match {
+  @annotation.tailrec
+  def run[A](io: IO[A]): A = io match {
     case Return(a) => a
     case Suspend(r) => r()
     case FlatMap(x, f) => x match {
@@ -135,6 +136,7 @@ object Algebra extends App {
       case Suspend(r) => run(f(r()))
       case FlatMap(y, g) => run(y flatMap (a => g(a) flatMap f))
     }
+    case _ => throw new RuntimeException("")
   }
 
   val f: Int => IO[Int] = (x: Int) => Return(x)

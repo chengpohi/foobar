@@ -18,21 +18,22 @@ public class NettyClient {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
+            EchoClientHandler clientHandler = new EchoClientHandler();
             Bootstrap b = new Bootstrap();
             b.group(workerGroup);
             b.channel(NioSocketChannel.class);
             b.option(ChannelOption.SO_KEEPALIVE, true);
-            b.handler(new ChannelInitializer<SocketChannel>() {
-
-                @Override
-                public void initChannel(SocketChannel ch)
-                        throws Exception {
-                    ch.pipeline().addLast(
-                            new RequestDataEncoder(),
-                            new ResponseDataDecoder(),
-                            new ClientHandler());
-                }
-            });
+            b.handler(
+                    new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        public void initChannel(SocketChannel ch) throws Exception {
+                            //                    ch.pipeline().addLast(
+                            //                            new RequestDataEncoder(),
+                            //                            new ResponseDataDecoder(),
+                            //                            new ClientHandler());
+                            ch.pipeline().addLast(clientHandler);
+                        }
+                    });
 
             ChannelFuture f = b.connect(host, port).sync();
 
@@ -40,7 +41,7 @@ public class NettyClient {
             msg.setIntValue(110);
             msg.setStringValue("all work and no play makes jack a dull boy");
             Channel channel = f.awaitUninterruptibly().channel();
-            channel.writeAndFlush(msg).sync();
+//            channel.writeAndFlush(msg).sync();
             f.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();

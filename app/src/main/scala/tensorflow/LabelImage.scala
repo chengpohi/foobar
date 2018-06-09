@@ -23,24 +23,22 @@ object LabelImage extends App {
 
   printf("BEST MATCH: %s (%.2f%% likely)", labels.get(bestLabelIdx), labelProbabilities(bestLabelIdx) * 100f)
 
-  def executeInceptionGraph(graphDef: Array[Byte], image: Tensor[Float]): Array[Float] = try {
+  def executeInceptionGraph(graphDef: Array[Byte], image: Tensor[Float]): Array[Float] = {
     val g = new Graph()
     try {
       g.importGraphDef(graphDef)
+      val s = new Session(g)
+      val result = s.runner.feed("input", image).fetch("output").run.get(0).expect(BoxedType.apply(classOf[Float]))
       try {
-        val s = new Session(g)
-        val result = s.runner.feed("input", image).fetch("output").run.get(0).expect(BoxedType.apply(classOf[Float]))
-        try {
-          val rshape = result.shape
-          if ((result.numDimensions != 2) || rshape(0) != 1)
-            throw new RuntimeException(String.format("Expected model to produce a [1 N] shaped tensor where N is the number of labels, instead it produced one with shape %s", java.util.Arrays.toString(rshape)))
+        val rshape = result.shape
+        if ((result.numDimensions != 2) || rshape(0) != 1)
+          throw new RuntimeException(String.format("Expected model to produce a [1 N] shaped tensor where N is the number of labels, instead it produced one with shape %s", java.util.Arrays.toString(rshape)))
 
-          val nlabels = rshape(1).toInt
-          result.copyTo(Array.ofDim[Float](1, nlabels))(0)
-        } finally {
-          if (s != null) s.close()
-          if (result != null) result.close()
-        }
+        val nlabels = rshape(1).toInt
+        result.copyTo(Array.ofDim[Float](1, nlabels))(0)
+      } finally {
+        if (s != null) s.close()
+        if (result != null) result.close()
       }
     } finally if (g != null) g.close()
   }
@@ -88,11 +86,13 @@ object LabelImage extends App {
       g.opBuilder("Cast", "Cast").addInput(value).setAttr("DstT", dtype).build.output[U](0)
     }
     def decodeJpeg(contents: Output[String], channels: Long): Output[UInt8] = g.opBuilder("DecodeJpeg", "DecodeJpeg").addInput(contents).setAttr("channels", channels).build.output[UInt8](0)
-    def constant[T](name: String, value: Any, `type`: Class[_]): Output[T] = try {
+    def constant[T](name: String, value: Any, `type`: Class[_]): Output[T] = {
       val t = Tensor.create(value, `type`)
-      try
+      try {
         g.opBuilder("Const", name).setAttr("dtype", DataType.fromClass(`type`)).setAttr("value", t).build.output[T](0)
-      finally if (t != null) t.close()
+      } finally {
+        if (t != null) t.close()
+      }
     }
     def constant(name: String, value: Array[Byte]): Output[String] = this.constant(name, value, classOf[String])
     def constant(name: String, value: Int): Output[Int] = this.constant(name, value, BoxedType.apply(classOf[Int]))

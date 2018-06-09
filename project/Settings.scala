@@ -2,6 +2,7 @@ import sbt._
 import sbt.Keys._
 
 object Settings {
+
   scalaVersion := "2.12.1"
 
   resolvers ++= Seq(
@@ -36,14 +37,13 @@ object Settings {
     "org.scalatest" %% "scalatest" % "3.0.1" % "test",
     "com.github.mpilquist" %% "simulacrum" % "0.11.0",
     "com.chuusai" %% "shapeless" % "2.3.2",
-    "com.fommil" %% "stalactite" % "0.0.5",
     "org.scalaz" %% "scalaz-core" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-effect" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-concurrent" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-iteratee" % "7.3.0-M9",
     "org.scala-lang" % "scala-reflect" % "2.12.1",
     "org.scala-lang" % "scala-compiler" % "2.12.1",
-    //"org.scalanlp" %% "breeze-natives" % "0.12",
+    //    "org.scalanlp" %% "breeze-natives" % "0.12",
     "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.5",
     "org.scalanlp" %% "breeze" % "0.13.1",
     "com.chuusai" %% "shapeless" % "2.3.2",
@@ -56,7 +56,9 @@ object Settings {
     "com.google.guava" % "guava" % "23.5-jre",
     "org.tensorflow" % "tensorflow" % "1.4.0",
     "co.fs2" %% "fs2-core" % "0.10.0-RC1",
-    "co.fs2" %% "fs2-io" % "0.10.0-RC1"
+    "co.fs2" %% "fs2-io" % "0.10.0-RC1",
+    "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.0" % "test",
+    "io.gatling" % "gatling-test-framework" % "2.3.0" % "test"
   )
 
   val commonSetting = Seq(
@@ -92,5 +94,6 @@ object Settings {
     scalaVersion := "2.12.1",
     libraryDependencies ++= biDependencies
   )
+
 
 }

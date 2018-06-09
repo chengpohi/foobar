@@ -1,5 +1,8 @@
 package nlp
 
+
+class Plotter {
+}
 /*
 import breeze.linalg._
 import breeze.numerics._

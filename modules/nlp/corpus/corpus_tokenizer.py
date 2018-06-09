@@ -20,3 +20,7 @@ def write_to_file(file_name, res):
     print("%s lens: %d" % (file_name, len(res)))
     with open(file_name, mode="w") as f:
         f.writelines("\n".join(filter(None, res)))
+
+
+for line in jieba.cut("𨨏"):
+    print(line)

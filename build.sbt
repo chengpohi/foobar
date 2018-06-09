@@ -24,6 +24,8 @@ lazy val parsers = project
 
 lazy val app = project
   .in(file("app"))
+  .enablePlugins(GatlingPlugin)
+  .settings(scalaSource in Gatling := sourceDirectory.value / "gatling" / "scala")
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies ++ akkaDependencies)
   .settings(
