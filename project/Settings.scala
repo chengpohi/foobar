@@ -1,5 +1,5 @@
-import sbt._
 import sbt.Keys._
+import sbt._
 
 object Settings {
 
@@ -56,13 +56,16 @@ object Settings {
     "com.google.guava" % "guava" % "23.5-jre",
     "org.tensorflow" % "tensorflow" % "1.4.0",
     "co.fs2" %% "fs2-core" % "0.10.0-RC1",
-    "co.fs2" %% "fs2-io" % "0.10.0-RC1",
+    "co.fs2" %% "fs2-io" % "0.10.0-RC1"
+  )
+
+  val gatlingDependencies = Seq(
     "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.0" % "test",
     "io.gatling" % "gatling-test-framework" % "2.3.0" % "test"
   )
 
   val commonSetting = Seq(
-    version := "1.0",
+    version := "0.1",
     scalaVersion := "2.12.1",
     scalacOptions ++= Seq("-language:implicitConversions",
       "-language:higherKinds",

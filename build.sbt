@@ -1,8 +1,5 @@
 import Settings._
 
-scalaVersion := "2.12.1"
-
-
 lazy val mllib = project
   .in(file("modules/mllib"))
   .settings(mllibSettings: _*)
@@ -22,10 +19,14 @@ lazy val parsers = project
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies)
 
-lazy val app = project
-  .in(file("app"))
+lazy val benchmark = project.in(file("modules/benchmark"))
   .enablePlugins(GatlingPlugin)
   .settings(scalaSource in Gatling := sourceDirectory.value / "gatling" / "scala")
+  .settings(inConfig(Gatling)(Defaults.testSettings): _*)
+  .settings(libraryDependencies ++= gatlingDependencies)
+
+lazy val app = project
+  .in(file("app"))
   .settings(commonSetting: _*)
   .settings(libraryDependencies ++= commonDependencies ++ akkaDependencies)
   .settings(
