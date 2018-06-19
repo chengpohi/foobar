@@ -28,7 +28,7 @@ lazy val benchmark = project.in(file("modules/benchmark"))
 lazy val app = project
   .in(file("app"))
   .settings(commonSetting: _*)
-  .settings(libraryDependencies ++= commonDependencies ++ akkaDependencies)
+  .settings(libraryDependencies ++= commonDependencies ++ akkaDependencies ++ dbDependencies)
   .settings(
     name := "scala99",
     version := "0.1"

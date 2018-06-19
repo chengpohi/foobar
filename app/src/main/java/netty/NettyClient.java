@@ -9,6 +9,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.concurrent.Future;
 
 public class NettyClient {
     public static void main(String[] args) throws Exception {
@@ -44,7 +45,8 @@ public class NettyClient {
 //            channel.writeAndFlush(msg).sync();
             f.channel().closeFuture().sync();
         } finally {
-            workerGroup.shutdownGracefully();
+            Future<?> future = workerGroup.shutdownGracefully();
+            future.syncUninterruptibly();
         }
     }
 }

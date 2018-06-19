@@ -48,7 +48,7 @@ object Settings {
     "org.scalanlp" %% "breeze" % "0.13.1",
     "com.chuusai" %% "shapeless" % "2.3.2",
     "org.jsoup" % "jsoup" % "1.8.3",
-    "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT",
+    "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT" exclude("org.elasticsearch.plugin", "transport-netty3-client"),
     "org.scalameta" %% "scalameta" % "1.6.0",
     "org.json4s" %% "json4s-core" % "3.5.3",
     "org.apache.commons" % "commons-lang3" % "3.6",
@@ -62,6 +62,10 @@ object Settings {
   val gatlingDependencies = Seq(
     "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.0" % "test",
     "io.gatling" % "gatling-test-framework" % "2.3.0" % "test"
+  )
+
+  val dbDependencies = Seq(
+    "mysql" % "mysql-connector-java" % "8.0.11"
   )
 
   val commonSetting = Seq(
