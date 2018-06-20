@@ -2,6 +2,7 @@ package netty
 
 import io.netty.buffer.{ByteBuf, Unpooled}
 import io.netty.channel.embedded.EmbeddedChannel
+import netty.codec.FixedLenFrameDecoder
 import org.scalatest.{FlatSpec, Matchers}
 
 class EmbeddedChannelTest extends FlatSpec with Matchers {
