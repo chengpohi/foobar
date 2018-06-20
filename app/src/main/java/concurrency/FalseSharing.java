@@ -1,6 +1,12 @@
 package concurrency;
 
+
 import java.util.concurrent.atomic.AtomicLong;
+
+/**
+ * for false sharing, in Java8, we can use `@Contented` to automatically padding
+ */
+
 public final class FalseSharing
         implements Runnable
 {

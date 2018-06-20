@@ -8,7 +8,7 @@ import java.util.concurrent.RecursiveAction;
  * scala99
  * Created by chengpohi on 11/30/15.
  */
-public class SimpleRun {
+public class ParallelSorter {
     public static void main(String[] args) {
         int[] src = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
         int[] dst = new int[10];
@@ -16,7 +16,6 @@ public class SimpleRun {
         ForkJoinPool fp = new ForkJoinPool();
         fp.invoke(fb);
         Arrays.parallelSort(src);
-        System.out.println(String.format("%s %s", "fff", "pp"));
     }
 }
 

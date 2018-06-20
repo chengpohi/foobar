@@ -7,7 +7,7 @@ import java.util.HashMap;
  * scala99
  * Created by chengpohi on 5/15/16.
  */
-public class ReferenceTest {
+public class References {
     public static void main(String[] args) throws InterruptedException {
         weakReferenceGC();
     }

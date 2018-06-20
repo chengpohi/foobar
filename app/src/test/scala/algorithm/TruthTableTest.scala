@@ -1,3 +1,5 @@
+package algorithm
+
 import algorithm.TruthTable._
 import org.scalatest.{FlatSpec, Matchers}
 

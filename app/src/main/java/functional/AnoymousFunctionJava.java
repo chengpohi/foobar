@@ -1,4 +1,4 @@
-package concurrency;
+package functional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,8 +8,9 @@ import java.util.List;
  * scala99
  * Created by chengpohi on 7/27/16.
  */
-public class AnonymousLambda {
+public class AnoymousFunctionJava {
     public static void main(String[] args) {
+        //module as a functional type
         Module module = b -> b.bind("Hello");
         RecordBinder.init(Arrays.asList(module));
         System.out.println("RecordBinder.RECORD_BINDER.strs.size() = " + RecordBinder.RECORD_BINDER.strs.size());
@@ -17,6 +18,7 @@ public class AnonymousLambda {
     }
 }
 
+@FunctionalInterface
 interface Module {
     void apply(Binder binder);
 }

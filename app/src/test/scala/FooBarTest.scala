@@ -1,7 +1,4 @@
-import org.scalatest.words.ResultOfStringPassedToVerb
-import org.scalatest.{FlatSpec, FunSuite, Matchers, Suite}
-
-import scalaz.syntax.EqualOps
+import org.scalatest.{FunSuite, Matchers}
 
 class WithoutEqualizerConversion extends FunSuite with Matchers {
 }

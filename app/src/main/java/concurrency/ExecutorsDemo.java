@@ -9,7 +9,7 @@ import static java.util.Arrays.asList;
  * scala99
  * Created by chengpohi on 4/19/16.
  */
-public class ListsFuture {
+public class ExecutorsDemo {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         List<String> strings = asList("a", "b", "c");
@@ -17,7 +17,7 @@ public class ListsFuture {
         BlockingQueue<String> f =  new LinkedBlockingQueue<String>();
 
         for (int i = 0; i < strings.size(); i++) {
-            executorService.execute(new FFF(f, strings.get(i)));
+            executorService.execute(new AsyncTask(f, strings.get(i)));
         }
         executorService.shutdown();
         executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
@@ -25,10 +25,10 @@ public class ListsFuture {
     }
 }
 
-class FFF implements Runnable {
+class AsyncTask implements Runnable {
     BlockingQueue<String> f;
     String s;
-    public FFF(BlockingQueue<String> f, String s) {
+    public AsyncTask(BlockingQueue<String> f, String s) {
         this.f = f;
         this.s = s;
     }

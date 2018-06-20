@@ -6,7 +6,7 @@ import java.util.concurrent.{Executors, LinkedBlockingDeque}
   * Default (Template) Project
   * Created by chengpohi on 7/2/16.
   */
-object App {
+object Searcher {
   def main(args: Array[String]) {
     val index = new ConcurrentInvertedIndex()
     val queue = new LinkedBlockingDeque[String]()

@@ -1,4 +1,5 @@
-import algorithm.{Node, Scala99}
+package algorithm
+
 import org.scalatest.{FlatSpec, Matchers}
 
 /**

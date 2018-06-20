@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
  * scala99
  * Created by chengpohi on 1/13/16.
  */
-public class Concurrent {
+public class Concurrentor {
     public static void main(String[] args) throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         ExecutorService executor = Executors.newFixedThreadPool(3);
