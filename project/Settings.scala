@@ -48,7 +48,7 @@ object Settings {
     "org.scalanlp" %% "breeze" % "0.13.1",
     "com.chuusai" %% "shapeless" % "2.3.2",
     "org.jsoup" % "jsoup" % "1.8.3",
-    "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT" exclude("org.elasticsearch.plugin", "transport-netty3-client"),
+    "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT" exclude ("org.elasticsearch.plugin", "transport-netty3-client"),
     "org.scalameta" %% "scalameta" % "1.6.0",
     "org.json4s" %% "json4s-core" % "3.5.3",
     "org.apache.commons" % "commons-lang3" % "3.6",
@@ -72,10 +72,10 @@ object Settings {
     version := "0.1",
     scalaVersion := "2.12.1",
     scalacOptions ++= Seq("-language:implicitConversions",
-      "-language:higherKinds",
-      "-feature",
-      "-language:postfixOps",
-      "-Xplugin-require:macroparadise"),
+                          "-language:higherKinds",
+                          "-feature",
+                          "-language:postfixOps",
+                          "-Xplugin-require:macroparadise"),
     initialCommands in console := "import scalaz._, Scalaz._",
     addCompilerPlugin(
       "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
@@ -87,10 +87,10 @@ object Settings {
     version := "1.0",
     scalaVersion := "2.11.8",
     scalacOptions ++= Seq("-language:implicitConversions",
-      "-language:higherKinds",
-      "-feature",
-      "-language:postfixOps",
-      "-Xplugin-require:macroparadise"),
+                          "-language:higherKinds",
+                          "-feature",
+                          "-language:postfixOps",
+                          "-Xplugin-require:macroparadise"),
     addCompilerPlugin(
       "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
     libraryDependencies ++= mllibDependencies
@@ -101,6 +101,5 @@ object Settings {
     scalaVersion := "2.12.1",
     libraryDependencies ++= biDependencies
   )
-
 
 }

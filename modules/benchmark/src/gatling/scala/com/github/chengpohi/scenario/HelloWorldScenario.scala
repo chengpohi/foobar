@@ -4,7 +4,6 @@ import io.gatling.core.Predef.{scenario, _}
 import io.gatling.http.Predef.http
 import scala.concurrent.duration._
 
-
 object HelloWorldScenario extends Scenario {
   val scn = scenario("home")
     .exec(

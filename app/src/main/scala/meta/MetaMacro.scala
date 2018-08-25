@@ -9,8 +9,6 @@ object MetaMacro {
 
   println(foo())
   println(TestMethods.bar("Hello", "World"))
-
-
   @StrPrefix
   def foo(): String = {
     "Hello World"

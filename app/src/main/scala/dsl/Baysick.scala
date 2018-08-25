@@ -1,6 +1,5 @@
 package dsl
 
-
 import scala.collection.mutable
 
 /**
@@ -44,9 +43,9 @@ class Baysick {
     def num(s: Symbol): U = numerics(s)
 
     def any(s: Symbol): Any = (atoms.get(s), numerics.get(s)) match {
-      case (Some(x), None) => x
-      case (None, Some(x)) => x
-      case (None, None) => None
+      case (Some(x), None)    => x
+      case (None, Some(x))    => x
+      case (None, None)       => None
       case (Some(x), Some(y)) => Some(x, y)
     }
   }
@@ -60,8 +59,8 @@ class Baysick {
       () =>
         v match {
           case v: String => binds.set(s, v)
-          case v: Int => binds.set(s, v)
-        }
+          case v: Int    => binds.set(s, v)
+      }
 
     def :=(v: () => Int): () => Unit = () => binds.set(s, v())
   }
@@ -119,9 +118,9 @@ class Baysick {
 
     def %(rhs: Any): () => String = { () =>
       rhs match {
-        case sym: Symbol => stringify(appendage(), binds.any(sym))
+        case sym: Symbol        => stringify(appendage(), binds.any(sym))
         case fn: Function0[Any] => stringify(appendage(), fn())
-        case _ => stringify(appendage(), rhs)
+        case _                  => stringify(appendage(), rhs)
       }
     }
   }

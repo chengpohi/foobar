@@ -1,6 +1,5 @@
 package fpinscala
 
-
 object Algebra extends App {
 
   trait Monoid[A] {
@@ -50,7 +49,6 @@ object Algebra extends App {
   val res = foldMap((1 to 10).toList, stringAddition)(_.toString)
   assert(res == "12345678910")
 
-
   trait Foldable[F[_]] {
     def foldRight[A, B](as: F[A])(z: B)(f: (A, B) => B): B
     def foldLeft[A, B](as: F[A])(z: B)(f: (B, A) => B): B
@@ -65,7 +63,7 @@ object Algebra extends App {
     }
     def codistribute[A, B](fab: Either[F[A], F[B]]): F[Either[A, B]] = {
       fab match {
-        case Left(a) => map(a)(Left(_))
+        case Left(a)  => map(a)(Left(_))
         case Right(a) => map(a)(Right(_))
       }
     }
@@ -107,8 +105,8 @@ object Algebra extends App {
     else None
   }
 
-  def winnerMsg(p: Option[Player]): String = p map { case Player(name, _) => s"$name is the winner!"
-  } getOrElse "It's a draw."
+  def winnerMsg(p: Option[Player]): String =
+    p map { case Player(name, _) => s"$name is the winner!" } getOrElse "It's a draw."
 
   def contest(p1: Player, p2: Player): IO[Unit] =
     printLine(winnerMsg(winner(p1, p2)))
@@ -121,30 +119,32 @@ object Algebra extends App {
     Suspend(() => println(msg))
   }
 
-  def converter: IO[Unit] = for {
-    _ <- printLine("Enter a temperature in degrees Fahrenheit: ")
-    d <- ReadLine.map(_.toDouble)
-    _ <- printLine(fahrenheitToCelsius(d).toString)
-  } yield ()
+  def converter: IO[Unit] =
+    for {
+      _ <- printLine("Enter a temperature in degrees Fahrenheit: ")
+      d <- ReadLine.map(_.toDouble)
+      _ <- printLine(fahrenheitToCelsius(d).toString)
+    } yield ()
 
   @annotation.tailrec
   def run[A](io: IO[A]): A = io match {
-    case Return(a) => a
+    case Return(a)  => a
     case Suspend(r) => r()
-    case FlatMap(x, f) => x match {
-      case Return(a) => run(f(a))
-      case Suspend(r) => run(f(r()))
-      case FlatMap(y, g) => run(y flatMap (a => g(a) flatMap f))
-    }
+    case FlatMap(x, f) =>
+      x match {
+        case Return(a)     => run(f(a))
+        case Suspend(r)    => run(f(r()))
+        case FlatMap(y, g) => run(y flatMap (a => g(a) flatMap f))
+      }
     case _ => throw new RuntimeException("")
   }
 
   val f: Int => IO[Int] = (x: Int) => Return(x)
 
-  val g = List.fill(100000)(f).foldLeft(f) {
-    (a, b) =>
-      x: Int =>
-        Suspend(() => ()).flatMap { _ => a(x).flatMap(b) }
+  val g = List.fill(100000)(f).foldLeft(f) { (a, b) => x: Int =>
+    Suspend(() => ()).flatMap { _ =>
+      a(x).flatMap(b)
+    }
   }
   run(g(42))
 }
@@ -156,7 +156,7 @@ trait Functor[F[_]] {
     (map(fab)(_._1), map(fab)(_._2))
 
   def codistribute[A, B](e: Either[F[A], F[B]]): F[Either[A, B]] = e match {
-    case Left(fa) => map(fa)(Left(_))
+    case Left(fa)  => map(fa)(Left(_))
     case Right(fb) => map(fb)(Right(_))
   }
 }
@@ -202,7 +202,6 @@ trait Monad[F[_]] extends Functor[F] {
   // Using `sequence` and the `List.fill` function of the standard library:
   def replicateM[A](n: Int, ma: F[A]): F[List[A]] =
     sequence(List.fill(n)(ma))
-
 
   def compose[A, B, C](f: A => F[B], g: B => F[C]): A => F[C] =
     a => flatMap(f(a))(g)

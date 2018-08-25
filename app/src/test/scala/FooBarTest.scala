@@ -1,11 +1,11 @@
 import org.scalatest.{FunSuite, Matchers}
 
-class WithoutEqualizerConversion extends FunSuite with Matchers {
-}
+class WithoutEqualizerConversion extends FunSuite with Matchers {}
 
 class FooBarTest extends FunSuite {
 
-  override def convertToEqualizer[T](left: T): Equalizer[T] = new Equalizer(left)
+  override def convertToEqualizer[T](left: T): Equalizer[T] =
+    new Equalizer(left)
 
   import scalaz._
   import Scalaz._

@@ -13,10 +13,9 @@ object TypeLambda extends App {
 
   object FF extends F[Either[Int, ?]] {
     override def unit[A](a: Either[Int, A]): Unit = a match {
-      case Left(l) => println(l)
+      case Left(l)  => println(l)
       case Right(c) => println(c)
     }
   }
-
 
 }

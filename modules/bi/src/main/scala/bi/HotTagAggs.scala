@@ -13,7 +13,8 @@ import scala.util.Try
 object HotTagAggs {
   val log = LogFactory.getLog(this.getClass)
 
-  class TagHotWritable(var tag: String, var hot: Int) extends WritableComparable[TagHotWritable] {
+  class TagHotWritable(var tag: String, var hot: Int)
+      extends WritableComparable[TagHotWritable] {
     def this() {
       this("", 0)
     }
@@ -37,14 +38,17 @@ object HotTagAggs {
       Integer.compare(o.hot, hot)
   }
 
-  class Map extends MapReduceBase with Mapper[LongWritable, Text, Text, TagHotWritable] {
+  class Map
+      extends MapReduceBase
+      with Mapper[LongWritable, Text, Text, TagHotWritable] {
     private val text = new Text()
     private val UPPER_PATTERN = "^[A-Z].*".r
     private val LOWER_PATTERN = "^[a-z].*".r
     private val NUMBER_PATTERN = "^[0-9].*".r
 
     @throws[IOException]
-    def map(key: LongWritable, value: Text,
+    def map(key: LongWritable,
+            value: Text,
             output: OutputCollector[Text, TagHotWritable],
             reporter: Reporter) {
       val line: String = value.toString
@@ -74,8 +78,9 @@ object HotTagAggs {
     }
   }
 
-  class Reduce extends MapReduceBase with
-    Reducer[Text, TagHotWritable, Text, TagHotWritable] {
+  class Reduce
+      extends MapReduceBase
+      with Reducer[Text, TagHotWritable, Text, TagHotWritable] {
     @throws[IOException]
     def reduce(key: Text,
                values: java.util.Iterator[TagHotWritable],
@@ -102,7 +107,9 @@ object HotTagAggs {
     conf.setOutputValueClass(classOf[TagHotWritable])
     conf.setMapperClass(classOf[Map])
     conf.setBoolean("mapreduce.output.compress", true)
-    conf.setClass("mapreduce.map.output.compression.codec", classOf[GzipCodec], classOf[CompressionCodec])
+    conf.setClass("mapreduce.map.output.compression.codec",
+                  classOf[GzipCodec],
+                  classOf[CompressionCodec])
     conf.setStrings("mapreduce.reduce.shuffle.memory.limit.percent", "0.05")
 
     conf.setCombinerClass(classOf[Reduce])

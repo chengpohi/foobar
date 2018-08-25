@@ -7,7 +7,12 @@ import java.nio.file.{Files, Path, Paths}
 import org.apache.lucene.analysis.standard.StandardAnalyzer
 import org.apache.lucene.document._
 import org.apache.lucene.index.IndexWriterConfig.OpenMode
-import org.apache.lucene.index.{DirectoryReader, IndexReader, IndexWriter, IndexWriterConfig}
+import org.apache.lucene.index.{
+  DirectoryReader,
+  IndexReader,
+  IndexWriter,
+  IndexWriterConfig
+}
 import org.apache.lucene.queryparser.classic.QueryParser
 import org.apache.lucene.search.{IndexSearcher, Query, TopDocs}
 import org.apache.lucene.store.FSDirectory
@@ -29,12 +34,10 @@ object IndexFiles {
   val iwc = new IndexWriterConfig(analyzer)
   iwc.setOpenMode(OpenMode.CREATE)
 
-
   val writer = new IndexWriter(dir, iwc)
   indexDocs(writer, Paths.get(docFile))
 
   writer.close()
-
 
   def indexDocs(writer: IndexWriter, path: Path): Unit = {
     indexDoc(writer, path, Files.getLastModifiedTime(path).toMillis)
@@ -46,7 +49,10 @@ object IndexFiles {
     val pathField = new StringField("path", path.toString, Field.Store.YES)
     document.add(pathField)
     document.add(new LongPoint("modified", lastModified))
-    document.add(new TextField("contents", new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))))
+    document.add(
+      new TextField("contents",
+                    new BufferedReader(
+                      new InputStreamReader(stream, StandardCharsets.UTF_8))))
     writer.addDocument(document)
     //writer.updateDocument(new Term("path", path.toString), document)
   }
@@ -54,7 +60,8 @@ object IndexFiles {
 
 object SearchFiles {
   val indexPath = "target/lucene-index"
-  val reader: IndexReader = DirectoryReader.open(FSDirectory.open(Paths.get(indexPath)))
+  val reader: IndexReader =
+    DirectoryReader.open(FSDirectory.open(Paths.get(indexPath)))
   val searcher = new IndexSearcher(reader)
   val analyzer = new StandardAnalyzer
   val field = "contents"

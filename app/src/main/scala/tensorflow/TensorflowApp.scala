@@ -10,8 +10,11 @@ object TensorflowApp extends App {
 
   val t = Tensor.create(value.getBytes("UTF-8"))
 
-  graph.opBuilder("Const", "MyConst").setAttr("dtype", t.dataType).setAttr("value", t).build
-
+  graph
+    .opBuilder("Const", "MyConst")
+    .setAttr("dtype", t.dataType)
+    .setAttr("value", t)
+    .build
 
   val s = new Session(graph)
   val output = s.runner.fetch("MyConst").run.get(0)

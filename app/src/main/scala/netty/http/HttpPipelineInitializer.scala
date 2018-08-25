@@ -10,7 +10,8 @@ import io.netty.handler.ssl.{SslContext, SslHandler}
 import io.netty.util.CharsetUtil
 import netty.HttpSnoopServer
 
-class HttpPipelineInitializer(client: Boolean) extends ChannelInitializer[Channel] {
+class HttpPipelineInitializer(client: Boolean)
+    extends ChannelInitializer[Channel] {
   override def initChannel(ch: Channel): Unit = {
     val pipeline = ch.pipeline()
 
@@ -29,7 +30,8 @@ class HttpServerHandler extends SimpleChannelInboundHandler[Object] {
   override def channelRead0(ctx: ChannelHandlerContext, msg: Object): Unit = {
     if (msg.isInstanceOf[HttpRequest]) {
       val request = msg.asInstanceOf[HttpRequest]
-      val response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
+      val response = new DefaultFullHttpResponse(
+        HttpVersion.HTTP_1_1,
         HttpResponseStatus.OK,
         Unpooled.copiedBuffer("hello world", CharsetUtil.UTF_8))
 
@@ -39,18 +41,22 @@ class HttpServerHandler extends SimpleChannelInboundHandler[Object] {
     if (msg.isInstanceOf[HttpContent]) {
 
       if (msg.isInstanceOf[LastHttpContent]) {
-        val response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
+        val response = new DefaultFullHttpResponse(
+          HttpVersion.HTTP_1_1,
           HttpResponseStatus.OK,
           Unpooled.copiedBuffer("foo bar", CharsetUtil.UTF_8))
 
         ctx.writeAndFlush(response)
-        ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE)
+        ctx
+          .writeAndFlush(Unpooled.EMPTY_BUFFER)
+          .addListener(ChannelFutureListener.CLOSE)
       }
     }
   }
 }
 
-class HttpAggregatorInitializer(isClient: Boolean) extends ChannelInitializer[Channel] {
+class HttpAggregatorInitializer(isClient: Boolean)
+    extends ChannelInitializer[Channel] {
   override def initChannel(ch: Channel): Unit = {
     val pipeline = ch.pipeline()
     if (isClient) {
@@ -63,7 +69,8 @@ class HttpAggregatorInitializer(isClient: Boolean) extends ChannelInitializer[Ch
   }
 }
 
-class HttpCompressionInitializer(isClient: Boolean) extends ChannelInitializer[Channel] {
+class HttpCompressionInitializer(isClient: Boolean)
+    extends ChannelInitializer[Channel] {
   override def initChannel(ch: Channel): Unit = {
     val pipeline = ch.pipeline()
     if (isClient) {
@@ -76,7 +83,8 @@ class HttpCompressionInitializer(isClient: Boolean) extends ChannelInitializer[C
   }
 }
 
-class HttpsCodecInitializer(context: SslContext, isClient: Boolean) extends ChannelInitializer[Channel] {
+class HttpsCodecInitializer(context: SslContext, isClient: Boolean)
+    extends ChannelInitializer[Channel] {
   override def initChannel(ch: Channel): Unit = {
     val pipeline = ch.pipeline()
     val engine = context.newEngine(ch.alloc())

@@ -5,5 +5,4 @@ import learn.mllib.MLLibApp
   */
 case class myData()
 
-object QuickStart extends MLLibApp {
-}
+object QuickStart extends MLLibApp {}
