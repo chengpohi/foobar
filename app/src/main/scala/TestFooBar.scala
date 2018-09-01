@@ -1,1 +1,2 @@
-object TestFooBar extends App {}
+object TestFooBar extends App {
+}

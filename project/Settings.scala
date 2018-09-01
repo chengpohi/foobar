@@ -3,7 +3,7 @@ import sbt._
 
 object Settings {
 
-  scalaVersion := "2.12.1"
+  scalaVersion := "2.12.6"
 
   resolvers ++= Seq(
     Resolver.sonatypeRepo("releases"),
@@ -41,20 +41,21 @@ object Settings {
     "org.scalaz" %% "scalaz-effect" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-concurrent" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-iteratee" % "7.3.0-M9",
-    "org.scala-lang" % "scala-reflect" % "2.12.1",
-    "org.scala-lang" % "scala-compiler" % "2.12.1",
+    "org.scala-lang" % "scala-reflect" % "2.12.6",
+    "org.scala-lang" % "scala-compiler" % "2.12.6",
     //    "org.scalanlp" %% "breeze-natives" % "0.12",
     "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.5",
     "org.scalanlp" %% "breeze" % "0.13.1",
     "com.chuusai" %% "shapeless" % "2.3.2",
     "org.jsoup" % "jsoup" % "1.8.3",
-    "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT" exclude ("org.elasticsearch.plugin", "transport-netty3-client"),
+    "com.github.chengpohi" %% "elasticdsl" % "0.2.3-SNAPSHOT" exclude("org.elasticsearch.plugin", "transport-netty3-client"),
     "org.scalameta" %% "scalameta" % "1.6.0",
     "org.json4s" %% "json4s-core" % "3.5.3",
     "org.apache.commons" % "commons-lang3" % "3.6",
     "org.apache.commons" % "commons-compress" % "1.14",
     "com.google.guava" % "guava" % "23.5-jre",
     "org.tensorflow" % "tensorflow" % "1.4.0",
+    "com.github.mpilquist" %% "simulacrum" % "0.13.0",
     "co.fs2" %% "fs2-core" % "0.10.0-RC1",
     "co.fs2" %% "fs2-io" % "0.10.0-RC1"
   )
@@ -70,15 +71,16 @@ object Settings {
 
   val commonSetting = Seq(
     version := "0.1",
-    scalaVersion := "2.12.1",
+    scalaVersion := "2.12.6",
     scalacOptions ++= Seq("-language:implicitConversions",
-                          "-language:higherKinds",
-                          "-feature",
-                          "-language:postfixOps",
-                          "-Xplugin-require:macroparadise"),
+      "-language:higherKinds",
+      "-feature",
+      "-language:postfixOps",
+      "-Xplugin-require:macroparadise"),
     initialCommands in console := "import scalaz._, Scalaz._",
-    addCompilerPlugin(
-      "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
+    //    addCompilerPlugin(
+    //      "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
     addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4"),
     libraryDependencies ++= commonDependencies
   )
@@ -87,18 +89,15 @@ object Settings {
     version := "1.0",
     scalaVersion := "2.11.8",
     scalacOptions ++= Seq("-language:implicitConversions",
-                          "-language:higherKinds",
-                          "-feature",
-                          "-language:postfixOps",
-                          "-Xplugin-require:macroparadise"),
-    addCompilerPlugin(
-      "org.scalameta" % "paradise" % "3.0.0-M7" cross CrossVersion.full),
+      "-language:higherKinds",
+      "-feature",
+      "-language:postfixOps"),
     libraryDependencies ++= mllibDependencies
   )
 
   val biSettings = Seq(
     version := "1.0",
-    scalaVersion := "2.12.1",
+    scalaVersion := "2.12.6",
     libraryDependencies ++= biDependencies
   )
 
