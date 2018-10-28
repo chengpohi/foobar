@@ -30,3 +30,4 @@ inception5h/
 *.iml
 model/*
 __pycache__/
+results/*

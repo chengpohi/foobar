@@ -22,7 +22,7 @@ lazy val benchmark = project
   .in(file("modules/benchmark"))
   .enablePlugins(GatlingPlugin)
   .settings(
-    scalaSource in Gatling := sourceDirectory.value / "gatling" / "scala")
+    scalaSource in Gatling := sourceDirectory.value / "main" / "scala")
   .settings(inConfig(Gatling)(Defaults.testSettings): _*)
   .settings(libraryDependencies ++= gatlingDependencies)
 

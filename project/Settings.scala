@@ -41,6 +41,8 @@ object Settings {
     "org.scalaz" %% "scalaz-effect" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-concurrent" % "7.3.0-M9",
     "org.scalaz" %% "scalaz-iteratee" % "7.3.0-M9",
+    "org.http4s" %% "http4s-tests" % "0.19.0-M2" % "test",
+    "org.http4s" %% "http4s-dsl" % "0.19.0-M2",
     "org.scala-lang" % "scala-reflect" % "2.12.6",
     "org.scala-lang" % "scala-compiler" % "2.12.6",
     //    "org.scalanlp" %% "breeze-natives" % "0.12",
@@ -61,8 +63,8 @@ object Settings {
   )
 
   val gatlingDependencies = Seq(
-    "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.0" % "test",
-    "io.gatling" % "gatling-test-framework" % "2.3.0" % "test"
+    "io.gatling.highcharts" % "gatling-charts-highcharts" % "3.0.0-RC4",
+    "io.gatling" % "gatling-test-framework" % "3.0.0-RC4"
   )
 
   val dbDependencies = Seq(
