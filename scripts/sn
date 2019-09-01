@@ -1,0 +1,32 @@
+#!/bin/sh
+
+[ -z "$GRAALVM_HOME" ] && echo "GRAALVM_HOME is currently not set. This script will not work." && exit 1
+[ ! -f "$GRAALVM_HOME/bin/native-image" ] && echo "Can't find native-image in $GRAALVM_HOME. Check that the directory is valid." && exit 1
+[ -z "$SCALA_HOME" ] && echo "SCALA_HOME is currently not set. This script will not work." && exit 1
+
+if [[ $# -ne 2 ]]; then
+  echo 'should set jar file, example: sn xxx.jar Main'
+  exit 1
+fi
+
+loc="$(dirname "$0")"
+SCALA_LIB="$SCALA_HOME/lib"
+
+if [ -d "$SCALA_HOME/libexec" ]; then
+  SCALA_LIB="$SCALA_HOME/libexec/lib"
+fi
+
+[ ! -d "$SCALA_LIB" ] && echo "Can't find jars in $SCALA_LIB. Check that the Scala instalation is correct." && exit 1
+for filename in $SCALA_LIB/*.jar; do
+  SCALA_LIB_CLASSPATH=$filename:$SCALA_LIB_CLASSPATH
+done
+
+sourceJar="$1"
+outputName="${sourceJar%.*}.run"
+mainClassName="$2"
+cpath="$sourceJar:$SCALA_LIB_CLASSPATH:$loc/substitutions_2.12-0.1.0-SNAPSHOT.jar"
+
+$GRAALVM_HOME/bin/native-image -cp "$cpath" $mainClassName \
+  -H:SubstitutionResources=substitutions.json,substitutions-2.12.json \
+  -H:ReflectionConfigurationFiles=$loc/reflection-config.json \
+  -H:Name="$outputName"

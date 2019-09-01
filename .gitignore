@@ -31,3 +31,4 @@ inception5h/
 model/*
 __pycache__/
 results/*
+*.run
