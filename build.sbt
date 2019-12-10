@@ -37,3 +37,5 @@ lazy val app = project
   )
   .aggregate(macros, parsers)
   .dependsOn(macros, parsers)
+
+shellPrompt := { state => System.getProperty("user.name") + "> " }

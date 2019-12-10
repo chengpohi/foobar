@@ -32,3 +32,4 @@ model/*
 __pycache__/
 results/*
 *.run
+*.jar

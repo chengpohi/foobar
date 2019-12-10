@@ -58,9 +58,13 @@ object Settings {
     "org.apache.commons" % "commons-compress" % "1.14",
     "com.google.guava" % "guava" % "23.5-jre",
     "org.tensorflow" % "tensorflow" % "1.4.0",
+    "org.typelevel" %% "cats-core" % "2.0.0",
+    "org.typelevel" %% "cats-effect" % "2.0.0",
     "com.github.mpilquist" %% "simulacrum" % "0.13.0",
     "co.fs2" %% "fs2-core" % "0.10.0-RC1",
-    "co.fs2" %% "fs2-io" % "0.10.0-RC1"
+    "co.fs2" %% "fs2-io" % "0.10.0-RC1",
+    "org.openjdk.jmh" % "jmh-core" % "1.22" % Test,
+    "org.openjdk.jmh" % "jmh-generator-annprocess" % "1.22" % Test
   )
 
   val gatlingDependencies = Seq(
