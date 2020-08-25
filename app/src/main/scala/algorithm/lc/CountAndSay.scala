@@ -8,7 +8,6 @@ object CountAndSay {
 
     val str = countAndSay(n - 1)
 
-
     var count = 1
     var res = ""
     (0 until str.length).foreach(i => {
@@ -24,7 +23,7 @@ object CountAndSay {
   }
 
   def main(args: Array[String]): Unit = {
-    println(countAndSay(2))
+    println(countAndSay(4))
   }
 
 }

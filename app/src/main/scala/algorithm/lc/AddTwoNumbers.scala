@@ -8,21 +8,21 @@ object AddTwoNumbers {
     var carry = 0
     var curr = head
 
-    while(p!=null || q != null || carry != 0) {
+    while (p != null || q != null || carry != 0) {
       var a = 0
       var b = 0
 
-      if (p!=null) {
+      if (p != null) {
         a = p.x
         p = p.next
       }
 
-      if (q!=null) {
+      if (q != null) {
         a = q.x
         p = q.next
       }
       val res = (a + b + carry) % 10
-      carry  = (a + b + carry) / 10
+      carry = (a + b + carry) / 10
       curr = new ListNode(res)
       curr = curr.next
     }
