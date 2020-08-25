@@ -1,6 +1,6 @@
-package algorithm.lc;
+package algorithm.lc.bt;
 
-import algorithm.lc.BinaryTreeInOrderTraversal.TreeNode;
+import algorithm.lc.bt.common.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
