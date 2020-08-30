@@ -8,6 +8,12 @@ import java.util.Objects;
 import java.util.Stack;
 
 /**
+ * 若二叉树为空则结束返回，否则：
+ * （1）访问根结点。
+ * （2）前序遍历左子树。
+ * 前序遍历
+ * 前序遍历
+ * （3）前序遍历右子树 。
  * 前序遍历
  */
 public class BinaryTreePreOrderTraversal {

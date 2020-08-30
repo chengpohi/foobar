@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * 后续遍历
+ * 若二叉树为空则结束返回， 否则： （1）后序遍历左子树 （2）后序遍历右子树 （3）访问根结点 如右图所示二叉树 后序遍历结果：DEBFCA 后续遍历
  */
 public class BinaryTreePostOrderTraversal {
     public static List<Integer> preorderTraversal(TreeNode root) {
@@ -19,7 +19,6 @@ public class BinaryTreePostOrderTraversal {
         while (!stacks.isEmpty()) {
             TreeNode pop = stacks.pop();
 
-            res.add(pop.val);
             if (pop.left != null) {
                 stacks.push(pop.left);
             }
@@ -27,6 +26,7 @@ public class BinaryTreePostOrderTraversal {
             if (pop.right != null) {
                 stacks.push(pop.right);
             }
+            res.add(0, pop.val);
         }
 
         return res;

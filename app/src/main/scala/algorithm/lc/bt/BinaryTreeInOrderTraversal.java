@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * 中序遍历首先遍历左子树，然后访问根结点，最后遍历右子树。若二叉树为空则结束返回，否则：
+ * （1）中序遍历左子树
+ * （2）访问根结点
+ * （3）中序遍历右子树
+ * 如右图所示二叉树，中序遍历结果：DBEAFC
+ */
 public class BinaryTreeInOrderTraversal {
 
     /**
