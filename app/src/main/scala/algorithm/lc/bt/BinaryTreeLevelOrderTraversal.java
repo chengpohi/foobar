@@ -4,30 +4,40 @@ import algorithm.lc.bt.common.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * 层次遍历
+ */
 public class BinaryTreeLevelOrderTraversal {
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> result = new ArrayList();
-        List<TreeNode> list = new ArrayList();
-        if (root == null) {
-            return result;
+    public static List<List<Integer>> levelOrder(TreeNode root) {
+        ArrayList<List<Integer>> res = new ArrayList<>();
+        ArrayList<TreeNode> list = new ArrayList<>();
+
+        if (Objects.isNull(root)) {
+            return res;
         }
         list.add(root);
+
         while (!list.isEmpty()) {
-            List<Integer> curList = new ArrayList();
-            List<TreeNode> nextList = new ArrayList();
-            for (TreeNode cur : list) {
-                curList.add(cur.val);
-                if (cur.left != null) {
-                    nextList.add(cur.left);
+            ArrayList<Integer> cur = new ArrayList<>();
+            ArrayList<TreeNode> nextList = new ArrayList<>();
+            for (TreeNode treeNode : list) {
+                cur.add(treeNode.val);
+
+                if (treeNode.left != null) {
+                    nextList.add(treeNode.left);
                 }
-                if (cur.right != null) {
-                    nextList.add(cur.right);
+
+                if (treeNode.right != null) {
+                    nextList.add(treeNode.right);
                 }
             }
+
             list = nextList;
-            result.add(curList);
+            res.add(cur);
         }
-        return result;
+
+        return res;
     }
 }

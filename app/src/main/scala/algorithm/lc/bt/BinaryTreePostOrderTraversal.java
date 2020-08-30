@@ -6,20 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * 后续遍历
+ */
 public class BinaryTreePostOrderTraversal {
-    public List<Integer> preorderTraversal(TreeNode root) {
-        Stack<TreeNode> treeNodes = new Stack<>();
+    public static List<Integer> preorderTraversal(TreeNode root) {
         ArrayList<Integer> res = new ArrayList<>();
+        Stack<TreeNode> stacks = new Stack<>();
 
-        treeNodes.push(root);
-        while (!treeNodes.isEmpty()) {
-            TreeNode pop = treeNodes.pop();
+        stacks.push(root);
+
+        while (!stacks.isEmpty()) {
+            TreeNode pop = stacks.pop();
+
             res.add(pop.val);
-            if (pop.right != null) {
-                treeNodes.push(pop.right);
-            }
             if (pop.left != null) {
-                treeNodes.push(pop.left);
+                stacks.push(pop.left);
+            }
+
+            if (pop.right != null) {
+                stacks.push(pop.right);
             }
         }
 
