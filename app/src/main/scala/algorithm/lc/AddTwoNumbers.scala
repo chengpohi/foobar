@@ -3,12 +3,12 @@ package algorithm.lc
 object AddTwoNumbers {
 
   def addTwoNumbers(l1: ListNode, l2: ListNode): ListNode = {
-    val head = new ListNode(0)
-    var (p, q) = (l1, l2)
+    var head = new ListNode(0)
+    var (q, p) = (l1, l2)
     var carry = 0
     var curr = head
 
-    while (p != null || q != null || carry != 0) {
+    while (q != null || p != null || carry != 0) {
       var a = 0
       var b = 0
 
@@ -17,15 +17,18 @@ object AddTwoNumbers {
         p = p.next
       }
 
-      if (q != null) {
-        a = q.x
-        p = q.next
+      if (q != null)  {
+        b = q.x
+        q = q.next
       }
+
       val res = (a + b + carry) % 10
       carry = (a + b + carry) / 10
+
       curr = new ListNode(res)
       curr = curr.next
     }
+
     head.next
   }
 
